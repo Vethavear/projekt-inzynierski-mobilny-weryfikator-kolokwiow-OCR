@@ -1,0 +1,7 @@
+{
+  "name": "Weryfikator",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

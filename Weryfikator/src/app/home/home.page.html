@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Ionic Blank
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content ion-padding>
+  <h1>Click Button To Scan</h1>
+ 
+  <ion-button (click)="scanCode()">
+    Scan Code
+  </ion-button>
+ 
+  <div *ngIf="scannedData">
+    <p>
+      Scanned Code Text : <b>{{ scannedData["text"] }}</b>
+    </p>
+    <p>
+      Scanned Code Format : <b>{{ scannedData["format"] }}</b>
+    </p>
+  </div>
+
+
+  <ion-button (click)="takeSnap()">
+    Take Snap
+  </ion-button>
+ 
+  <img [src]="capturedSnapURL" />
+ 
+</ion-content>

@@ -1,0 +1,7 @@
+{
+  "name": "Ionic4Camera",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
