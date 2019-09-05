@@ -13,6 +13,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { FormsModule } from '@angular/forms';
 
 import { Camera } from '@ionic-native/camera/ngx';
+import { OCR, OCRSourceType } from '@ionic-native/ocr/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,6 +24,7 @@ import { Camera } from '@ionic-native/camera/ngx';
     SplashScreen,
     BarcodeScanner,
     Camera,
+    OCR,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

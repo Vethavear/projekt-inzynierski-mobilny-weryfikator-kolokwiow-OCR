@@ -5,6 +5,7 @@ import {
 
 } from "@ionic-native/barcode-scanner/ngx";
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { OCR, OCRSourceType, OCRResult } from '@ionic-native/ocr/ngx';
 
 @Component({
   selector: "app-home",
@@ -14,16 +15,17 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 export class HomePage {
   scannedData: {};
   barcodeScannerOptions: BarcodeScannerOptions;
+  scanResult;
 
   capturedSnapURL:string;
  
   cameraOptions: CameraOptions = {
     quality: 20,
-    destinationType: this.camera.DestinationType.DATA_URL,
+    destinationType: this.camera.DestinationType.FILE_URI,
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE
   }
-  constructor(private barcodeScanner: BarcodeScanner, private camera: Camera) {
+  constructor(private barcodeScanner: BarcodeScanner, private camera: Camera, private ocr: OCR) {
     //Options
     this.barcodeScannerOptions = {
       showTorchButton: true,
@@ -48,8 +50,15 @@ export class HomePage {
       // this.camera.DestinationType.FILE_URI gives file URI saved in local
       // this.camera.DestinationType.DATA_URL gives base64 URI
       
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.capturedSnapURL = base64Image;
+      // let base64Image = 'data:image/jpeg;base64,' + imageData;
+      // this.capturedSnapURL = base64Image;
+      
+      this.ocr.recText(0, imageData)
+      .then((res: OCRResult) => this.scanResult=(JSON.stringify(res)))
+      
+      .catch((error: any) => console.error(error));
+     
+
     }, (err) => {
       
       console.log(err);
