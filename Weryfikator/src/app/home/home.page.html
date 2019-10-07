@@ -1,35 +1,37 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Ionic Blank
+      
+      Weryfikator
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content ion-padding>
-  <h1>Click Button To Scan</h1>
+  
  
   <ion-button (click)="scanCode()">
-    Scan Code
+    QR
   </ion-button>
+  <br>
  
   <div *ngIf="scannedData">
     <p>
-      Scanned Code Text : <b>{{ scannedData["text"] }}</b>
+      Zeskanowany tekst : <b>{{ scannedData["text"] }}</b>
     </p>
     <p>
-      Scanned Code Format : <b>{{ scannedData["format"] }}</b>
+      Format zeskanowanego kodu : <b>{{ scannedData["format"] }}</b>
     </p>
   </div>
 
 
   <ion-button (click)="takeSnap()">
-    Take Snap
+    OCR
   </ion-button>
  <br><br>
 <!-- <img [src]="capturedSnapURL" /> -->
-  Recognised text: {{scanResult}}
+  Rozpoznany tekst: {{scanResult}}
 
   
  

@@ -6,6 +6,7 @@ import {
 } from "@ionic-native/barcode-scanner/ngx";
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { OCR, OCRSourceType, OCRResult } from '@ionic-native/ocr/ngx';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: "app-home",
@@ -15,17 +16,17 @@ import { OCR, OCRSourceType, OCRResult } from '@ionic-native/ocr/ngx';
 export class HomePage {
   scannedData: {};
   barcodeScannerOptions: BarcodeScannerOptions;
-  scanResult;
+  scanResult: string;
 
-  capturedSnapURL:string;
- 
+  capturedSnapURL: string;
+
   cameraOptions: CameraOptions = {
     quality: 20,
     destinationType: this.camera.DestinationType.FILE_URI,
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE
   }
-  constructor(private barcodeScanner: BarcodeScanner, private camera: Camera, private ocr: OCR) {
+  constructor(private barcodeScanner: BarcodeScanner, private camera: Camera, private ocr: OCR, private toastController: ToastController) {
     //Options
     this.barcodeScannerOptions = {
       showTorchButton: true,
@@ -49,22 +50,60 @@ export class HomePage {
     this.camera.getPicture(this.cameraOptions).then((imageData) => {
       // this.camera.DestinationType.FILE_URI gives file URI saved in local
       // this.camera.DestinationType.DATA_URL gives base64 URI
-      
+
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
       // this.capturedSnapURL = base64Image;
-      
+
       this.ocr.recText(0, imageData)
-      .then((res: OCRResult) => this.scanResult=(JSON.stringify(res)))
-      
-      .catch((error: any) => console.error(error));
-     
+        .then((res: OCRResult) => this.scanResult = (JSON.stringify(res.lines.linetext)))
+
+        .catch((error: any) => console.error(error));
+
 
     }, (err) => {
-      
+
       console.log(err);
       // Handle error
     });
+    this.presentToastWithOptions();
   }
- 
- 
+
+  async presentToastWithOptions() {
+    const toast = await this.toastController.create({
+      header: 'Imie i Nazwisko',
+      message: 'Wynik',
+      position: 'bottom',
+      buttons: [
+        {
+          side: 'start',
+          icon: 'checkbox-outline',
+          text: 'Zapisz ocene',
+          handler: () => {
+            // dodać obsługę i do firestora cyk
+            console.log('Zapisano ocene');
+          }
+        }, {
+          text: 'Cofnij',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    toast.present();
+  }
+
+
+  verifyAnswers() {
+    
+    //   for (let index = 0; index < this.scanResult.length; index++) {
+
+    //     console.this.scanResult[0]
+    //  }
+
+  }
+
+
+
 }
