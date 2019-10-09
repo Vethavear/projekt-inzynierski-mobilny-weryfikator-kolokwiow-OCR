@@ -30,8 +30,20 @@
     OCR
   </ion-button>
  <br><br>
-<!-- <img [src]="capturedSnapURL" /> -->
-  Rozpoznany tekst: {{scanResult}}
+
+ <img [src]="capturedSnapURL" *ngIf="capturedSnapURL" />
+
+
+  Rozpoznany tekst:<br><br> {{scanResult}}
+ <br><br>
+
+
+ rozdzielone i przefiltrowane:<br><br> {{rozdziel}}
+ <br><br>toString():<br><br> {{wynik}}
+
+
+ <p id='elo'></p>
+
 
   
  

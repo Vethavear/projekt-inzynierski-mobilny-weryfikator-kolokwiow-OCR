@@ -1,22 +1,28 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 import {
   BarcodeScannerOptions,
   BarcodeScanner
 
-} from "@ionic-native/barcode-scanner/ngx";
+} from '@ionic-native/barcode-scanner/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { OCR, OCRSourceType, OCRResult } from '@ionic-native/ocr/ngx';
 import { ToastController } from '@ionic/angular';
+import { logging, element } from 'protractor';
 
 @Component({
-  selector: "app-home",
-  templateUrl: "home.page.html",
-  styleUrls: ["home.page.scss"]
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss']
 })
 export class HomePage {
   scannedData: {};
   barcodeScannerOptions: BarcodeScannerOptions;
   scanResult: string;
+  licznikWyrazow: number;
+  rozdziel: string[];
+  // niechcianeZnaki: string[];
+  usunKlamry: string;
+  wynik: string;
 
   capturedSnapURL: string;
 
@@ -24,10 +30,12 @@ export class HomePage {
     quality: 20,
     destinationType: this.camera.DestinationType.FILE_URI,
     encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE
-  }
+    mediaType: this.camera.MediaType.PICTURE,
+     cameraDirection: 1,
+     correctOrientation: true
+  };
   constructor(private barcodeScanner: BarcodeScanner, private camera: Camera, private ocr: OCR, private toastController: ToastController) {
-    //Options
+    // Options
     this.barcodeScannerOptions = {
       showTorchButton: true,
       showFlipCameraButton: true
@@ -38,24 +46,22 @@ export class HomePage {
     this.barcodeScanner
       .scan()
       .then(barcodeData => {
-        alert("Barcode data " + JSON.stringify(barcodeData));
+        alert('Barcode data ' + JSON.stringify(barcodeData));
         this.scannedData = barcodeData;
       })
       .catch(err => {
-        console.log("Error", err);
+        console.log('Error', err);
       });
   }
 
   takeSnap() {
     this.camera.getPicture(this.cameraOptions).then((imageData) => {
-      // this.camera.DestinationType.FILE_URI gives file URI saved in local
-      // this.camera.DestinationType.DATA_URL gives base64 URI
 
-      // let base64Image = 'data:image/jpeg;base64,' + imageData;
-      // this.capturedSnapURL = base64Image;
+      this.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc(imageData);
+     
 
       this.ocr.recText(0, imageData)
-        .then((res: OCRResult) => this.scanResult = (JSON.stringify(res.lines.linetext)))
+        .then((res: OCRResult) => this.verifyAnswers((JSON.stringify(res.lines.linetext))))
 
         .catch((error: any) => console.error(error));
 
@@ -65,6 +71,7 @@ export class HomePage {
       console.log(err);
       // Handle error
     });
+
     this.presentToastWithOptions();
   }
 
@@ -95,8 +102,16 @@ export class HomePage {
   }
 
 
-  verifyAnswers() {
-    
+  verifyAnswers(skan: string) {
+    this.scanResult = skan;
+
+    this.usunKlamry = this.scanResult.slice(1, this.scanResult.length - 1);
+    this.rozdziel = this.usunKlamry.split('').filter(element => element != '"' && element != ',');
+    this.wynik = this.rozdziel.join('');
+
+
+    // document.getElementById('elo').textContent = this.rozdziel[0];
+
     //   for (let index = 0; index < this.scanResult.length; index++) {
 
     //     console.this.scanResult[0]
