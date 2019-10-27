@@ -1,3 +1,97 @@
-ion-title{
+$primary-color: #2A2B2A;
+$secondary-color: #617061;
+$tertiary-color: #E3F7E3;
+$text-color: #F2F7F2;
+$bg-color: #E8EAE8;
+
+@font-face {
+  font-family: 'Gochi Hand';
+  src: url("../../fonts/GochiHand-Regular.ttf")
+}
+
+
+
+* {
+  font-family: 'Gochi Hand', cursive;
+}
+
+ion-header,
+ion-toolbar,
+ion-title {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-size: 2rem;
+  color: $primary-color;
+
+}
+
+ion-content {
+  width: 100vw;
+  height: 100vh;
+  background-color: $bg-color;
+
+  .instruction {
+
+    ul {
+      margin-top: 2rem;
+      list-style: none;
+
+      li {
+        margin-top: 0.5rem;
+        line-height: 1.2rem;
+        font-size: 1.25rem;
+      }
+    }
+  }
+
+  .debugging {
+
+    display: flex;
+    flex-direction: column;
+
+    .img {
+
+      margin: 1rem;
+    }
+  }
+
+
+}
+
+#nav-footer {
+
+  .menu {
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    background-color: $primary-color;
+
+    .btn {
+      width: 25%;
+      font-size: 1.2rem;
+      background-color: $primary-color;
+      color: $text-color;
+      padding: 0.25rem 0;
+      padding-bottom: 0.25rem;
+
+      p {
+        padding: 0;
+        margin: 0;
+
+      }
+
+    }
+  }
+
+
+}
+
+
+
+
+
+
+h1 {
   text-align: center;
 }

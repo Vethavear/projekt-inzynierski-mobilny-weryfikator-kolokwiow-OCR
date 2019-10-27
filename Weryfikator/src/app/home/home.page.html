@@ -1,7 +1,6 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      
       Weryfikator
     </ion-title>
   </ion-toolbar>
@@ -9,42 +8,62 @@
 
 
 <ion-content ion-padding>
-  
- 
-  <ion-button (click)="scanCode()">
-    QR
-  </ion-button>
-  <br>
- 
-  <div *ngIf="scannedData">
-    <p>
-      Zeskanowany tekst : <b>{{ scannedData["text"] }}</b>
-    </p>
-    <p>
-      Format zeskanowanego kodu : <b>{{ scannedData["format"] }}</b>
-    </p>
-  </div>
+
+  <section class="instruction">
+    <ul>
+      <li>1. Zeskanuj QR.</li>
+      <li>2. Zeskanuj odpowiedzi (OCR).</li>
+      <li>3. Odczytaj wyniki.</li>
+      <li>4. Wyslij wyniki do bazy (jesli jestes online)
+      </li>
+      <li>5. Jesli offline - wyniki czekaja w Kolejce</li>
+    </ul>
+  </section>
 
 
-  <ion-button (click)="takeSnap()">
-    OCR
-  </ion-button>
- <br><br>
-
- <img [src]="capturedSnapURL" *ngIf="capturedSnapURL" />
 
 
-  Rozpoznany tekst:<br><br> {{scanResult}}
- <br><br>
+
+  <section class="debugging">
+    <h1>Tymczasowe informacje na potrzeby debugowania</h1>
+
+    <div *ngIf="scannedData">
+      <h1>QR CODE INFO</h1>
+      {{ scannedData["text"] }}
+    </div>
+
+    <div class="img" *ngIf="capturedSnapURL">
+      <h1>IMG</h1>
+      <img [src]="capturedSnapURL" />
+    </div>
+
+    <div class="ocr" *ngIf="scanResult">
+      {{scanResult}}
+    </div>
+  </section>
 
 
- rozdzielone i przefiltrowane:<br><br> {{rozdziel}}
- <br><br>toString():<br><br> {{wynik}}
 
 
- <p id='elo'></p>
 
 
-  
- 
 </ion-content>
+
+<footer id="nav-footer">
+  <section class="menu">
+
+    <button class="btn" (click)="scanCode()">
+      <ion-icon name="barcode" size="large"></ion-icon>
+      <p>QR</p>
+    </button>
+    <button class="btn" (click)="scanCode()">
+      <ion-icon name="cloud-upload" size="large"></ion-icon>
+      <p>Kolejka</p>
+    </button>
+    <button class="btn" (click)="takeSnap()">
+      <ion-icon name="camera" size="large"></ion-icon>
+      <p>OCR</p>
+    </button>
+
+  </section>
+</footer>
