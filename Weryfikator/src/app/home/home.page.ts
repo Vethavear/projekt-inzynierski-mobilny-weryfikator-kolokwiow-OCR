@@ -7,8 +7,7 @@ import {
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { OCR, OCRSourceType, OCRResult } from '@ionic-native/ocr/ngx';
 import { ToastController } from '@ionic/angular';
-import { logging, element } from 'protractor';
-
+import { Student } from '../student/student';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -17,23 +16,24 @@ import { logging, element } from 'protractor';
 export class HomePage {
   scannedData: {};
   barcodeScannerOptions: BarcodeScannerOptions;
-  scanResult: string;
-  licznikWyrazow: number;
-  rozdziel: string[];
-  // niechcianeZnaki: string[];
-  usunKlamry: string;
-  wynik: string;
-
+  scanResult;
   capturedSnapURL: string;
+  students: Student[];
 
   cameraOptions: CameraOptions = {
+    sourceType: 0,
     quality: 20,
     destinationType: this.camera.DestinationType.FILE_URI,
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE,
-     cameraDirection: 1,
-     correctOrientation: true
+    cameraDirection: 1,
+    correctOrientation: true
   };
+  scanResultBlock: string[];
+  scanResultLines: any;
+  scanResultWords: string[];
+  scanResultBlockSingleString: string;
+
   constructor(private barcodeScanner: BarcodeScanner, private camera: Camera, private ocr: OCR, private toastController: ToastController) {
     // Options
     this.barcodeScannerOptions = {
@@ -54,25 +54,50 @@ export class HomePage {
       });
   }
 
-  takeSnap() {
-    this.camera.getPicture(this.cameraOptions).then((imageData) => {
+  async takeSnap() {
+    await this.camera.getPicture(this.cameraOptions).then((imageData) => {
 
       this.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc(imageData);
-     
-
-      this.ocr.recText(0, imageData)
-        .then((res: OCRResult) => this.verifyAnswers((JSON.stringify(res.lines.linetext))))
-
-        .catch((error: any) => console.error(error));
-
-
+      this.doOcr(imageData);
     }, (err) => {
-
       console.log(err);
-      // Handle error
     });
+  }
 
-    this.presentToastWithOptions();
+  async doOcr(image) {
+    //zmien tego strtinga pozniej
+    this.ocr.recText(0, 'file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_110853.jpg?1572257559352')
+      .then((res: OCRResult) => this.verifyAnswers(res, this.scannedData))
+      .catch((error: any) => console.error(error));
+  }
+
+
+
+
+  verifyAnswers(result, goodAnswers) {
+    //karta dwuliniowa QR
+    this.scannedData = 'AAABBBCAACCABBBDABCD';
+    // karta jednoliniowa
+    // this.scannedData=
+    this.scanResultBlock = result.blocks.blocktext;
+    this.scanResultBlockSingleString = this.scanResultBlock.join(' ');
+    this.scanResultBlockSingleString = this.scanResultBlockSingleString.replace(' ', '');
+
+    this.scanResultLines = result.lines.linetext;
+
+    this.scanResultWords = result.words.wordtext.join('');
+
+    // algorytm to sprawdzania ile jest pytan
+
+    //array.length/2 powinien zwrocic liczbe pytan. Dodatkowo, od razu sprawdzic czy liczba jest parzysta. Jak nie parzysta - powtórz skan!
+
+
+
+
+
+
+
+
   }
 
   async presentToastWithOptions() {
@@ -102,22 +127,6 @@ export class HomePage {
   }
 
 
-  verifyAnswers(skan: string) {
-    this.scanResult = skan;
-
-    this.usunKlamry = this.scanResult.slice(1, this.scanResult.length - 1);
-    this.rozdziel = this.usunKlamry.split('').filter(element => element != '"' && element != ',');
-    this.wynik = this.rozdziel.join('');
-
-
-    // document.getElementById('elo').textContent = this.rozdziel[0];
-
-    //   for (let index = 0; index < this.scanResult.length; index++) {
-
-    //     console.this.scanResult[0]
-    //  }
-
-  }
 
 
 

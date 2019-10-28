@@ -37,8 +37,30 @@
       <img [src]="capturedSnapURL" />
     </div>
 
-    <div class="ocr" *ngIf="scanResult">
-      {{scanResult}}
+    <div class="block">
+      <h1>Block</h1>
+      <ng-container *ngFor="let item of scanResultBlock">
+        <p>{{item}}</p>
+      </ng-container>
+    </div>
+
+    <div class="block">
+      <h1>Block Single String</h1>
+
+      <p>{{scanResultBlockSingleString}}</p>
+
+    </div>
+
+    <div class="lines">
+      <h1>Lines</h1>
+      <ng-container *ngFor="let item of scanResultLines">
+        <p>{{item}}</p>
+      </ng-container>
+    </div>
+
+    <div class="words">
+      <h1>Words</h1>
+      <p>{{scanResultWords}}</p>
     </div>
   </section>
 
@@ -60,7 +82,7 @@
       <ion-icon name="cloud-upload" size="large"></ion-icon>
       <p>Kolejka</p>
     </button>
-    <button class="btn" (click)="takeSnap()">
+    <button class="btn" (click)="doOcr('debugging')">
       <ion-icon name="camera" size="large"></ion-icon>
       <p>OCR</p>
     </button>
