@@ -1,13 +1,9 @@
-$primary-color: #2A2B2A;
-$secondary-color: #617061;
-$tertiary-color: #E3F7E3;
-$text-color: #F2F7F2;
-$bg-color: #E8EAE8;
-
 @font-face {
   font-family: 'Gochi Hand';
   src: url("../../fonts/GochiHand-Regular.ttf")
 }
+
+@import '../../theme/variables.scss';
 
 
 
@@ -59,33 +55,7 @@ ion-content {
 
 }
 
-#nav-footer {
 
-  .menu {
-    width: 100vw;
-    display: flex;
-    justify-content: space-between;
-    background-color: $primary-color;
-
-    .btn {
-      width: 25%;
-      font-size: 1.2rem;
-      background-color: $primary-color;
-      color: $text-color;
-      padding: 0.25rem 0;
-      padding-bottom: 0.25rem;
-
-      p {
-        padding: 0;
-        margin: 0;
-
-      }
-
-    }
-  }
-
-
-}
 
 
 

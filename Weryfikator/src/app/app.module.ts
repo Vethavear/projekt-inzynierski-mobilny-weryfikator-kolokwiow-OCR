@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { Camera } from '@ionic-native/camera/ngx';
 import { OCR, OCRSourceType } from '@ionic-native/ocr/ngx';
 
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -27,6 +28,6 @@ import { OCR, OCRSourceType } from '@ionic-native/ocr/ngx';
     OCR,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

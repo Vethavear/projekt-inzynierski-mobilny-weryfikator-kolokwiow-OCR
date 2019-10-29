@@ -27,19 +27,19 @@
   <section class="debugging">
     <h1>Tymczasowe informacje na potrzeby debugowania</h1>
 
-    <div *ngIf="scannedData">
+    <div *ngIf="cs.scannedData">
       <h1>QR CODE INFO</h1>
-      {{ scannedData["text"] }}
+      {{ cs.scannedData["text"] }}
     </div>
 
-    <div class="img" *ngIf="capturedSnapURL">
+    <div class="img" *ngIf="cs.capturedSnapURL">
       <h1>IMG</h1>
-      <img [src]="capturedSnapURL" />
+      <img [src]="cs.capturedSnapURL" />
     </div>
 
     <div class="block">
       <h1>Block</h1>
-      <ng-container *ngFor="let item of scanResultBlock">
+      <ng-container *ngFor="let item of cs.scanResultBlock">
         <p>{{item}}</p>
       </ng-container>
     </div>
@@ -47,20 +47,20 @@
     <div class="block">
       <h1>Block Single String</h1>
 
-      <p>{{scanResultBlockSingleString}}</p>
+      <p>{{cs.scanResultBlockSingleString}}</p>
 
     </div>
 
     <div class="lines">
       <h1>Lines</h1>
-      <ng-container *ngFor="let item of scanResultLines">
+      <ng-container *ngFor="let item of cs.scanResultLines">
         <p>{{item}}</p>
       </ng-container>
     </div>
 
     <div class="words">
       <h1>Words</h1>
-      <p>{{scanResultWords}}</p>
+      <p>{{cs.scanResultWords}}</p>
     </div>
   </section>
 
@@ -71,21 +71,4 @@
 
 </ion-content>
 
-<footer id="nav-footer">
-  <section class="menu">
-
-    <button class="btn" (click)="scanCode()">
-      <ion-icon name="barcode" size="large"></ion-icon>
-      <p>QR</p>
-    </button>
-    <button class="btn" (click)="scanCode()">
-      <ion-icon name="cloud-upload" size="large"></ion-icon>
-      <p>Kolejka</p>
-    </button>
-    <button class="btn" (click)="doOcr()">
-      <ion-icon name="camera" size="large"></ion-icon>
-      <p>OCR</p>
-    </button>
-
-  </section>
-</footer>
+<app-navbar></app-navbar>
