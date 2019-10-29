@@ -56,7 +56,8 @@ export class HomePage {
 
   async takeSnap() {
     await this.camera.getPicture(this.cameraOptions).then((imageData) => {
-
+      //sciezka do zapisanych zdjec
+      console.log(imageData);
       this.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc(imageData);
       this.doOcr(imageData);
     }, (err) => {
@@ -66,7 +67,19 @@ export class HomePage {
 
   async doOcr(image) {
     //zmien tego strtinga pozniej
+    // jedna linia
+
+    this.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc
+      ('file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_110853.jpg?1572257559352');
     this.ocr.recText(0, 'file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_110853.jpg?1572257559352')
+
+      //dwie linie
+      // this.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc
+      // ('file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_145323.jpg?1572270899643');
+      // this.ocr.recText(0, 'file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_145323.jpg?1572270899643')
+
+      //default capture
+      //this.ocr.recText(0, image)
       .then((res: OCRResult) => this.verifyAnswers(res, this.scannedData))
       .catch((error: any) => console.error(error));
   }
@@ -76,6 +89,8 @@ export class HomePage {
 
   verifyAnswers(result, goodAnswers) {
     //karta dwuliniowa QR
+
+    //format ktory otrzymam z QR: 'ABCDABCDABCD,100440'
     this.scannedData = 'AAABBBCAACCABBBDABCD';
     // karta jednoliniowa
     // this.scannedData=
@@ -125,7 +140,6 @@ export class HomePage {
     });
     toast.present();
   }
-
 
 
 
