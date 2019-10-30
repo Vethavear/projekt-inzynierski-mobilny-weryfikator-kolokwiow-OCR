@@ -5,8 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
-import { NavbarComponent } from '../navbar/navbar.component';
+import { NavbarComponent } from './navbar/navbar.component';
 import { QueueComponent } from './queue/queue.component';
+import { InstructionComponent } from './instruction/instruction.component';
+import { CameraComponent } from './camera/camera.component';
 
 @NgModule({
   imports: [
@@ -17,9 +19,13 @@ import { QueueComponent } from './queue/queue.component';
       {
         path: '',
         component: HomePage
+      },
+      {
+        path: 'camera',
+        component: CameraComponent
       }
     ])
   ],
-  declarations: [HomePage, NavbarComponent]
+  declarations: [HomePage, NavbarComponent, QueueComponent, InstructionComponent, CameraComponent],
 })
 export class HomePageModule { }

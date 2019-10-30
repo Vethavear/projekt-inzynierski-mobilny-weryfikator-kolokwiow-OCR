@@ -5,7 +5,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -14,6 +14,8 @@ import { FormsModule } from '@angular/forms';
 
 import { Camera } from '@ionic-native/camera/ngx';
 import { OCR, OCRSourceType } from '@ionic-native/ocr/ngx';
+import { CameraComponent } from './home/camera/camera.component';
+import { CameraPreview } from '@ionic-native/camera-preview/ngx';
 
 
 @NgModule({
@@ -25,6 +27,8 @@ import { OCR, OCRSourceType } from '@ionic-native/ocr/ngx';
     SplashScreen,
     BarcodeScanner,
     Camera,
+    CameraPreview,
+    ScreenOrientation,
     OCR,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

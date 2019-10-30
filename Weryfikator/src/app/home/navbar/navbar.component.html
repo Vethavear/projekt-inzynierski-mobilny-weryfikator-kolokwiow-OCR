@@ -1,0 +1,26 @@
+<footer id="nav-footer">
+  <section class="menu">
+
+    <button class="btn" (click)="cs.scanQr()">
+      <ion-icon name="barcode" size="large"></ion-icon>
+      <p>QR</p>
+    </button>
+    <button class="btn" (click)="ss.showQueue()">
+      <ng-container *ngIf="ss.queueShown">
+        <ion-icon name="help-circle-outline" size="large"></ion-icon>
+        <p>Instrukcja</p>
+      </ng-container>
+      <ng-container *ngIf="!ss.queueShown">
+        <ion-icon name="cloud-upload" size="large"></ion-icon>
+        <p>Kolejka</p>
+      </ng-container>
+    </button>
+    <button class="btn" [routerLink]="['camera']">
+      <ion-icon name="camera" size="large"></ion-icon>
+      <p>OCR</p>
+    </button>
+
+
+
+  </section>
+</footer>

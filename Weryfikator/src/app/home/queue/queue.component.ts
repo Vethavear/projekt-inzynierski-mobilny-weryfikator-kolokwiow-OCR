@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StudentRelatedService } from '../services/student-related/student-related.service';
 
 @Component({
   selector: 'app-queue',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QueueComponent implements OnInit {
 
-  constructor() { }
+  constructor(protected ss: StudentRelatedService) { }
 
   ngOnInit() { }
 

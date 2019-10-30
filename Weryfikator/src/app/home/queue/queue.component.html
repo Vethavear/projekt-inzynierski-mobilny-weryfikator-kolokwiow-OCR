@@ -1,3 +1,13 @@
-<p>
-  queue works!
-</p>
+<ion-list>
+  <h2>Kolejka</h2>
+  <ng-container *ngFor="let student of ss.waitingStudents">
+    <ion-item>
+      <ion-label>
+        <button class="btn-list">
+          <p>Indeks: {{student.indexNumber}} - {{student.grade}}</p>
+          <ion-icon name="checkbox"></ion-icon>
+        </button>
+      </ion-label>
+    </ion-item>
+  </ng-container>
+</ion-list>

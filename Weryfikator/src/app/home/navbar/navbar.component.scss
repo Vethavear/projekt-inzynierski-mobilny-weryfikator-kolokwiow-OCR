@@ -1,10 +1,14 @@
-@import '../../theme/variables.scss';
+@font-face {
+  font-family: 'Gochi Hand';
+  src: url("../../../fonts/GochiHand-Regular.ttf")
+}
+
+@import '../../../theme/variables.scss';
 
 // delete that weird yellow box
 *:focus {
   outline: none !important;
 }
-
 
 #nav-footer {
 
@@ -17,7 +21,6 @@
 
     :active {
       opacity: 0.9;
-
     }
 
     .btn {
@@ -28,15 +31,11 @@
       padding: 0.25rem 0;
       padding-bottom: 0.25rem;
 
-
-
-
       p {
         padding: 0;
         margin: 0;
+        font-family: 'Gochi Hand', cursive;
       }
-
-
     }
   }
 }

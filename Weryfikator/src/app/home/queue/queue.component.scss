@@ -1,0 +1,42 @@
+@import '../../../theme/variables.scss';
+
+
+* {
+  font-family: 'Lato', sans-serif;
+}
+
+*:focus {
+  outline: none !important;
+  color: $secondary-color;
+}
+
+ion-list {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    text-align: center;
+  }
+
+  .btn-list {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    background: none;
+
+
+    p {
+      font-size: 1.2rem;
+    }
+
+    ion-icon {
+      margin-left: 2rem;
+      font-size: 32px;
+    }
+
+
+  }
+}

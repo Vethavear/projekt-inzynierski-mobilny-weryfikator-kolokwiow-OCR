@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CameraRelatedService } from './services/camera-related/camera-related.service';
 import { VerifyingRelatedService } from './services/verifying-related/verifying-related.service';
+import { StudentRelatedService } from './services/student-related/student-related.service';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,7 @@ import { VerifyingRelatedService } from './services/verifying-related/verifying-
 export class HomePage {
 
 
-  constructor(protected cs: CameraRelatedService, protected vs: VerifyingRelatedService) {
+  constructor(protected cs: CameraRelatedService, protected vs: VerifyingRelatedService, protected ss: StudentRelatedService) {
 
   }
 

@@ -7,9 +7,6 @@
 
 
 
-* {
-  font-family: 'Gochi Hand', cursive;
-}
 
 ion-header,
 ion-toolbar,
@@ -19,6 +16,7 @@ ion-title {
   text-align: center;
   font-size: 2rem;
   color: $primary-color;
+  font-family: 'Gochi Hand', cursive;
 
 }
 
@@ -27,19 +25,7 @@ ion-content {
   height: 100vh;
   background-color: $bg-color;
 
-  .instruction {
 
-    ul {
-      margin-top: 2rem;
-      list-style: none;
-
-      li {
-        margin-top: 0.5rem;
-        line-height: 1.2rem;
-        font-size: 1.25rem;
-      }
-    }
-  }
 
   .debugging {
 

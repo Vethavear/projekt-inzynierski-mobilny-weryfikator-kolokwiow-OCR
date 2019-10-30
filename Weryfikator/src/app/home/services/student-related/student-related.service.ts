@@ -7,18 +7,21 @@ import { QueueComponent } from '../../queue/queue.component';
 })
 export class StudentRelatedService {
 
-  waitingStudents: Student[];
+  waitingStudents: Student[] = [];
+  queueShown = false;
 
-
-  constructor() { }
+  constructor() {
+    this.waitingStudents.push(new Student(100440, '80%'));
+    this.waitingStudents.push(new Student(100441, '75%'));
+  }
 
 
   addStudentToQueue(indexNumber: number, grade: string) {
     this.waitingStudents.push(new Student(indexNumber, grade));
   }
 
-  async showQueue() {
-
+  showQueue() {
+    this.queueShown = !this.queueShown;
 
   }
 
