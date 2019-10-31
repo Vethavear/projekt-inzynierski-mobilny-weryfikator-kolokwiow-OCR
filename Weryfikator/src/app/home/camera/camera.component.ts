@@ -7,7 +7,9 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { DOCUMENT } from '@angular/common';
 import { CameraRelatedService } from '../services/camera-related/camera-related.service';
 import { Router } from '@angular/router';
+
 import { Base64ToGallery } from "@ionic-native/base64-to-gallery/ngx";
+
 import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion/ngx';
 
 @Component({
@@ -95,7 +97,7 @@ export class CameraComponent implements OnInit {
       const canvasContext = canvas.getContext('2d');
       const image = new Image();
 
-      image.src = 'data:image/jpeg;base64,' + imageData;
+      image.src = imageData;
 
       image.onload = () => {
 
@@ -121,7 +123,7 @@ export class CameraComponent implements OnInit {
 
         canvasContext.rotate(degrees * Math.PI / 180);
         canvasContext.drawImage(image, 0, 0);
-        resolve(canvas.toDataURL());
+        resolve(canvas.toDataURL('JPG', 100));
       };
     });
   }
@@ -132,12 +134,15 @@ export class CameraComponent implements OnInit {
     this.getOrientation().then(orientation => {
 
       if (orientation == 'portrait') {
+        console.log('portret');
         this.cropPicture(imageData);
       } else {
         let rotation;
         if (orientation == 'landscape') {
+          console.log('landskejp');
           rotation = 270;
         } else if (orientation == 'portrait-reversed') {
+          console.log('portrait reversed');
           rotation = 180;
         } else {
           rotation = 90;
@@ -206,15 +211,31 @@ export class CameraComponent implements OnInit {
 
       // Get base64 representation of cropped image
       const cropped_img_base64 = canvas.toDataURL();
-      this.base64ToGallery.base64ToGallery(cropped_img_base64.toString()).then(async path => {
-        console.log('sceizka do pliku:');
-        console.log(path);
-        this.cs.capturedSnapURL = this.cs.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc(path);
-        await this.cs.doOcr(path);
-        this.goBack();
-      }).catch(err => {
-        console.log('Nie udalo sie zapisac pliku');
-      });
+
+      const params = { data: cropped_img_base64, prefix: 'kolokwium_', format: 'JPG', quality: 100, mediaScanner: false };
+
+      (<any>window).imageSaver.saveBase64Image(params,
+        (filePath) => {
+          this.cs.capturedSnapURL = this.cs.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc(filePath);
+          this.cs.doOcr(filePath);
+          console.log('File saved on ' + filePath);
+          this.goBack();
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
+
+
+      // this.base64ToGallery.base64ToGallery(cropped_img_base64.toString()).then(async path => {
+      //   console.log('sceizka do pliku:');
+      //   console.log(path);
+      //   this.cs.capturedSnapURL = this.cs.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc(path);
+      //   await this.cs.doOcr(path);
+      // this.goBack();
+      // }).catch(err => {
+      //   console.log('Nie udalo sie zapisac pliku');
+      // });
       // return cropped_img_base64;
       // this.imgtoShowDebug = (<any>window).Ionic.WebView.convertFileSrc(cropped_img_base64);
 

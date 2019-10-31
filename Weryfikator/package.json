@@ -39,6 +39,7 @@
     "cordova-plugin-device-motion": "^2.0.1",
     "cordova-plugin-mobile-ocr": "^3.1.1",
     "cordova-plugin-screen-orientation": "^3.0.2",
+    "cordova-save-image-gallery": "0.0.26",
     "cordova.plugins.diagnostic": "^5.0.1",
     "core-js": "^2.5.4",
     "es6-promise-plugin": "^4.2.2",
@@ -103,7 +104,8 @@
       },
       "cordova-plugin-screen-orientation": {},
       "cordova-plugin-device-motion": {},
-      "cordova-base64-to-gallery": {}
+      "cordova-base64-to-gallery": {},
+      "cordova-save-image-gallery": {}
     },
     "platforms": [
       "android"
