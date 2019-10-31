@@ -1,23 +1,17 @@
 <ion-content padding>
-  <div class="img" *ngIf="picture">
-    <img [src]="picture">
-  </div>
-  <button ion-fab (click)="startCamera()">
+
+
+  <!-- <button  (click)="startCamera()">
     <ion-icon name="camera" size="large"></ion-icon>
-  </button>
+  </button> -->
 
 
-  <div *ngIf="!picture">
-
-    <button ion-fab (click)="takePicture()">
+  <!-- <div *ngIf="!picture"> -->
+  <div class="container">
+    <button class="takePicture" (click)="takePicture()">
       <ion-icon name="camera"></ion-icon>
     </button>
-
-
-
-    <button ion-fab (click)="switchCamera()">
-      <ion-icon name="reverse-camera"></ion-icon>
-    </button>
   </div>
+  <!-- </div> -->
 
 </ion-content>

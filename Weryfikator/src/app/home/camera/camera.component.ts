@@ -5,7 +5,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { CameraPreview, CameraPreviewOptions, CameraPreviewPictureOptions } from '@ionic-native/camera-preview/ngx';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { DOCUMENT } from '@angular/common';
-import { readdir } from 'fs';
+
 @Component({
   selector: 'app-camera',
   templateUrl: './camera.component.html',
@@ -14,30 +14,31 @@ import { readdir } from 'fs';
 
 export class CameraComponent implements OnInit {
   picture: string;
-  cameraOpts: CameraPreviewOptions = {
-    x: 0,
-    y: 0,
-    width: window.innerWidth,
-    height: window.innerHeight,
-    camera: 'rear',
-    toBack: true
-  };
-  cameraPictureOpts: CameraPreviewPictureOptions = {
-    width: window.innerWidth,
-    height: window.innerHeight,
-    quality: 100
-  };
+  cameraOpts: CameraPreviewOptions;
+  cameraPictureOpts: CameraPreviewPictureOptions;
 
 
   constructor(
     public navCtrl: NavController,
     protected cameraPreview: CameraPreview, protected screenOrientation: ScreenOrientation) {
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
+    this.cameraOpts = {
+      x: 0,
+      y: 0,
+      width: window.innerWidth,
+      height: window.innerHeight,
+      camera: 'rear',
+      toBack: true
+    };
+    this.cameraPictureOpts = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+      quality: 100
+    };
+
   }
 
-  ngOnInit() {
 
-  }
 
 
   async startCamera() {
@@ -54,13 +55,16 @@ export class CameraComponent implements OnInit {
   async takePicture() {
     const result = await this.cameraPreview.takePicture(this.cameraPictureOpts);
     await this.cameraPreview.stopCamera();
-    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+    // this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
     this.picture = 'data:image/jpeg;base64,' + result;
+
     // this.cameraPreview.stopCamera();
     // document.getElementById('ioncontent').classList.remove('clearBg');
   }
 
-
+  ngOnInit() {
+    this.startCamera();
+  }
 }
 
 
