@@ -14,8 +14,10 @@ import { FormsModule } from '@angular/forms';
 
 import { Camera } from '@ionic-native/camera/ngx';
 import { OCR, OCRSourceType } from '@ionic-native/ocr/ngx';
-import { CameraComponent } from './home/camera/camera.component';
 import { CameraPreview } from '@ionic-native/camera-preview/ngx';
+import { DeviceMotion } from '@ionic-native/device-motion/ngx';
+import { Base64ToGallery } from "@ionic-native/base64-to-gallery/ngx";
+
 
 
 @NgModule({
@@ -29,6 +31,8 @@ import { CameraPreview } from '@ionic-native/camera-preview/ngx';
     Camera,
     CameraPreview,
     ScreenOrientation,
+    DeviceMotion,
+    Base64ToGallery,
     OCR,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

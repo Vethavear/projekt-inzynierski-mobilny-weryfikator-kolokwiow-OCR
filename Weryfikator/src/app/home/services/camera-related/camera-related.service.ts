@@ -16,8 +16,9 @@ export class CameraRelatedService {
 
 
   cameraOptions: CameraOptions = {
-    sourceType: 0,
-    quality: 20,
+    //galeria to 0, camera to 1
+    sourceType: 1,
+    quality: 100,
     destinationType: this.camera.DestinationType.FILE_URI,
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE,
@@ -60,12 +61,13 @@ export class CameraRelatedService {
     });
   }
 
-  async doOcr(image) {
+  doOcr(image) {
     //zmien tego strtinga pozniej
     // jedna linia
-    this.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc
-      ('file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_110853.jpg?1572257559352');
-    this.ocr.recText(0, 'file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_110853.jpg?1572257559352')
+    // this.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc
+    // ('file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_110853.jpg?1572257559352');
+    //parametry - 0 to normurl, 4 to base64.
+    this.ocr.recText(0, this.capturedSnapURL)
       //dwie linie
       // this.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc
       // ('file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_145323.jpg?1572270899643');

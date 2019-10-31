@@ -8,9 +8,14 @@
 
   <!-- <div *ngIf="!picture"> -->
   <div class="container">
-    <button class="takePicture" (click)="takePicture()">
-      <ion-icon name="camera"></ion-icon>
-    </button>
+    <div id="aim">
+      <button id="takePicture" (click)="takePicture()">
+        <ion-icon name="camera"></ion-icon>
+      </button>
+    </div>
+    <div *ngIf="imgtoShowDebug">
+      <img src="{{imgtoShowDebug}}" alt="">
+    </div>
   </div>
   <!-- </div> -->
 
