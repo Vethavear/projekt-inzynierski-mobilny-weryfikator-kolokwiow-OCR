@@ -23,7 +23,6 @@ export class CameraComponent implements OnInit {
   cameraOpts: CameraPreviewOptions;
   cameraPictureOpts: CameraPreviewPictureOptions;
   imgtoShowDebug: any;
-
   constructor(
     public navCtrl: NavController,
     protected cameraPreview: CameraPreview,
@@ -47,8 +46,8 @@ export class CameraComponent implements OnInit {
       height: window.innerHeight,
       quality: 100
     };
-
     this.startCamera();
+    this.changeCameraToMatchCurrOrientation();
   }
 
   async startCamera() {
@@ -66,6 +65,43 @@ export class CameraComponent implements OnInit {
       console.log(result);
       this.showToast(result, 1500, 'top');
     });
+  }
+
+  private changeCameraToMatchCurrOrientation() {
+
+    this.deviceMotion.watchAcceleration().subscribe((acceleration: DeviceMotionAccelerationData) => {
+      const cameraIcon = document.getElementById('cameraIcon');
+      if (Math.abs(acceleration.x) > Math.abs(acceleration.y)) {
+        if (acceleration.x > 0) {
+          console.log('landscape');
+          cameraIcon.classList.remove('rotate180');
+          cameraIcon.classList.remove('rotate90');
+          cameraIcon.classList.remove('rotate-90');
+          cameraIcon.classList.add('rotate90');
+        } else {
+          console.log('landscape-reversed');
+          cameraIcon.classList.remove('rotate180');
+          cameraIcon.classList.remove('rotate90');
+          cameraIcon.classList.remove('rotate-90');
+          cameraIcon.classList.add('rotate-90');
+
+        }
+      } else {
+        if (acceleration.y > 0) {
+          console.log('portrait');
+          cameraIcon.classList.remove('rotate180');
+          cameraIcon.classList.remove('rotate90');
+          cameraIcon.classList.remove('rotate-90');
+        } else {
+          console.log('portrait-reversed');
+          cameraIcon.classList.remove('rotate180');
+          cameraIcon.classList.remove('rotate90');
+          cameraIcon.classList.remove('rotate-90');
+          cameraIcon.classList.add('rotate180');
+        }
+      }
+    });
+
   }
 
   private getOrientation(): Promise<string> {
@@ -135,7 +171,7 @@ export class CameraComponent implements OnInit {
 
       if (orientation == 'portrait') {
         console.log('portret');
-        this.cropPicture(imageData);
+        this.cropPicture(imageData, false);
       } else {
         let rotation;
         if (orientation == 'landscape') {
@@ -148,7 +184,8 @@ export class CameraComponent implements OnInit {
           rotation = 90;
         }
         this.rotateImage(imageData, rotation).then(rotatedImg => {
-          this.cropPicture(rotatedImg);
+          this.cs.rotatedImg = (<any>window).Ionic.WebView.convertFileSrc(rotatedImg);
+          this.cropPicture(rotatedImg, true);
         });
       }
     });
@@ -166,6 +203,7 @@ export class CameraComponent implements OnInit {
     const result = await this.cameraPreview.takePicture(this.cameraPictureOpts);
     await this.cameraPreview.stopCamera();
     this.picture = 'data:image/jpeg;base64,' + result;
+    this.cs.originalPicture = this.picture;
     this.prepareToCrop(this.picture);
 
     // this.cameraPreview.stopCamera();
@@ -173,9 +211,17 @@ export class CameraComponent implements OnInit {
   }
 
 
-  cropPicture(picture: string) {
+  cropPicture(picture: string, rotated: boolean) {
+    const rectangle = document.getElementById('aim-div');
+    if (rotated) {
+      const container = document.getElementById('container');
 
-    const rectangle = document.getElementById('aim');
+      container.classList.remove('container');
+      rectangle.classList.remove('aim');
+
+      container.classList.add('containerRotated');
+      rectangle.classList.add('aimRotated');
+    }
     const rectangleCoordinates = rectangle.getBoundingClientRect();
     const x = rectangleCoordinates.left;
     const y = rectangleCoordinates.top;

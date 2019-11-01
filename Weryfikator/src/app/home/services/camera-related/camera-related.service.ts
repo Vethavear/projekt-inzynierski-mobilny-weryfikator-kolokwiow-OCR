@@ -29,6 +29,8 @@ export class CameraRelatedService {
   scanResultLines: any;
   scanResultWords: string;
   scanResultBlockSingleString: string;
+  rotatedImg: any;
+  originalPicture: string;
 
   constructor(private barcodeScanner: BarcodeScanner, private camera: Camera, private ocr: OCR) {
     // Options

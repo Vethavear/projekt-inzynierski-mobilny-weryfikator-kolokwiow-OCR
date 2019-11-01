@@ -7,10 +7,10 @@
 
 
   <!-- <div *ngIf="!picture"> -->
-  <div class="container">
-    <div id="aim">
-      <button id="takePicture" (click)="takePicture()">
-        <ion-icon name="camera"></ion-icon>
+  <div id="container" class="container">
+    <div id="aim-div" class="aim">
+      <button id="takePictureBtn" (click)="takePicture()">
+        <ion-icon name="camera" id="cameraIcon"></ion-icon>
       </button>
     </div>
     <div *ngIf="imgtoShowDebug">

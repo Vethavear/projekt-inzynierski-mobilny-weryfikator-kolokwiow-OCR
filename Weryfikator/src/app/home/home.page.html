@@ -25,9 +25,20 @@
     </div>
 
     <div class="img" *ngIf="cs.capturedSnapURL">
-      <h1>IMG</h1>
+      <h1>CROPPED</h1>
       <img [src]="cs.capturedSnapURL" />
     </div>
+
+    <div class="img" *ngIf="cs.rotatedImg">
+      <h1>ROTATED</h1>
+      <img [src]="cs.rotatedImg" />
+    </div>
+
+    <div class="img" *ngIf="cs.rotatedImg">
+      <h1>ORIGINAL</h1>
+      <img [src]="cs.originalPicture" />
+    </div>
+
 
     <div class="block">
       <h1>Block</h1>
