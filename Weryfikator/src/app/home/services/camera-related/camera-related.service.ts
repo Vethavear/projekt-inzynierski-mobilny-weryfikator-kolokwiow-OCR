@@ -63,42 +63,41 @@ export class CameraRelatedService {
     });
   }
 
-  // async doOcr(image) {
-  //   //zmien tego strtinga pozniej
-  //   // jedna linia
-  //   // this.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc
-  //   // ('file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_110853.jpg?1572257559352');
-  //   //parametry - 0 to normurl, 4 to base64.
-  //   this.ocr.recText(0, this.capturedSnapURL)
-  //     //dwie linie
-  //     // this.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc
-  //     // ('file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_145323.jpg?1572270899643');
-  //     // this.ocr.recText(0, 'file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_145323.jpg?1572270899643')
-  //     //default capture
-  //     //this.ocr.recText(0, image)
-  //     .then((res: OCRResult) => {
-  //       this.scanResultBlock = res.blocks.blocktext;
-  //       this.scanResultBlockSingleString = this.scanResultBlock.join(' ');
-  //       this.scanResultBlockSingleString = this.scanResultBlockSingleString.replace(' ', '');
-  //       this.scanResultLines = res.lines.linetext;
-  //       this.scanResultWords = res.words.wordtext.join('');
-
-
-  //     })
-  //     .catch((error: any) => console.error(error));
-
-  //   VerifyingRelatedService.verifyAnswers('a', 'b');
-  // }
-
-  async doOcr(imageData) {
+  async doOcr(image) {
     //zmien tego strtinga pozniej
-    //z tym kurwa dziala:
-    // 'file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_145323.jpg?1572270899643'
-    console.log(this.capturedSnapURL);
-    this.ocr.recText(0, imageData)
-      .then((res: OCRResult) => console.log(res.words.wordtext))
+    // jedna linia
+    // this.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc
+    // ('file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_110853.jpg?1572257559352');
+    //parametry - 0 to normurl, 4 to base64.
+    this.ocr.recText(0, image)
+      //dwie linie
+      // this.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc
+      // ('file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_145323.jpg?1572270899643');
+      // this.ocr.recText(0, 'file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_145323.jpg?1572270899643')
+      //default capture
+      //this.ocr.recText(0, image)
+      .then((res: OCRResult) => {
+        this.scanResultBlock = res.blocks.blocktext;
+        this.scanResultBlockSingleString = this.scanResultBlock.join(' ');
+        this.scanResultBlockSingleString = this.scanResultBlockSingleString.replace(' ', '');
+        this.scanResultLines = res.lines.linetext;
+        this.scanResultWords = res.words.wordtext.join('');
+
+
+      })
       .catch((error: any) => console.error(error));
+
+    VerifyingRelatedService.verifyAnswers('a', 'b');
   }
+
+  // async doOcr(imageData) {
+  //   //zmien tego strtinga pozniej
+  //   // 'file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_145323.jpg?1572270899643'
+  //   console.log(this.capturedSnapURL);
+  //   this.ocr.recText(0, imageData)
+  //     .then((res: OCRResult) => console.log(res.words.wordtext))
+  //     .catch((error: any) => console.error(error));
+  // }
 
 
 
