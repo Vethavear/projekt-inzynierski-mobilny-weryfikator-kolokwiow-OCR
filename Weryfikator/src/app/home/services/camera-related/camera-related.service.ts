@@ -3,6 +3,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { OCR, OCRSourceType, OCRResult } from '@ionic-native/ocr/ngx';
 import { BarcodeScannerOptions, BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { VerifyingRelatedService } from '../verifying-related/verifying-related.service';
+import * as CryptoJS from 'crypto-js';
 
 
 @Injectable({
@@ -41,11 +42,22 @@ export class CameraRelatedService {
   }
 
   scanQr() {
+    //karakan123 secret key
     this.barcodeScanner
       .scan()
       .then(barcodeData => {
-        alert('Barcode data ' + JSON.stringify(barcodeData));
-        this.scannedData = barcodeData;
+
+        try {
+          const bytes = CryptoJS.AES.decrypt(barcodeData.text, 'karakan123');
+          console.log(bytes);
+          if (bytes.toString()) {
+            this.scannedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+            alert('Barcode data ' + JSON.stringify(this.scannedData));
+          }
+
+        } catch (e) {
+          console.log(e);
+        }
       })
       .catch(err => {
         console.log('Error', err);
