@@ -10,7 +10,7 @@ import * as CryptoJS from 'crypto-js';
   providedIn: 'root'
 })
 export class CameraRelatedService {
-  scannedData: {};
+  scannedData: string;
   barcodeScannerOptions: BarcodeScannerOptions;
   scanResult;
   capturedSnapURL: string;
@@ -42,11 +42,9 @@ export class CameraRelatedService {
   }
 
   scanQr() {
-    //karakan123 secret key
     this.barcodeScanner
       .scan()
       .then(barcodeData => {
-
         try {
           const bytes = CryptoJS.AES.decrypt(barcodeData.text, 'karakan123');
           console.log(bytes);
@@ -54,7 +52,6 @@ export class CameraRelatedService {
             this.scannedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
             alert('Barcode data ' + JSON.stringify(this.scannedData));
           }
-
         } catch (e) {
           console.log(e);
         }
@@ -76,30 +73,20 @@ export class CameraRelatedService {
   }
 
   async doOcr(image) {
-    //zmien tego strtinga pozniej
-    // jedna linia
-    // this.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc
-    // ('file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_110853.jpg?1572257559352');
-    //parametry - 0 to normurl, 4 to base64.
     this.ocr.recText(0, image)
-      //dwie linie
-      // this.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc
-      // ('file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_145323.jpg?1572270899643');
-      // this.ocr.recText(0, 'file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_145323.jpg?1572270899643')
-      //default capture
-      //this.ocr.recText(0, image)
       .then((res: OCRResult) => {
-        this.scanResultBlock = res.blocks.blocktext;
-        this.scanResultBlockSingleString = this.scanResultBlock.join(' ');
-        this.scanResultBlockSingleString = this.scanResultBlockSingleString.replace(' ', '');
-        this.scanResultLines = res.lines.linetext;
-        this.scanResultWords = res.words.wordtext.join('');
-
-
+        // this.scanResultBlock = res.blocks.blocktext;
+        // this.scanResultBlockSingleString = this.scanResultBlock.join(' ');
+        // this.scanResultBlockSingleString = this.scanResultBlockSingleString.replace(' ', '');
+        // this.scanResultLines = res.lines.linetext;
+        // this.scanResultWords = res.words.wordtext.join('');
+        this.scanResultWords = res.words.wordtext.toString();
+        console.log(this.scanResultWords);
       })
       .catch((error: any) => console.error(error));
 
-    VerifyingRelatedService.verifyAnswers('a', 'b');
+
+    VerifyingRelatedService.prepareData(this.scannedData, this.scanResultWords);
   }
 
   // async doOcr(imageData) {
