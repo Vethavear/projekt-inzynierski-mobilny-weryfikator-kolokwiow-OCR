@@ -14,7 +14,7 @@ export class CameraRelatedService {
   barcodeScannerOptions: BarcodeScannerOptions;
   scanResult;
   capturedSnapURL: string;
-
+  qrScanned = false;
 
   cameraOptions: CameraOptions = {
     //galeria to 0, camera to 1
@@ -28,7 +28,7 @@ export class CameraRelatedService {
   };
   scanResultBlock: string[];
   scanResultLines: any;
-  scanResultWords: string;
+  scanResultWords: string[];
   scanResultBlockSingleString: string;
   rotatedImg: any;
   originalPicture: string;
@@ -47,10 +47,9 @@ export class CameraRelatedService {
       .then(barcodeData => {
         try {
           const bytes = CryptoJS.AES.decrypt(barcodeData.text, 'karakan123');
-          console.log(bytes);
           if (bytes.toString()) {
             this.scannedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-            alert('Barcode data ' + JSON.stringify(this.scannedData));
+            this.qrScanned = true;
           }
         } catch (e) {
           console.log(e);
@@ -73,6 +72,7 @@ export class CameraRelatedService {
   }
 
   async doOcr(image) {
+    this.scanResultWords = [];
     this.ocr.recText(0, image)
       .then((res: OCRResult) => {
         // this.scanResultBlock = res.blocks.blocktext;
@@ -80,29 +80,12 @@ export class CameraRelatedService {
         // this.scanResultBlockSingleString = this.scanResultBlockSingleString.replace(' ', '');
         // this.scanResultLines = res.lines.linetext;
         // this.scanResultWords = res.words.wordtext.join('');
-        this.scanResultWords = res.words.wordtext.toString();
-        console.log(this.scanResultWords);
+
+        this.scanResultWords = res.words.wordtext;
+        // VerifyingRelatedService.prepareBarcodeData(this.scannedData);
+        VerifyingRelatedService.manipulateArr(this.scanResultWords.toString());
       })
       .catch((error: any) => console.error(error));
-
-
-    VerifyingRelatedService.prepareData(this.scannedData, this.scanResultWords);
   }
-
-  // async doOcr(imageData) {
-  //   //zmien tego strtinga pozniej
-  //   // 'file:///storage/emulated/0/Android/data/io.ionic.starter/cache/20191028_145323.jpg?1572270899643'
-  //   console.log(this.capturedSnapURL);
-  //   this.ocr.recText(0, imageData)
-  //     .then((res: OCRResult) => console.log(res.words.wordtext))
-  //     .catch((error: any) => console.error(error));
-  // }
-
-
-
-
-
-
-
 
 }

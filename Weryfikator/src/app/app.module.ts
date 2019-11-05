@@ -17,6 +17,7 @@ import { OCR, OCRSourceType } from '@ionic-native/ocr/ngx';
 import { CameraPreview } from '@ionic-native/camera-preview/ngx';
 import { DeviceMotion } from '@ionic-native/device-motion/ngx';
 import { Base64ToGallery } from "@ionic-native/base64-to-gallery/ngx";
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 
 
 
@@ -32,6 +33,7 @@ import { Base64ToGallery } from "@ionic-native/base64-to-gallery/ngx";
     CameraPreview,
     ScreenOrientation,
     DeviceMotion,
+    Diagnostic,
     Base64ToGallery,
     OCR,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

@@ -5,6 +5,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { CameraPreview, CameraPreviewOptions, CameraPreviewPictureOptions } from '@ionic-native/camera-preview/ngx';
 import { CameraRelatedService } from '../services/camera-related/camera-related.service';
 import { Router } from '@angular/router';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion/ngx';
 
 @Component({
@@ -25,7 +26,8 @@ export class CameraComponent implements OnInit {
     protected screenOrientation: ScreenOrientation,
     protected cs: CameraRelatedService,
     protected router: Router,
-    public deviceMotion: DeviceMotion) {
+    public deviceMotion: DeviceMotion,
+    public diagnostic: Diagnostic) {
 
     this.cameraOpts = {
       x: 0,
@@ -224,8 +226,12 @@ export class CameraComponent implements OnInit {
       // Get base64 representation of cropped image
       const cropped_img_base64 = canvas.toDataURL();
 
-      const params = { data: cropped_img_base64, prefix: 'kolokwium_', format: 'JPG', quality: 100, mediaScanner: false };
-
+      const params = { data: cropped_img_base64, prefix: 'kolokwium_', format: 'JPG', quality: 100, mediaScanner: true };
+      await this.diagnostic.requestExternalStorageAuthorization().then(() => {
+        //User gave permission 
+      }).catch(error => {
+        //Handle error
+      });
       (<any>window).imageSaver.saveBase64Image(params,
         (filePath) => {
           this.cs.capturedSnapURL = this.cs.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc(filePath);
@@ -233,7 +239,9 @@ export class CameraComponent implements OnInit {
           this.cameraPreview.stopCamera();
           this.deviceMotionSubscribe.unsubscribe();
           console.log('File saved on ' + filePath);
+          //save picture to firestore
           this.goBack();
+
         },
         (err) => {
           console.error(err);

@@ -1,11 +1,19 @@
 
 export class Student {
-  indexNumber: number;
-  grade: string;
+  indexNumber;
+  group;
+  name;
+  surname;
+  examName;
+  grade;
 
-  constructor(iN: number, gr: string) {
+  constructor(iN, gr, name, surname, examName, grade) {
     this.indexNumber = iN;
-    this.grade = gr;
+    this.group = gr;
+    this.name = name;
+    this.surname = surname;
+    this.examName = examName;
+    this.grade = grade;
   }
 
 }

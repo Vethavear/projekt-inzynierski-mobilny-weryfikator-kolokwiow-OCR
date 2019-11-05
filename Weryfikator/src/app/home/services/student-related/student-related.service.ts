@@ -11,13 +11,13 @@ export class StudentRelatedService {
   queueShown = false;
 
   constructor() {
-    this.waitingStudents.push(new Student(100440, '80%'));
-    this.waitingStudents.push(new Student(100441, '75%'));
+    // this.waitingStudents.push(new Student(100440, '80%'));
+    // this.waitingStudents.push(new Student(100441, '75%'));
   }
 
 
-  addStudentToQueue(indexNumber: number, grade: string) {
-    this.waitingStudents.push(new Student(indexNumber, grade));
+  addStudentToQueue(student: Student) {
+    this.waitingStudents.push(student);
   }
 
   showQueue() {
@@ -25,7 +25,7 @@ export class StudentRelatedService {
 
   }
 
-  sendStudentGradeToDb(examId, indexNumber, grade) {
+  sendStudentGradeToDb(examId, student, grade) {
     //firestore code
   }
 }
