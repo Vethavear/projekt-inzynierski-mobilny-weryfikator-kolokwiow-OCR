@@ -45,6 +45,7 @@ export class HomePage {
     // const odpstr ='1H2H3AB5(7DD10E11F12F13G1415616A17A18A19B20B21D22A23B24D25E26F27F28G29G30F31A32D33D34D35E36A37B38B39D40A'
     const odpArr = odpstr.split(',');
     let odpArrNoCommas = odpArr.join('');
+    odpArrNoCommas = odpArrNoCommas.toUpperCase();
     console.log(odpArrNoCommas);
     // const odpArrNoCommas = odpstr;
     const arrWithAnswers = [];
@@ -54,7 +55,7 @@ export class HomePage {
       console.log(`brakuje ${ocrResultLength - odpstr.length} odpowiedzi`);
       let currentQuestion = 0;
       let numberEncountered = false;
-
+      // °
       // dla pojedynczych cyfer:
 
       // tslint:disable-next-line: prefer-for-of
@@ -160,6 +161,17 @@ export class HomePage {
                 arrWithAnswers.push(odpArrNoCommas[i]);
                 currentQuestion++;
               }
+            } else if (currentQuestion + 1 === 5) {
+              // jesli jestesmy na 5, sprawdz czy nastepna jest literka, jesli tak to mamy 5 jako S
+              if (odpArrNoCommas[i] === 'S' && odpArrNoCommas[i + 1].match(/[^0-9]/g)) {
+                // skipujemy tą S, to jest 5 więc nie pushujemy
+                numberEncountered = true;
+                continue;
+              } else {
+                numberEncountered = false;
+                arrWithAnswers.push(odpArrNoCommas[i]);
+                currentQuestion++;
+              }
             } else if (currentQuestion + 1 === 8) {
               // jesli jestesmy na 8, sprawdz czy nastepna jest literka, jesli tak to mamy 8 jako B
               if (odpArrNoCommas[i] === 'B' && odpArrNoCommas[i + 1].match(/[^0-9]/g)) {
@@ -171,6 +183,19 @@ export class HomePage {
                 arrWithAnswers.push(odpArrNoCommas[i]);
                 currentQuestion++;
               }
+
+            } else if (currentQuestion + 1 === 9) {
+              // jesli jestesmy na 9, sprawdz czy nastepna jest literka, jesli tak to mamy 9 jako °
+              if (odpArrNoCommas[i] === '°' && odpArrNoCommas[i + 1].match(/[^0-9]/g)) {
+                // skipujemy tą B, to jest 8 więc nie pushujemy
+                numberEncountered = true;
+                continue;
+              } else {
+                numberEncountered = false;
+                arrWithAnswers.push(odpArrNoCommas[i]);
+                currentQuestion++;
+              }
+
             } else {
               // Wczesniej byla literka, OCR nie odczytal blednie 4 albo 8 wiec po prostu nie odczytal cyfry, push
               numberEncountered = false;
@@ -246,11 +271,31 @@ export class HomePage {
             arrWithAnswers[index] = 'F';
           } else if (element === 'L') {
             arrWithAnswers[index] = 'B';
+          } else if (element === ')') {
+            arrWithAnswers[index] = 'D';
           }
         }
       });
     }
     console.log(arrWithAnswers.toString());
+
+
+    arrWithAnswers.forEach((element, index) => {
+      if (element.match(/[^a-h]/)) {
+        if (element === '(') {
+          arrWithAnswers[index] = 'C';
+        } else if (element === '&') {
+          arrWithAnswers[index] = 'G';
+        } else if (element === 'P') {
+          arrWithAnswers[index] = 'F';
+        } else if (element === 'L') {
+          arrWithAnswers[index] = 'B';
+        }
+      }
+    });
+
+    console.log(arrWithAnswers.toString());
+
   }
 
   // const odpArr = ['1H', '2H', '3', 'A', 'B5', '(6', '(7', '(BD'];

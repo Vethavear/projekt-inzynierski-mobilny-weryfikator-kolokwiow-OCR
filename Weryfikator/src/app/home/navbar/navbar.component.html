@@ -15,7 +15,7 @@
         <p>Kolejka</p>
       </ng-container>
     </button>
-    <button class="btn" [routerLink]="['camera']">
+    <button class="btn" *ngIf="vrs.qrScanned" [routerLink]="['camera']">
       <ion-icon name="camera" size="large"></ion-icon>
       <p>OCR</p>
     </button>

@@ -2,20 +2,22 @@ import { Injectable } from '@angular/core';
 import { CameraRelatedService } from '../camera-related/camera-related.service';
 import { Student } from '../student-related/student';
 import { stringify } from 'querystring';
+import { StudentRelatedService } from '../student-related/student-related.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VerifyingRelatedService {
-  static correctAnswersArr: string[];
-  static studentAnswersArr: string[];
-  static student;
-  constructor() {
+  correctAnswersArr: string[];
+  studentAnswersArr: string[];
+  student: Student;
+  qrScanned: boolean = false;
+  constructor(public ss: StudentRelatedService) {
   }
 
 
-  public static prepareBarcodeData(barcodeData: string) {
-
+  public prepareBarcodeData(barcodeData: string) {
+    this.qrScanned = true;
     const data = barcodeData.split(',');
     // odp[0], indeks[1], grupa[2], imie[3], nazwisko[4], kolokwium[5]
     const correctAnswers = data[0];
@@ -24,12 +26,13 @@ export class VerifyingRelatedService {
     const studentName = data[3];
     const studentSurname = data[4];
     const examName = data[5];
-    this.student = new Student(studentIndexNumber, studentGroup, studentName, studentSurname, examName, '0%');
+    this.student = new Student(studentIndexNumber, studentGroup, studentName, studentSurname, examName, '0', '0');
     this.correctAnswersArr = correctAnswers.split('');
 
   }
 
-  public static manipulateArr(odpstr) {
+  public manipulateArr(odpstr) {
+    this.qrScanned = false;
     console.log('MANIPULATE Z OBRAZKA')
     console.log(odpstr.toString());
     const ocrResultLength: number = 80;
@@ -270,21 +273,36 @@ export class VerifyingRelatedService {
       });
     }
     console.log(arrWithAnswers.toString());
+    this.studentAnswersArr = arrWithAnswers;
+    this.calculateStudentPoints();
   }
 
-  public static calculateStudentPoints() {
+  public calculateStudentPoints() {
     let studentPoints = 0;
-    let maxPoints = this.correctAnswersArr.length;
+    const maxPoints = this.correctAnswersArr.length;
     this.correctAnswersArr.forEach((correctAnswer, index) => {
       if (correctAnswer === this.studentAnswersArr[index]) {
         studentPoints++;
       }
     });
-    const studentGainedPercentage = `${(studentPoints / maxPoints) * 100}%`;
-    console.log(maxPoints);
-    console.log(studentPoints);
-    console.log((studentPoints / maxPoints) * 100 + '%');
-    console.log(studentGainedPercentage);
+    const studentGainedPercentage = (studentPoints / maxPoints) * 100;
+
+    if (studentGainedPercentage < 50) {
+      this.student.grade = 2;
+    } else if (studentGainedPercentage < 62.5) {
+      this.student.grade = 3;
+    } else if (studentGainedPercentage < 75) {
+      this.student.grade = 3.5;
+    } else if (studentGainedPercentage < 87.5) {
+      this.student.grade = 4;
+    } else if (studentGainedPercentage < 90) {
+      this.student.grade = 4.5;
+    } else {
+      this.student.grade = 5;
+    }
+    this.student.points = studentPoints;
+
+    this.ss.initializeCurrentStudent(this.student);
 
   }
 }

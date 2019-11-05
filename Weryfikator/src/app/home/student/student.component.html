@@ -1,0 +1,17 @@
+<div class="container">
+  <h1 class="title">Wyniki kolokwium</h1>
+  <h2>{{ss.currentStudent.name}} {{ss.currentStudent.surname}}</h2>
+  <h3>Punkty: {{ss.currentStudent.points}}</h3>
+  <h3>Ocena: {{ss.currentStudent.grade}}</h3>
+
+  <div class="actions">
+    <button class="add" (click)="ss.checkInternetConnection()">Zapisz ocene</button>
+    <button class="remove" (click)="ss.removeStudent()">Odrzuć zmiany</button>
+  </div>
+
+  <div class="stats">
+    <h2>Statystyki</h2>
+    <h3>Nierozpoznanych znaków: </h3>
+
+  </div>
+</div>

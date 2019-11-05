@@ -7,45 +7,17 @@
 </ion-header>
 
 <ion-content ion-padding>
-
-  <section class="instruction" *ngIf="!ss.queueShown">
-    <app-instruction></app-instruction>
+  <ng-container *ngIf="!ss.studentShown">
+    <section class="instruction" *ngIf="!ss.queueShown">
+      <app-instruction></app-instruction>
+    </section>
+    <section class="studentsList" *ngIf="ss.queueShown">
+      <app-queue></app-queue>
+    </section>
+  </ng-container>
+  <section class="studentsGrade" *ngIf="ss.studentShown">
+    <app-student></app-student>
   </section>
-
-  <section class="studentsList" *ngIf="ss.queueShown">
-    <app-queue></app-queue>
-  </section>
-
-  <section class="debugging">
-    <h1>Tymczasowe informacje na potrzeby debugowania</h1>
-
-    <div *ngIf="cs.scannedData">
-      <h1>QR CODE INFO</h1>
-      {{ cs.scannedData }}
-    </div>
-
-    <div class="img" *ngIf="cs.capturedSnapURL">
-      <h1>CROPPED</h1>
-      <img [src]="cs.capturedSnapURL" />
-    </div>
-
-    <div class="img" *ngIf="cs.rotatedImg">
-      <h1>ROTATED</h1>
-      <img [src]="cs.rotatedImg" />
-    </div>
-
-    <div class="img" *ngIf="cs.rotatedImg">
-      <h1>ORIGINAL</h1>
-      <img [src]="cs.originalPicture" />
-    </div>
-
-
-    <div class="words">
-      <h1>Words</h1>
-      <p>{{cs.scanResultWords}}</p>
-    </div>
-  </section>
-
 
 
 

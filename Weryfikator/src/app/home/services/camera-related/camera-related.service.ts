@@ -4,6 +4,8 @@ import { OCR, OCRSourceType, OCRResult } from '@ionic-native/ocr/ngx';
 import { BarcodeScannerOptions, BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { VerifyingRelatedService } from '../verifying-related/verifying-related.service';
 import * as CryptoJS from 'crypto-js';
+import { AlertController, NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -14,10 +16,9 @@ export class CameraRelatedService {
   barcodeScannerOptions: BarcodeScannerOptions;
   scanResult;
   capturedSnapURL: string;
-  qrScanned = false;
 
   cameraOptions: CameraOptions = {
-    //galeria to 0, camera to 1
+    // galeria to 0, camera to 1
     sourceType: 1,
     quality: 100,
     destinationType: this.camera.DestinationType.FILE_URI,
@@ -33,7 +34,10 @@ export class CameraRelatedService {
   rotatedImg: any;
   originalPicture: string;
 
-  constructor(private barcodeScanner: BarcodeScanner, private camera: Camera, private ocr: OCR) {
+  constructor(private barcodeScanner: BarcodeScanner, private camera: Camera,
+    private ocr: OCR, public alertController: AlertController,
+    public router: Router,
+    public vrs: VerifyingRelatedService) {
     // Options
     this.barcodeScannerOptions = {
       showTorchButton: true,
@@ -49,22 +53,26 @@ export class CameraRelatedService {
           const bytes = CryptoJS.AES.decrypt(barcodeData.text, 'karakan123');
           if (bytes.toString()) {
             this.scannedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-            this.qrScanned = true;
+            this.vrs.prepareBarcodeData(this.scannedData);
+            console.log(this.vrs.qrScanned);
+            this.vrs.qrScanned = true;
           }
         } catch (e) {
+          this.presentAlertQr();
           console.log(e);
         }
       })
       .catch(err => {
         console.log('Error', err);
+        this.presentAlertQr();
       });
   }
 
   async takeSnap() {
     await this.camera.getPicture(this.cameraOptions).then((imageData) => {
-      //sciezka do zapisanych zdjec
+      // sciezka do zapisanych zdjec
       console.log(imageData);
-      this.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc(imageData);
+      this.capturedSnapURL = (window as any).Ionic.WebView.convertFileSrc(imageData);
       this.doOcr(imageData);
     }, (err) => {
       console.log(err);
@@ -75,17 +83,59 @@ export class CameraRelatedService {
     this.scanResultWords = [];
     this.ocr.recText(0, image)
       .then((res: OCRResult) => {
-        // this.scanResultBlock = res.blocks.blocktext;
-        // this.scanResultBlockSingleString = this.scanResultBlock.join(' ');
-        // this.scanResultBlockSingleString = this.scanResultBlockSingleString.replace(' ', '');
-        // this.scanResultLines = res.lines.linetext;
-        // this.scanResultWords = res.words.wordtext.join('');
 
         this.scanResultWords = res.words.wordtext;
         // VerifyingRelatedService.prepareBarcodeData(this.scannedData);
-        VerifyingRelatedService.manipulateArr(this.scanResultWords.toString());
+        this.vrs.manipulateArr(this.scanResultWords.toString());
       })
-      .catch((error: any) => console.error(error));
+      .catch(async (error: any) => {
+        this.presentAlertOcr();
+        console.error(error);
+      });
   }
 
+  async presentAlertOcr() {
+    const alert = await this.alertController.create({
+      header: 'Błąd!',
+      message: 'Message <strong>Ocr nie wykrył tekstu, zrób inne zdjęcie</strong>!!!',
+      buttons: [
+        {
+          text: 'Anuluj',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+          }
+        }, {
+          text: 'Zrób zdjęcie',
+          handler: () => {
+            this.router.navigateByUrl('/home/camera');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+  async presentAlertQr() {
+    const alert = await this.alertController.create({
+      header: 'Błąd!',
+      message: 'Message <strong>QR nie odszyfrował odpowiedzi. Spróbuj jeszcze raz</strong>!!!',
+      buttons: [
+        {
+          text: 'Anuluj',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+          }
+        }, {
+          text: 'Skan QR',
+          handler: () => {
+            this.scanQr();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 }
