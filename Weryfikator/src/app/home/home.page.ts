@@ -39,12 +39,12 @@ export class HomePage {
     const ocrResultLength: number = this.calculateOcrResultLength(40);
     const odpstr = '1,H,2,H,3,A,4,B,5,(6,7,8,D,D,10,11,F,12,F,13G,14G,156,16,A,17,A,18,A,19,B,20,B,21,D,22,A,23,B,24,D,25,E,26,F,27,F,28,G,29,6,30,F,31,A,32,D,33,D,34,D,35,E,36,A,37,B,38,B,39,D,40,A';
     // do ogarniecia: 
-    // const odpstr = '1H2H3ABSC(7DD10E11F12F13G14G15616A17A18A19B20B21D22A23B24D25E26F27F28G29630F31A32D33)34D35E36A37B38B39D40A'
+    // const odpstr = '1H2H3ABSC(7DD10E11F12F13G14G15616A17A18A19B20B21D22A23B24D25E26F27F28G29630F31A32D33)34D35E36A37B38B39D40A'//done
     // wali sie petla przy 10
-    // const odpstr = '1H2H3AB5(6(7(8D9D10E11F12F13G14615616A17A18A19B20B21D22A23B24D25E26F27F28G29630F31A32D33D34D35SE36A37BAAB39D40A';
-    // const odpstr ='1H2H3AB5(7DD10E11F12F13G1415616A17A18A19B20B21D22A23B24D25E26F27F28G29G30F31A32D33D34D35E36A37B38B39D40A'
+    // const odpstr = '1H2H3AB5(6(7(8D9D10E11F12F13G14615616A17A18A19B20B21D22A23B24D25E26F27F28G29630F31A32D33D34D35SE36A37BAAB39D40A'; // zly string powtorz ocr, nuie da sie tego naprawic
+    // 1AB3DDSDB7GCA10A1B12C13A14C15E16A17D1819A20B21C2223B24C25B26272829(30C31D32A33A34C35A36A37638C39A40A nie przejdzie kurde powyzej 11 i elo //done
     const odpArr = odpstr.split(',');
-    let odpArrNoCommas = odpArr.join('');
+    let odpArrNoCommas = '1H2H3AB5(7DD10E11F12F13G1415616A17A18A19B20B21D22A23B24D25E26F27F28G29G30F31A32D33D34D35E36A37B38B39D40A';
     odpArrNoCommas = odpArrNoCommas.toUpperCase();
     console.log(odpArrNoCommas);
     // const odpArrNoCommas = odpstr;
@@ -195,7 +195,6 @@ export class HomePage {
                 arrWithAnswers.push(odpArrNoCommas[i]);
                 currentQuestion++;
               }
-
             } else {
               // Wczesniej byla literka, OCR nie odczytal blednie 4 albo 8 wiec po prostu nie odczytal cyfry, push
               numberEncountered = false;
@@ -208,13 +207,23 @@ export class HomePage {
 
         } else {
           // DLA DWUCYFRFOWYCH
+          if (currentQuestion + 1 == 11) {
+            console.log(odpArrNoCommas[i - 1] + odpArrNoCommas[i] + odpArrNoCommas[i + 1]);
+            console.log(numberEncountered);
+          }
           if ((odpArrNoCommas[i] + odpArrNoCommas[i + 1]) === (currentQuestion + 1).toString() && !numberEncountered) {
             // jesli jestesmy na dwucyfrowej liczbie i wczesniej nie spotkalismy numeru to continue oraz i++ zeby trafic na potencjalna literke
             numberEncountered = true;
             i++;
+
             continue;
           } else if (odpArrNoCommas[i].match(/[^0-9]/g) && numberEncountered) {
             // jesli jestesmy na znaku - potencjalnej odpowiedzi i napotkalismy wczesniej numer (zdrowa sytuacja np 10A)
+            numberEncountered = false;
+            arrWithAnswers.push(odpArrNoCommas[i]);
+            currentQuestion++;
+          } else if (odpArrNoCommas[i].match(/[^0-9]/g) && !numberEncountered) {
+            // jesli jestesmy na znaku - potencjalnej odpowiedzi i napotkalismy wczesniej litere np 10C1B12D
             numberEncountered = false;
             arrWithAnswers.push(odpArrNoCommas[i]);
             currentQuestion++;

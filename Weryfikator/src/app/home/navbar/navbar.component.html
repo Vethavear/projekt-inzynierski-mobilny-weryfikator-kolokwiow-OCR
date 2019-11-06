@@ -5,6 +5,10 @@
       <ion-icon name="barcode" size="large"></ion-icon>
       <p>QR</p>
     </button>
+    <button class="btn" *ngIf="vrs.qrScanned" [routerLink]="['camera']">
+      <ion-icon name="camera" size="large"></ion-icon>
+      <p>OCR</p>
+    </button>
     <button class="btn" (click)="ss.showQueue()">
       <ng-container *ngIf="ss.queueShown">
         <ion-icon name="help-circle-outline" size="large"></ion-icon>
@@ -15,10 +19,7 @@
         <p>Kolejka</p>
       </ng-container>
     </button>
-    <button class="btn" *ngIf="vrs.qrScanned" [routerLink]="['camera']">
-      <ion-icon name="camera" size="large"></ion-icon>
-      <p>OCR</p>
-    </button>
+
 
 
 

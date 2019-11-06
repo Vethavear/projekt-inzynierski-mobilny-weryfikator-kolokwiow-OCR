@@ -7,15 +7,15 @@ export class Student {
   examName;
   grade;
   points;
+  answersArr;
+  correctAnswersArr;
 
-  constructor(iN, gr, name, surname, examName, grade, points) {
+  constructor(iN, gr, name, surname, examName) {
     this.indexNumber = iN;
     this.group = gr;
     this.name = name;
     this.surname = surname;
     this.examName = examName;
-    this.grade = grade;
-    this.points = points;
   }
 
 }

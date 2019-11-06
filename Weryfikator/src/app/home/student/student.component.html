@@ -5,13 +5,24 @@
   <h3>Ocena: {{ss.currentStudent.grade}}</h3>
 
   <div class="actions">
-    <button class="add" (click)="ss.checkInternetConnection()">Zapisz ocene</button>
-    <button class="remove" (click)="ss.removeStudent()">Odrzuć zmiany</button>
+    <button class="add" (click)="ss.checkInternetConnection()">Zapisz ocene
+      <ion-icon name="cloud-upload"></ion-icon>
+    </button>
+    <button class="remove" (click)="ss.removeStudent()">Odrzuć
+      <ion-icon name="trash"></ion-icon>
+    </button>
   </div>
 
   <div class="stats">
     <h2>Statystyki</h2>
-    <h3>Nierozpoznanych znaków: </h3>
+    <h3>Nierozpoznane znaki:</h3>
+    <ng-container>
+      <div *ngFor="let item of ss.missedChars.expectedchars; let i=index">
+        Pytanie {{ss.missedChars.positions[i]}}: Oczekiwana wartosc: {{item}}
+        <input type="button" value="Skorektuj odczyt" placeholder="Skorektuj odczyt">
+      </div>
+    </ng-container>
+
 
   </div>
 </div>

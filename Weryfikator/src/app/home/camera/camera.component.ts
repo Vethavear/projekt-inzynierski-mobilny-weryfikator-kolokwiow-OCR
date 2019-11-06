@@ -232,6 +232,7 @@ export class CameraComponent implements OnInit {
       }).catch(error => {
         //Handle error
       });
+
       (<any>window).imageSaver.saveBase64Image(params,
         (filePath) => {
           this.cs.capturedSnapURL = this.cs.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc(filePath);

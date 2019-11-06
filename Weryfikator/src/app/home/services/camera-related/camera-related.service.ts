@@ -50,10 +50,11 @@ export class CameraRelatedService {
       .scan()
       .then(barcodeData => {
         try {
-          const bytes = CryptoJS.AES.decrypt(barcodeData.text, 'karakan123');
+          const bytes = CryptoJS.AES.decrypt(barcodeData.text, 'testmaker-inz');
           if (bytes.toString()) {
             this.scannedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
             this.vrs.prepareBarcodeData(this.scannedData);
+            console.log(this.scannedData);
             console.log(this.vrs.qrScanned);
             this.vrs.qrScanned = true;
           }
