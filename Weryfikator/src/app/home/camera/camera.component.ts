@@ -7,6 +7,7 @@ import { CameraRelatedService } from '../services/camera-related/camera-related.
 import { Router } from '@angular/router';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion/ngx';
+import { Filters } from '../services/camera-related/filters';
 
 @Component({
   selector: 'app-camera',
@@ -19,6 +20,7 @@ export class CameraComponent implements OnInit {
   cameraOpts: CameraPreviewOptions;
   cameraPictureOpts: CameraPreviewPictureOptions;
   viewChanged = false;
+  filters = new Filters();
   deviceMotionSubscribe;
   constructor(
     public navCtrl: NavController,
@@ -28,7 +30,6 @@ export class CameraComponent implements OnInit {
     protected router: Router,
     public deviceMotion: DeviceMotion,
     public diagnostic: Diagnostic) {
-
     this.cameraOpts = {
       x: 0,
       y: 0,
@@ -47,6 +48,10 @@ export class CameraComponent implements OnInit {
   async startCamera() {
     this.picture = null;
     const result = await this.cameraPreview.startCamera(this.cameraOpts);
+    this.cameraPreview.setFlashMode('on');
+    this.cameraPreview.onBackButton().then(clicked => {
+      this.navCtrl.pop();
+    });
   }
 
   switchCamera() {
@@ -164,7 +169,7 @@ export class CameraComponent implements OnInit {
           rotation = 90;
         }
         this.rotateImage(imageData, rotation).then(rotatedImg => {
-          this.cs.rotatedImg = (<any>window).Ionic.WebView.convertFileSrc(rotatedImg);
+          this.cs.rotatedImg = (window as any).Ionic.WebView.convertFileSrc(rotatedImg);
           this.cropPicture(rotatedImg, true);
         });
       }
@@ -223,24 +228,73 @@ export class CameraComponent implements OnInit {
         0, 0,                               // Place the result at 0, 0 in the canvas,
         rect_width_int, rect_height_int);   // Crop interpolated rectangle
 
+      // CHANGING COLOURS AND CONTRAST!!!
+      // pixels
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
+
+      // grayscale brightness=30 contrast=70 60% skutecznosc
+      // grayscale brightness=40 contrast=70 30% skutecznosc
+      // grayscale brightness=20 contrast=70 30% skutecznosc
+      // grayscale brightness=30 contrast=60 40% skutecznosc
+
+      // grayscale
+      for (var i = 0; i < data.length; i += 4) {
+        var avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+        data[i] = avg; // red
+        data[i + 1] = avg; // green
+        data[i + 2] = avg; // blue
+      }
+
+      // brightness
+      let howMuchBright = 30;
+      for (var i = 0; i < data.length; i += 4) {
+        data[i] += howMuchBright;
+        data[i + 1] += howMuchBright;
+        data[i + 2] += howMuchBright;
+      }
+
+      // contrast
+      const contrast = 60;
+      var factor = (259.0 * (contrast + 255.0)) / (255.0 * (259.0 - contrast));
+
+      for (var i = 0; i < data.length; i += 4) {
+        data[i] = (factor * (data[i] - 128.0) + 128.0);
+        data[i + 1] = (factor * (data[i + 1] - 128.0) + 128.0);
+        data[i + 2] = (factor * (data[i + 2] - 128.0) + 128.0);
+      }
+
+
+
+      // treshold
+      // for (var i = 0; i < data.length; i += 4) {
+      //   var r = data[i];
+      //   var g = data[i + 1];
+      //   var b = data[i + 2];
+      //   var v = (0.2126 * r + 0.7152 * g + 0.0722 * b >= 128) ? 255 : 0;
+      //   data[i] = data[i + 1] = data[i + 2] = v;
+      // }
+
+      ctx.putImageData(imageData, 0, 0);
+      ctx.scale(2, 2);
       // Get base64 representation of cropped image
-      const cropped_img_base64 = canvas.toDataURL();
+      const cropped_img_base64 = canvas.toDataURL('image/png', 1.0);
 
       const params = { data: cropped_img_base64, prefix: 'kolokwium_', format: 'JPG', quality: 100, mediaScanner: true };
       await this.diagnostic.requestExternalStorageAuthorization().then(() => {
-        //User gave permission 
+        // User gave permission
       }).catch(error => {
-        //Handle error
+        // Handle error
       });
 
-      (<any>window).imageSaver.saveBase64Image(params,
+      (window as any).imageSaver.saveBase64Image(params,
         (filePath) => {
-          this.cs.capturedSnapURL = this.cs.capturedSnapURL = (<any>window).Ionic.WebView.convertFileSrc(filePath);
+          this.cs.capturedSnapURL = this.cs.capturedSnapURL = (window as any).Ionic.WebView.convertFileSrc(filePath);
           this.cs.doOcr(filePath);
           this.cameraPreview.stopCamera();
           this.deviceMotionSubscribe.unsubscribe();
           console.log('File saved on ' + filePath);
-          //save picture to firestore
+          // save picture to firestore
           this.goBack();
 
         },

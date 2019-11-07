@@ -42,6 +42,7 @@
     "cordova-plugin-mobile-ocr": "^3.1.1",
     "cordova-plugin-network-information": "^2.0.2",
     "cordova-plugin-screen-orientation": "^3.0.2",
+    "cordova-plugin-tesseract": "file:cordova-plugin-tesseract",
     "cordova-save-image-gallery": "0.0.26",
     "cordova.plugins.diagnostic": "^5.0.1",
     "core-js": "^2.5.4",
@@ -49,6 +50,8 @@
     "es6-promise-plugin": "^4.2.2",
     "phonegap-plugin-barcodescanner": "^8.1.0",
     "rxjs": "~6.5.1",
+    "tesseract.js": "^1.0.19",
+    "tesseract.ts": "^1.1.2",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },
@@ -109,7 +112,8 @@
       "cordova-plugin-screen-orientation": {},
       "cordova-plugin-device-motion": {},
       "cordova-save-image-gallery": {},
-      "cordova-plugin-network-information": {}
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-tesseract": {}
     },
     "platforms": [
       "android"

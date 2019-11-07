@@ -1,4 +1,34 @@
+@import '../../../theme/variables.scss';
+
+*:focus {
+  outline: none !important;
+}
+
 ion-icon {
   margin-left: 2rem;
   font-size: 32px;
+}
+
+.questionAnswer {
+  margin-bottom: 1rem;
+}
+
+.buttons {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  transition: opacity 0.2s ease-in-out !important;
+
+  :active {
+    opacity: 0.9;
+  }
+
+  .answer {
+    font-size: 1.2rem;
+    background-color: $primary-color;
+    color: $text-color;
+    padding: 0rem 1rem;
+    padding-bottom: 0.25rem;
+
+  }
 }

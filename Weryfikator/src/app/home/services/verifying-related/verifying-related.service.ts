@@ -181,6 +181,10 @@ export class VerifyingRelatedService {
               // skipujemy tą B, to jest 8 więc nie pushujemy
               numberEncountered = true;
               continue;
+            } else if (odpArrNoCommas[i] === 'O' && odpArrNoCommas[i + 1].match(/[^0-9]/g)) {
+              // skipujemy tą B, to jest 8 więc nie pushujemy
+              numberEncountered = true;
+              continue;
             } else {
               numberEncountered = false;
               arrWithAnswers.push(odpArrNoCommas[i]);
@@ -199,6 +203,11 @@ export class VerifyingRelatedService {
 
       } else {
         // DLA DWUCYFRFOWYCH
+        if (i === odpArrNoCommas.length - 1 && odpArrNoCommas[i].match(/[0-9]/g)) {
+          arrWithAnswers.push('N');
+          break;
+        }
+
         if ((odpArrNoCommas[i] + odpArrNoCommas[i + 1]) === (currentQuestion + 1).toString() && !numberEncountered) {
           // jesli jestesmy na dwucyfrowej liczbie i wczesniej nie spotkalismy numeru to continue oraz i++ zeby trafic na potencjalna literke
           numberEncountered = true;
@@ -211,9 +220,13 @@ export class VerifyingRelatedService {
           currentQuestion++;
         } else if (odpArrNoCommas[i].match(/[^0-9]/g) && !numberEncountered) {
           // jesli jestesmy na znaku - potencjalnej odpowiedzi i napotkalismy wczesniej litere np 10C1B12D
-          numberEncountered = false;
-          arrWithAnswers.push(odpArrNoCommas[i]);
-          currentQuestion++;
+          if (odpArrNoCommas[i] === 'S') {
+            numberEncountered = true;
+          } else {
+            numberEncountered = false;
+            arrWithAnswers.push(odpArrNoCommas[i]);
+            currentQuestion++;
+          }
         } else if (odpArrNoCommas[i].match(/[0-9]/g) && numberEncountered) {
           // jesteśmy na cyfrze a wczesniej juz byla dwucyfrowa liczba.
           if ((odpArrNoCommas[i] + odpArrNoCommas[i + 1]) === (currentQuestion + 2).toString()) {
@@ -226,6 +239,12 @@ export class VerifyingRelatedService {
                 // prawidlowa odpowiedz dla 39 jest A
                 arrWithAnswers.push('A');
                 numberEncountered = false;
+                currentQuestion++;
+                continue;
+              } else {
+                arrWithAnswers.push('N');
+                // cofnij sie o 1 bo teraz tak jakby jestes [i] na nastepnym elemencie!
+                i--;
                 currentQuestion++;
                 continue;
               }

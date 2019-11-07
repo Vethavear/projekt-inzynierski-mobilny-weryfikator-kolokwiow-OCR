@@ -18,7 +18,7 @@ export class HomePage {
     protected vs: VerifyingRelatedService,
     protected ss: StudentRelatedService,
     protected screenOrientation: ScreenOrientation) {
-    this.manipulateArr();
+    // this.manipulateArr();
     this.lockView();
   }
   lockView() {

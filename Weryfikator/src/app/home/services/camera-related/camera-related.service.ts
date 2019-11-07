@@ -6,7 +6,7 @@ import { VerifyingRelatedService } from '../verifying-related/verifying-related.
 import * as CryptoJS from 'crypto-js';
 import { AlertController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
-
+import { Filters } from './filters';
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +19,13 @@ export class CameraRelatedService {
 
   cameraOptions: CameraOptions = {
     // galeria to 0, camera to 1
-    sourceType: 1,
+    sourceType: 0,
     quality: 100,
     destinationType: this.camera.DestinationType.FILE_URI,
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE,
     cameraDirection: 1,
-    correctOrientation: true
+    correctOrientation: true,
   };
   scanResultBlock: string[];
   scanResultLines: any;
@@ -33,6 +33,7 @@ export class CameraRelatedService {
   scanResultBlockSingleString: string;
   rotatedImg: any;
   originalPicture: string;
+  filters = new Filters();
 
   constructor(private barcodeScanner: BarcodeScanner, private camera: Camera,
     private ocr: OCR, public alertController: AlertController,
@@ -43,6 +44,7 @@ export class CameraRelatedService {
       showTorchButton: true,
       showFlipCameraButton: true
     };
+
   }
 
   scanQr() {
@@ -80,8 +82,12 @@ export class CameraRelatedService {
     });
   }
 
+
+
   async doOcr(image) {
     this.scanResultWords = [];
+
+
     this.ocr.recText(0, image)
       .then((res: OCRResult) => {
 

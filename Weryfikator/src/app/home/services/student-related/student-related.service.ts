@@ -4,6 +4,7 @@ import { Network } from '@ionic-native/network/ngx';
 import { QueueComponent } from '../../queue/queue.component';
 import { CameraRelatedService } from '../camera-related/camera-related.service';
 import { CssSelector } from '@angular/compiler';
+import { BOOL_TYPE } from '@angular/compiler/src/output/output_ast';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,6 +20,7 @@ export class StudentRelatedService {
     expectedchars: [],
     positions: [],
   };
+  expandedButtons: boolean[] = [];
 
   constructor(public network: Network) {
     this.retrieveQueueFromLocalStorage();
@@ -51,32 +53,35 @@ export class StudentRelatedService {
       if (element === 'N') {
         this.missedChars.positions.push(index);
         this.missedChars.expectedchars.push(this.currentStudent.correctAnswersArr[index]);
+        this.expandedButtons.push(true);
+        ;
+
       }
     });
+    console.log(this.expandedButtons.toString());
   }
 
-  recalculateStudentsGrade(character, position) {
-    this.currentStudent.answersArr[position] = character;
+  recalculateStudentsGrade(character, position, index) {
+    this.currentStudent.answersArr[position] = character.toString();
     this.calculateStudentPoints(); // DLACZEGO NIE AKTUALIZUJE? XD
+    this.expandButtons(index);
+  }
+
+  expandButtons(index) {
+    console.log('expandbuuttons' + index);
+    console.log(this.expandedButtons[index]);
+    this.expandedButtons[index] = !this.expandedButtons[index];
   }
 
   public calculateStudentPoints() {
-    console.log('poprawne odp')
-    console.log(this.currentStudent.correctAnswersArr.toString());
-    console.log('odp studenta')
-    console.log(this.currentStudent.answersArr.toString());
     let studentPoints = 0;
     const maxPoints = this.currentStudent.correctAnswersArr.length;
     this.currentStudent.correctAnswersArr.forEach((correctAnswer, index) => {
-      console.log(correctAnswer + 'POPRAWNA');
-      console.log(this.currentStudent.answersArr[index] + 'STUDENTA');
       if (correctAnswer === this.currentStudent.answersArr[index]) {
         studentPoints++;
-        console.log(studentPoints);
       }
     });
     this.currentStudent.points = studentPoints;
-    console.log(this.currentStudent.points);
     const studentGainedPercentage = (studentPoints / maxPoints) * 100;
 
     if (studentGainedPercentage < 50) {
