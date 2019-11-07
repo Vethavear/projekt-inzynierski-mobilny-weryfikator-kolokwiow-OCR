@@ -277,10 +277,12 @@ export class VerifyingRelatedService {
       console.log('nie brakuje zadnej odpowiedzi');
       console.log(arrWithAnswers.toString());
       this.studentAnswersArr = arrWithAnswers;
-      this.calculateStudentPoints();
+      this.student.answersArr = this.studentAnswersArr;
+      this.student.correctAnswersArr = this.correctAnswersArr;
+      this.ss.initializeCurrentStudent(this.student);
+      this.qrScanned = false;
     } else {
       this.presentAlertOcr();
-
       console.log(`brakuje ${this.correctAnswersArr.length - arrWithAnswers.length} odpowiedzi`);
     }
 
@@ -307,34 +309,6 @@ export class VerifyingRelatedService {
 
     await alert.present();
   }
-  public calculateStudentPoints() {
-    let studentPoints = 0;
-    const maxPoints = this.correctAnswersArr.length;
-    this.correctAnswersArr.forEach((correctAnswer, index) => {
-      if (correctAnswer === this.studentAnswersArr[index]) {
-        studentPoints++;
-      }
-    });
-    const studentGainedPercentage = (studentPoints / maxPoints) * 100;
 
-    if (studentGainedPercentage < 50) {
-      this.student.grade = 2;
-    } else if (studentGainedPercentage < 62.5) {
-      this.student.grade = 3;
-    } else if (studentGainedPercentage < 75) {
-      this.student.grade = 3.5;
-    } else if (studentGainedPercentage < 87.5) {
-      this.student.grade = 4;
-    } else if (studentGainedPercentage < 90) {
-      this.student.grade = 4.5;
-    } else {
-      this.student.grade = 5;
-    }
-    this.student.points = studentPoints;
-    this.student.answersArr = this.studentAnswersArr;
-    this.student.correctAnswersArr = this.correctAnswersArr;
-    this.ss.initializeCurrentStudent(this.student);
-
-  }
 }
 

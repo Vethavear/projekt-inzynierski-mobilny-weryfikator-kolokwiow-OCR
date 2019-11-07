@@ -13,6 +13,7 @@ export class StudentRelatedService {
   localStorageQueue: string;
   queueShown = false;
   studentShown = false;
+  correctedAnswer = [];
   currentStudent: Student;
   missedChars = {
     expectedchars: [],
@@ -26,6 +27,8 @@ export class StudentRelatedService {
   initializeCurrentStudent(student: Student) {
     this.currentStudent = student;
     this.studentShown = true;
+    this.calculateStudentPoints();
+    this.calculateAndMatchUnrecognisedChars();
   }
 
   removeStudent() {
@@ -50,6 +53,46 @@ export class StudentRelatedService {
         this.missedChars.expectedchars.push(this.currentStudent.correctAnswersArr[index]);
       }
     });
+  }
+
+  recalculateStudentsGrade(character, position) {
+    this.currentStudent.answersArr[position] = character;
+    this.calculateStudentPoints(); // DLACZEGO NIE AKTUALIZUJE? XD
+  }
+
+  public calculateStudentPoints() {
+    console.log('poprawne odp')
+    console.log(this.currentStudent.correctAnswersArr.toString());
+    console.log('odp studenta')
+    console.log(this.currentStudent.answersArr.toString());
+    let studentPoints = 0;
+    const maxPoints = this.currentStudent.correctAnswersArr.length;
+    this.currentStudent.correctAnswersArr.forEach((correctAnswer, index) => {
+      console.log(correctAnswer + 'POPRAWNA');
+      console.log(this.currentStudent.answersArr[index] + 'STUDENTA');
+      if (correctAnswer === this.currentStudent.answersArr[index]) {
+        studentPoints++;
+        console.log(studentPoints);
+      }
+    });
+    this.currentStudent.points = studentPoints;
+    console.log(this.currentStudent.points);
+    const studentGainedPercentage = (studentPoints / maxPoints) * 100;
+
+    if (studentGainedPercentage < 50) {
+      this.currentStudent.grade = 2;
+    } else if (studentGainedPercentage < 62.5) {
+      this.currentStudent.grade = 3;
+    } else if (studentGainedPercentage < 75) {
+      this.currentStudent.grade = 3.5;
+    } else if (studentGainedPercentage < 87.5) {
+      this.currentStudent.grade = 4;
+    } else if (studentGainedPercentage < 90) {
+      this.currentStudent.grade = 4.5;
+    } else {
+      this.currentStudent.grade = 5;
+    }
+
   }
 
   addStudentToQueue() {
