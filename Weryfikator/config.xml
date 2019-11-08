@@ -101,5 +101,7 @@
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <allow-navigation href="http://localhost:8100" sessionid="75c49177" />
     <plugin name="cordova-plugin-network-information" spec="^2.0.2" />
+    <plugin name="cordova-plugin-android-permissions" spec="^1.0.2" />
+    <plugin name="cordova-plugin-file" spec="^6.0.2" />
     <engine name="android" spec="^8.1.0" />
 </widget>

@@ -3,8 +3,9 @@
   <ng-container *ngFor="let student of ss.waitingStudents">
     <ion-item>
       <ion-label>
-        <button class="btn-list">
-          <p>Indeks: {{student.indexNumber}} - {{student.grade}}</p>
+        <button class="btn-list" (click)="this.ss.sendStudentGradeToDb(true,student)">
+          <p>{{student.name}} {{student.surname}} {{student.indexNumber}} - {{student.grade}} ({{student.points}}
+            punktów)</p>
           <ion-icon name="checkbox"></ion-icon>
         </button>
       </ion-label>

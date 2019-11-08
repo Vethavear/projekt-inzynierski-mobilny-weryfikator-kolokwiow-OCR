@@ -9,6 +9,7 @@ export class Student {
   points;
   answersArr;
   correctAnswersArr;
+  examDate;
 
   constructor(iN, gr, name, surname, examName) {
     this.indexNumber = iN;

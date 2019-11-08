@@ -32,7 +32,7 @@ export class VerifyingRelatedService {
 
   }
 
-  public manipulateArr(odpstr) {
+  public manipulateArr(odpstr, image) {
     this.qrScanned = false;
     console.log('MANIPULATE Z OBRAZKA')
     console.log(odpstr.toString());
@@ -203,6 +203,12 @@ export class VerifyingRelatedService {
 
       } else {
         // DLA DWUCYFRFOWYCH
+
+        if (odpArrNoCommas[i] === 'O') {
+          console.log(numberEncountered);
+          console.log(currentQuestion + 1);
+
+        }
         if (i === odpArrNoCommas.length - 1 && odpArrNoCommas[i].match(/[0-9]/g)) {
           arrWithAnswers.push('N');
           break;
@@ -215,12 +221,19 @@ export class VerifyingRelatedService {
           continue;
         } else if (odpArrNoCommas[i].match(/[^0-9]/g) && numberEncountered) {
           // jesli jestesmy na znaku - potencjalnej odpowiedzi i napotkalismy wczesniej numer (zdrowa sytuacja np 10A)
-          numberEncountered = false;
-          arrWithAnswers.push(odpArrNoCommas[i]);
-          currentQuestion++;
+
+          if (odpArrNoCommas[i] === 'O') {
+            numberEncountered = true;
+          } else {
+            numberEncountered = false;
+            arrWithAnswers.push(odpArrNoCommas[i]);
+            currentQuestion++;
+          }
         } else if (odpArrNoCommas[i].match(/[^0-9]/g) && !numberEncountered) {
           // jesli jestesmy na znaku - potencjalnej odpowiedzi i napotkalismy wczesniej litere np 10C1B12D
           if (odpArrNoCommas[i] === 'S') {
+            numberEncountered = true;
+          } else if (odpArrNoCommas[i] === 'O') {
             numberEncountered = true;
           } else {
             numberEncountered = false;

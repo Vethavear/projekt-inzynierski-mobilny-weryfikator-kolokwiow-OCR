@@ -10,6 +10,7 @@ import { QueueComponent } from './queue/queue.component';
 import { InstructionComponent } from './instruction/instruction.component';
 import { CameraComponent } from './camera/camera.component';
 import { StudentComponent } from './student/student.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   imports: [
@@ -27,6 +28,6 @@ import { StudentComponent } from './student/student.component';
       }
     ])
   ],
-  declarations: [HomePage, NavbarComponent, QueueComponent, InstructionComponent, CameraComponent, StudentComponent],
+  declarations: [HomePage, NavbarComponent, QueueComponent, InstructionComponent, CameraComponent, StudentComponent, SettingsComponent],
 })
 export class HomePageModule { }

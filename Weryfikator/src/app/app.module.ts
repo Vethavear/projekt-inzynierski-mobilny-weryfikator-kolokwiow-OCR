@@ -17,13 +17,24 @@ import { OCR, OCRSourceType } from '@ionic-native/ocr/ngx';
 import { CameraPreview } from '@ionic-native/camera-preview/ngx';
 import { DeviceMotion } from '@ionic-native/device-motion/ngx';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { environment } from '../environments/environment';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { DatePipe } from '@angular/common';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireDatabaseModule,
+  ],
   providers: [
     StatusBar,
     SplashScreen,
@@ -32,9 +43,11 @@ import { Diagnostic } from '@ionic-native/diagnostic/ngx';
     CameraPreview,
     ScreenOrientation,
     DeviceMotion,
+    AngularFireStorage,
+    DatePipe,
+    AndroidPermissions,
     Diagnostic,
     Network,
-
     OCR,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

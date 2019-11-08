@@ -16,7 +16,9 @@ export class CameraRelatedService {
   barcodeScannerOptions: BarcodeScannerOptions;
   scanResult;
   capturedSnapURL: string;
-
+  flash;
+  brightness = 0;
+  contrast: 0;
   cameraOptions: CameraOptions = {
     // galeria to 0, camera to 1
     sourceType: 0,
@@ -93,7 +95,7 @@ export class CameraRelatedService {
 
         this.scanResultWords = res.words.wordtext;
         // VerifyingRelatedService.prepareBarcodeData(this.scannedData);
-        this.vrs.manipulateArr(this.scanResultWords.toString());
+        this.vrs.manipulateArr(this.scanResultWords.toString(), image);
       })
       .catch(async (error: any) => {
         this.presentAlertOcr();

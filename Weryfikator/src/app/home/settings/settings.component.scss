@@ -1,0 +1,54 @@
+@import '../../../theme/variables.scss';
+
+
+*:focus {
+  outline: none !important;
+  opacity: 0.9;
+}
+
+
+#wheel {
+  display: flex;
+  width: 100vw;
+  justify-content: flex-end;
+
+  #ds {
+    background: none;
+    font-size: 1.5rem;
+  }
+}
+
+
+
+
+
+.flash {
+  color: black !important;
+}
+
+.buttons {
+
+  display: flex;
+  justify-content: center;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: var(--ion-item-border-color, var(--ion-border-color, var(--ion-color-step-150, rgba(0, 0, 0, 0.13))));
+
+  .btnConfirm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $primary-color;
+    width: 7rem;
+    padding: 0.25rem;
+    margin: 0.5rem;
+    color: $text-color;
+    box-shadow: 0.125rem 0.125rem 0.5rem #ccc;
+  }
+
+  ion-icon {
+    margin-left: 0.25rem;
+    font-size: 1.5rem;
+  }
+
+}

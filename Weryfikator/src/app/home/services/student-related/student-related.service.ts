@@ -1,15 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Student } from './student';
 import { Network } from '@ionic-native/network/ngx';
-import { QueueComponent } from '../../queue/queue.component';
-import { CameraRelatedService } from '../camera-related/camera-related.service';
-import { CssSelector } from '@angular/compiler';
-import { BOOL_TYPE } from '@angular/compiler/src/output/output_ast';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { DatePipe } from '@angular/common';
+import { AlertController } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+
 @Injectable({
   providedIn: 'root'
 })
 export class StudentRelatedService {
-
+  task: AngularFireUploadTask;
+  percentage: Observable<number>;
+  snapshot: Observable<any>;
+  downloadURL: string;
   waitingStudents: Student[] = [];
   localStorageQueue: string;
   queueShown = false;
@@ -20,10 +26,18 @@ export class StudentRelatedService {
     expectedchars: [],
     positions: [],
   };
+  studentsCollection: AngularFirestoreCollection<any>;
   expandedButtons: boolean[] = [];
 
-  constructor(public network: Network) {
+  constructor(private storage: AngularFireStorage,
+    public network: Network,
+    private firestore: AngularFirestore,
+    public diagnostic: Diagnostic,
+    private datePipe: DatePipe,
+    public alertController: AlertController) {
     this.retrieveQueueFromLocalStorage();
+    this.studentsCollection = this.firestore.collection('Students');
+
   }
 
   initializeCurrentStudent(student: Student) {
@@ -40,11 +54,9 @@ export class StudentRelatedService {
   checkInternetConnection() {
     const networkState = this.network.type;
     if (networkState !== this.network.Connection.NONE) {
-      this.sendStudentGradeToDb();
-      console.log('mamy neta');
+      return true;
     } else {
-      this.addStudentToQueue();
-      console.log('nie mamy neta');
+      return false;
     }
   }
 
@@ -54,8 +66,6 @@ export class StudentRelatedService {
         this.missedChars.positions.push(index);
         this.missedChars.expectedchars.push(this.currentStudent.correctAnswersArr[index]);
         this.expandedButtons.push(true);
-        ;
-
       }
     });
     console.log(this.expandedButtons.toString());
@@ -100,15 +110,19 @@ export class StudentRelatedService {
 
   }
 
-  addStudentToQueue() {
+  addStudentToQueue(student: Student) {
     this.studentShown = false;
     this.queueShown = true;
-    this.waitingStudents.push(this.currentStudent);
+    this.waitingStudents.push(student);
+    this.refreshLocalStorage();
+  }
+
+  refreshLocalStorage() {
     localStorage.setItem('queuedStudents', JSON.stringify(this.waitingStudents));
+
   }
 
   retrieveQueueFromLocalStorage() {
-
     const storage = JSON.parse(localStorage.getItem('queuedStudents'));
     // Restoring likes from the localStorage
     if (storage) {
@@ -120,11 +134,72 @@ export class StudentRelatedService {
 
   }
 
-  sendStudentGradeToDb() {
-    //firestore code
-
-    this.studentShown = false;
+  getCurrentDate() {
+    let dateString: string;
+    const myDate = new Date();
+    dateString = this.datePipe.transform(myDate, 'yyyy-MM-dd');
+    return dateString;
   }
 
+
+
+
+  sendStudentGradeToDb(isQueued: boolean, student: Student) {
+
+    student.examDate = this.getCurrentDate();
+
+    if (this.checkInternetConnection()) {
+
+      console.log('uploaded');
+      this.studentsCollection
+        .doc(student.group)
+        .collection('students')
+        .doc(student.indexNumber)
+        .collection('grades')
+        .add({ ...student })
+        .then(success => {
+          console.log('dodano studenta');
+          if (!isQueued) { this.studentShown = false; }
+          if (isQueued) {
+            // remove student from queue,
+            console.log('queued bastard');
+            this.waitingStudents.splice(this.waitingStudents.findIndex(value => value === student), 1);
+            this.refreshLocalStorage();
+          }
+        }).catch(err => {
+          console.log('firestore failed');
+          this.presentAlertNoInternet('Blad bazy danych, student wyslany do kolejki');
+          this.addStudentToQueue(student);
+        });
+
+
+
+    } else if (isQueued) {
+      // do nothing, bro remains in queue cause there is no internet
+      this.presentAlertNoInternet('Brak internetu, student pozostanie w kolejce');
+    } else {
+      this.addStudentToQueue(student);
+      this.presentAlertNoInternet('Brak internetu, student wyslany do kolejki.');
+
+    }
+  }
+
+  async presentAlertNoInternet(string) {
+    const alert = await this.alertController.create({
+      header: 'Error',
+      message: string,
+      buttons: [
+        {
+          text: 'OK',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+          }
+        },
+      ]
+    });
+
+    await alert.present();
+  }
 
 }

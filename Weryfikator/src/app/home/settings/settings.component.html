@@ -1,0 +1,45 @@
+<p id="wheel">
+  <button id="ds" (click)="displaySettings()">
+    <ion-icon name="settings"></ion-icon>
+  </button>
+</p>
+
+<section *ngIf="settingsDisplayed" id="settings">
+  <ion-list>
+    <ion-item>
+      Flash
+      <ion-toggle [(ngModel)]="flash" color="dark"></ion-toggle>
+      <ion-icon class="flash" *ngIf="flash" name="flash"></ion-icon>
+      <ion-icon class="flash" *ngIf="!flash" name="flash-off"></ion-icon>
+    </ion-item>
+
+    <ion-item>
+      <ion-range [(ngModel)]="brightness" min="0" max="100" step="10" snaps="true" color="dark">
+        <ion-icon size="small" slot="start" name="sunny"></ion-icon>
+        <ion-label slot="start">0</ion-label>
+        <ion-label slot="end">100</ion-label>
+        <ion-icon slot="end" name="sunny"></ion-icon>
+      </ion-range>
+    </ion-item>
+
+    <ion-item>
+      <ion-range [(ngModel)]="contrast" min="0" max="100" step="10" snaps="true" color="dark">
+        <ion-icon size="small" slot="start" name="contrast"></ion-icon>
+        <ion-label slot="start">0</ion-label>
+        <ion-label slot="end">100</ion-label>
+        <ion-icon slot="end" name="contrast"></ion-icon>
+      </ion-range>
+    </ion-item>
+
+  </ion-list>
+  <div class="buttons">
+    <button class="btnConfirm" (click)="applySettings()">
+      <p>Zapisz</p>
+      <ion-icon name="checkmark-circle-outline"></ion-icon>
+    </button>
+    <button class="btnConfirm" (click)="displaySettings()">
+      <p>Odrzuć</p>
+      <ion-icon name="close-circle-outline"></ion-icon>
+    </button>
+  </div>
+</section>

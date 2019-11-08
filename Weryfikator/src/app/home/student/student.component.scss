@@ -4,12 +4,42 @@
   outline: none !important;
 }
 
-ion-icon {
-  margin-left: 2rem;
-  font-size: 32px;
+.actions {
+  display: flex;
+  justify-content: center;
+
+  .actionButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $primary-color;
+    width: 10rem;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    color: $text-color;
+    box-shadow: 0.125rem 0.125rem 0.5rem #ccc;
+  }
+
+  .actionsIcons {
+    font-size: 2rem;
+  }
 }
 
 .questionAnswer {
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-items: flex-end;
+
+  #expandicon {
+    font-size: 1.2rem;
+    justify-self: flex-end !important;
+  }
+}
+
+
+.missedAnswers {
   margin-bottom: 1rem;
 }
 
@@ -17,18 +47,21 @@ ion-icon {
   display: flex;
   width: 100%;
   justify-content: space-between;
-  transition: opacity 0.2s ease-in-out !important;
 
-  :active {
-    opacity: 0.9;
-  }
+
 
   .answer {
-    font-size: 1.2rem;
+    font-size: 1rem;
     background-color: $primary-color;
     color: $text-color;
-    padding: 0rem 1rem;
-    padding-bottom: 0.25rem;
+    padding: 0.4rem 0.85rem;
+    box-shadow: 0.125rem 0.125rem 0.5rem #ccc;
+    transition: opacity 0.2s ease-in-out !important;
+
+    :active {
+      border: solid 1px $primary-color;
+      background: none;
+    }
 
   }
 }

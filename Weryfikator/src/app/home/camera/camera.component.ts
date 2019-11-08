@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion/ngx';
 import { Filters } from '../services/camera-related/filters';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @Component({
   selector: 'app-camera',
@@ -22,6 +23,7 @@ export class CameraComponent implements OnInit {
   viewChanged = false;
   filters = new Filters();
   deviceMotionSubscribe;
+
   constructor(
     public navCtrl: NavController,
     protected cameraPreview: CameraPreview,
@@ -29,7 +31,8 @@ export class CameraComponent implements OnInit {
     protected cs: CameraRelatedService,
     protected router: Router,
     public deviceMotion: DeviceMotion,
-    public diagnostic: Diagnostic) {
+    public diagnostic: Diagnostic,
+    private androidPermissions: AndroidPermissions) {
     this.cameraOpts = {
       x: 0,
       y: 0,
@@ -48,15 +51,14 @@ export class CameraComponent implements OnInit {
   async startCamera() {
     this.picture = null;
     const result = await this.cameraPreview.startCamera(this.cameraOpts);
-    this.cameraPreview.setFlashMode('on');
+    this.cameraPreview.setFlashMode(this.cs.flash);
+    console.log(this.cs.flash);
     this.cameraPreview.onBackButton().then(clicked => {
       this.navCtrl.pop();
     });
   }
 
-  switchCamera() {
-    this.cameraPreview.switchCamera();
-  }
+
 
   private changeCameraToMatchCurrOrientation(viewChanged: boolean) {
     this.deviceMotionSubscribe = this.deviceMotion.watchAcceleration({ frequency: 200 })
@@ -239,26 +241,26 @@ export class CameraComponent implements OnInit {
       // grayscale brightness=30 contrast=60 40% skutecznosc
 
       // grayscale
-      for (var i = 0; i < data.length; i += 4) {
-        var avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+      for (let i = 0; i < data.length; i += 4) {
+        let avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
         data[i] = avg; // red
         data[i + 1] = avg; // green
         data[i + 2] = avg; // blue
       }
 
       // brightness
-      let howMuchBright = 30;
-      for (var i = 0; i < data.length; i += 4) {
-        data[i] += howMuchBright;
-        data[i + 1] += howMuchBright;
-        data[i + 2] += howMuchBright;
+
+      for (let i = 0; i < data.length; i += 4) {
+        data[i] += this.cs.brightness;
+        data[i + 1] += this.cs.brightness;
+        data[i + 2] += this.cs.brightness;
       }
 
       // contrast
-      const contrast = 60;
-      var factor = (259.0 * (contrast + 255.0)) / (255.0 * (259.0 - contrast));
 
-      for (var i = 0; i < data.length; i += 4) {
+      let factor = (259.0 * (this.cs.contrast + 255.0)) / (255.0 * (259.0 - this.cs.contrast));
+
+      for (let i = 0; i < data.length; i += 4) {
         data[i] = (factor * (data[i] - 128.0) + 128.0);
         data[i + 1] = (factor * (data[i + 1] - 128.0) + 128.0);
         data[i + 2] = (factor * (data[i + 2] - 128.0) + 128.0);
@@ -279,22 +281,49 @@ export class CameraComponent implements OnInit {
       ctx.scale(2, 2);
       // Get base64 representation of cropped image
       const cropped_img_base64 = canvas.toDataURL('image/png', 1.0);
-
+      await this.diagnostic.requestRuntimePermissions([this.diagnostic.permission.READ_EXTERNAL_STORAGE, this.diagnostic.permission.WRITE_EXTERNAL_STORAGE]);
+      let filePathx;
       const params = { data: cropped_img_base64, prefix: 'kolokwium_', format: 'JPG', quality: 100, mediaScanner: true };
-      await this.diagnostic.requestExternalStorageAuthorization().then(() => {
-        // User gave permission
-      }).catch(error => {
-        // Handle error
-      });
-
       (window as any).imageSaver.saveBase64Image(params,
         (filePath) => {
-          this.cs.capturedSnapURL = this.cs.capturedSnapURL = (window as any).Ionic.WebView.convertFileSrc(filePath);
-          this.cs.doOcr(filePath);
+          this.cs.capturedSnapURL = (window as any).Ionic.WebView.convertFileSrc(filePath);
+          this.cs.doOcr(filePath).then(done => {
+
+            //delete img
+            this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(
+              result => {
+                console.log('Has permission?', result.hasPermission);
+
+                (window as any).resolveLocalFileSystemURL(filePath, function (dirEntry) {
+                  function successHandler() {
+                    console.log('File deleted successfully');
+                  }
+                  function errorHandler() {
+                    console.log('There is some error while deleting file')
+                  }
+                  dirEntry.remove(successHandler, errorHandler);
+                });
+              }).catch(
+                err => {
+                  this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).catch(success => {
+                    (window as any).resolveLocalFileSystemURL(filePath, function (dirEntry) {
+                      function successHandler() {
+                        console.log('File deleted successfully');
+                      }
+                      function errorHandler() {
+                        console.log('There is some error while deleting file')
+                      }
+                      dirEntry.remove(successHandler, errorHandler);
+                    });
+
+                  });
+                }
+              );
+
+          });
           this.cameraPreview.stopCamera();
           this.deviceMotionSubscribe.unsubscribe();
-          console.log('File saved on ' + filePath);
-          // save picture to firestore
+
           this.goBack();
 
         },
@@ -302,18 +331,9 @@ export class CameraComponent implements OnInit {
           console.error(err);
         }
       );
-
-
       // usuwanie z galerii, podaj path
-      // var params = {data: "/data/data/test.png"};
-      // (<any>window)window.imageSaver.removeImageFromLibrary(params,
-      //     function (filePath) {
-      //       console.log('File removed from ' + filePath);
-      //     },
-      //     function (msg) {
-      //       console.error(msg);
-      //     }
-      //   );
+
+
     };
   }
 

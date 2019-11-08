@@ -7,6 +7,7 @@
 </ion-header>
 
 <ion-content ion-padding>
+  <app-settings></app-settings>
   <ng-container *ngIf="!ss.studentShown">
 
     <section class="instruction" *ngIf="!ss.queueShown">
@@ -19,10 +20,6 @@
   <section class="studentsGrade" *ngIf="ss.studentShown">
     <app-student></app-student>
   </section>
-
-
-
-
 
 </ion-content>
 
