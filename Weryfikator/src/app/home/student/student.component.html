@@ -1,8 +1,10 @@
 <div class="container">
   <h1 class="title">Wyniki kolokwium</h1>
-  <h2>{{ss.currentStudent.name}} {{ss.currentStudent.surname}}</h2>
-  <h3>Punkty: {{ss.currentStudent.points}}</h3>
-  <h3>Ocena: {{ss.currentStudent.grade}}</h3>
+  <ng-container *ngIf="ss.currentStudent">
+    <h2>{{ss.currentStudent.name}} {{ss.currentStudent.surname}}</h2>
+    <h3>Punkty: {{ss.currentStudent.points}}</h3>
+    <h3>Ocena: {{ss.currentStudent.grade}}</h3>
+  </ng-container>
   <h3 *ngIf="ss.missedChars">Nie rozpoznanych odpowiedzi: {{ss.missedChars.expectedchars.length}}</h3>
 
   <div class="actions">
@@ -21,11 +23,58 @@
     </h5>
     <ng-container>
       <div class="missedAnswers" *ngFor="let item of ss.missedChars.expectedchars; let i=index">
-        <p class="questionAnswer" (click)="ss.expandButtons(i)" id="question${ss.missedChars.position[i]}">
+        <div class="questionAnswer" (click)="ss.expandButtons(i)" id="question${ss.missedChars.position[i]}">
           Pytanie {{ss.missedChars.positions[i]+1}}: Poprawna odpowiedź: {{item}}
+          <p *ngIf="givenAnswer[i]">Podano: {{givenAnswer[i]}}</p>
           <ion-icon id="expandicon" *ngIf="!ss.expandedButtons[i]" name="list"></ion-icon>
-        </p>
-        <div class="buttons" *ngIf="ss.expandedButtons[i]">
+        </div>
+
+
+        <ion-row *ngIf="ss.expandedButtons[i]" radio-group class="item">
+          <ion-col>
+            <ion-radio color="dark" value="A" (ionSelect)="givenAnswer[i]='A'"
+              (click)="ss.recalculateStudentsGrade('A',ss.missedChars.positions[i], i)">
+            </ion-radio>
+            <ion-label>A</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-radio value="B" (ionSelect)="givenAnswer[i]='B'"
+              (click)="ss.recalculateStudentsGrade('B',ss.missedChars.positions[i], i)"></ion-radio>
+            <ion-label>B</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-radio value="C" (ionSelect)="givenAnswer[i]='C'"
+              (click)="ss.recalculateStudentsGrade('C',ss.missedChars.positions[i], i)"></ion-radio>
+            <ion-label>C</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-radio value="D" (ionSelect)="givenAnswer[i]='D'"
+              (click)="ss.recalculateStudentsGrade('D',ss.missedChars.positions[i], i)"></ion-radio>
+            <ion-label>D</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-radio value="E" (ionSelect)="givenAnswer[i]='E'"
+              (click)="ss.recalculateStudentsGrade('E',ss.missedChars.positions[i], i)"></ion-radio>
+            <ion-label>E</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-radio value="F" (ionSelect)="givenAnswer[i]='F'"
+              (click)="ss.recalculateStudentsGrade('F',ss.missedChars.positions[i], i)"></ion-radio>
+            <ion-label>F</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-radio value="G" (ionSelect)="givenAnswer[i]='G'"
+              (click)="ss.recalculateStudentsGrade('G',ss.missedChars.positions[i], i)"></ion-radio>
+            <ion-label>G</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-radio value="H" (ionSelect)="givenAnswer[i]='H'"
+              (click)="ss.recalculateStudentsGrade('H',ss.missedChars.positions[i], i)"></ion-radio>
+            <ion-label>H</ion-label>
+          </ion-col>
+
+        </ion-row>
+        <!-- <div class="buttons" *ngIf="ss.expandedButtons[i]">
           <button class="answer" (click)="ss.recalculateStudentsGrade('A',ss.missedChars.positions[i], i)">A</button>
           <button class="answer" (click)="ss.recalculateStudentsGrade('B',ss.missedChars.positions[i], i)">B</button>
           <button class="answer" (click)="ss.recalculateStudentsGrade('C',ss.missedChars.positions[i], i)">C</button>
@@ -34,8 +83,7 @@
           <button class="answer" (click)="ss.recalculateStudentsGrade('F',ss.missedChars.positions[i], i)">F</button>
           <button class="answer" (click)="ss.recalculateStudentsGrade('G',ss.missedChars.positions[i], i)">G</button>
           <button class="answer" (click)="ss.recalculateStudentsGrade('H',ss.missedChars.positions[i], i)">H</button>
-
-        </div>
+        </div> -->
         <!-- <ion-select [(ngModel)]="ss.correctedAnswer[i]"
             (ionChange)="ss.recalculateStudentsGrade([ss.correctedAnswer[i]], ss.missedChars.positions[i])"> -->
       </div>

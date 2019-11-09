@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CameraRelatedService } from '../camera-related/camera-related.service';
 import { Student } from '../student-related/student';
-import { stringify } from 'querystring';
 import { StudentRelatedService } from '../student-related/student-related.service';
 import { AlertController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -20,38 +18,54 @@ export class VerifyingRelatedService {
   public prepareBarcodeData(barcodeData: string) {
     this.qrScanned = true;
     const data = barcodeData.split(',');
-    // odp[0], indeks[1], grupa[2], imie[3], nazwisko[4], kolokwium[5]
-    const correctAnswers = data[0];
-    const studentIndexNumber = data[1];
-    const studentGroup = data[2];
-    const studentName = data[3];
-    const studentSurname = data[4];
-    const examName = data[5];
-    this.student = new Student(studentIndexNumber, studentGroup, studentName, studentSurname, examName);
-    this.correctAnswersArr = correctAnswers.split('');
-
+    if (data.length < 6) {
+      // not enough data, QR broken
+      this.presentAlert('Za mało danych z kodu QR. Kod QR uszkodzony. Spróbuj ponownie lub wydrukuj sprawdzian jeszcze raz', true);
+      this.qrScanned = false;
+    } else if (data[0].match(/[^a-h]/ig)) {
+      this.presentAlert('Kod QR uszkodzony. Wydrukuj sprawdzian jeszcze raz', true);
+      this.qrScanned = false;
+    }
+    else {
+      // odp[0], indeks[1], grupa[2], imie[3], nazwisko[4], kolokwium[5]
+      const correctAnswers = data[0];
+      const studentIndexNumber = data[1];
+      const studentGroup = data[2];
+      const studentName = data[3];
+      const studentSurname = data[4];
+      const examName = data[5];
+      this.student = new Student(studentIndexNumber, studentGroup, studentName, studentSurname, examName);
+      this.correctAnswersArr = correctAnswers.split('');
+    }
   }
 
-  public manipulateArr(odpstr, image) {
+  public manipulateArr(odpstr) {
     this.qrScanned = false;
-    console.log('MANIPULATE Z OBRAZKA')
-    console.log(odpstr.toString());
     // const odpstr = '1H,2H,3,A,B5,(6,(7,(BD,D,10E,11,F,12,F,13,G,14,6,15,6,16,A,17,A,18,A,19,B,20B,21,D,22,A,23,B,24,D,25,E,26,F,27,F,28,G,29,6,30,F,31,A,32,D,33,D,34,D,35,E,36,A,37,B,38,B,39,D,40,A';
     // const odpstr = '1H2H3AB5(6(7(BDD';
     const odpArr = odpstr.split(',');
     let odpArrNoCommas = odpArr.join('');
     odpArrNoCommas = odpArrNoCommas.toUpperCase();
-    console.log(odpArrNoCommas);
     // const odpArrNoCommas = odpstr;
     const arrWithAnswers = [];
     let currentQuestion = 0;
     let numberEncountered = false;
     // °
     // dla pojedynczych cyfer:
-
+    console.log(odpArr.toString());
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < odpArrNoCommas.length; i++) {
+      let obecna = odpArrNoCommas[i];
+      let obecnePytanie = currentQuestion + 1;
+      let obecneI = odpArrNoCommas[i];
+      let ip1 = odpArrNoCommas[i + 1];
       if (currentQuestion + 1 <= 9) {
+        //przypadek krancowy jak zaczynamy i nic nie ma
+        if (currentQuestion + 1 === 1 && odpArrNoCommas[i] === '1' && odpArrNoCommas[i + 1] === '2') {
+          arrWithAnswers.push('N');
+          numberEncountered = true;
+          continue;
+        }
 
         if (odpArrNoCommas[i] === (currentQuestion + 1).toString() && !numberEncountered) {
           // jesli jestesmy na cyferce i wczesniej nie spotkalismy numeru to continue
@@ -67,6 +81,8 @@ export class VerifyingRelatedService {
           currentQuestion++;
         } else if (odpArrNoCommas[i].match(/[0-9]/g) && numberEncountered) {
           // jesteśmy na cyfrze a wczesniej juz byla cyfra.
+
+
           if (odpArrNoCommas[i] === (currentQuestion + 2).toString()) {
             // obecna cyfra jest tą następną którą mamy badać. Wniosek: Brakuje odpowiedzi między nimi lub rozpoznano cyfre zamiast słowa
 
@@ -204,11 +220,7 @@ export class VerifyingRelatedService {
       } else {
         // DLA DWUCYFRFOWYCH
 
-        if (odpArrNoCommas[i] === 'O') {
-          console.log(numberEncountered);
-          console.log(currentQuestion + 1);
 
-        }
         if (i === odpArrNoCommas.length - 1 && odpArrNoCommas[i].match(/[0-9]/g)) {
           arrWithAnswers.push('N');
           break;
@@ -314,31 +326,48 @@ export class VerifyingRelatedService {
       this.ss.initializeCurrentStudent(this.student);
       this.qrScanned = false;
     } else {
-      this.presentAlertOcr();
+      this.presentAlert('<strong>Spróbuj jeszcze raz, OCR zwrócił zbyt rozbieżny od pożądanego wynik. Brakuje ${this.correctAnswersArr.length - arrWithAnswers.length} odpowiedzi</strong>', false);
       console.log(`brakuje ${this.correctAnswersArr.length - arrWithAnswers.length} odpowiedzi`);
     }
 
   }
-  async presentAlertOcr() {
-    const alert = await this.alertController.create({
-      header: 'Błąd!',
-      message: 'Message <strong>Ponów robienie zdjęcia, wyniki zbyt rozbieżne od pożądanych</strong>!!!',
-      buttons: [
-        {
-          text: 'Anuluj',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-          }
-        }, {
-          text: 'Zrób zdjęcie',
-          handler: () => {
-            this.router.navigateByUrl('/home/camera');
-          }
-        }
-      ]
-    });
+  async presentAlert(string, qr) {
+    let alert;
+    if (qr) {
+      alert = await this.alertController.create({
+        header: 'Błąd QR',
+        message: string,
+        buttons: [
+          {
+            text: 'OK',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+            }
+          },
+        ]
+      });
+    } else {
+      alert = await this.alertController.create({
+        header: 'Błąd OCR',
+        message: string,
+        buttons: [
+          {
+            text: 'Anuluj',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+            }
+          }, {
 
+            text: 'Zrób zdjęcie',
+            handler: () => {
+              this.router.navigateByUrl('/home/camera');
+            }
+          }
+        ]
+      });
+    }
     await alert.present();
   }
 

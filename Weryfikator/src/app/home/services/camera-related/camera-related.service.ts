@@ -6,7 +6,6 @@ import { VerifyingRelatedService } from '../verifying-related/verifying-related.
 import * as CryptoJS from 'crypto-js';
 import { AlertController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { Filters } from './filters';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +34,6 @@ export class CameraRelatedService {
   scanResultBlockSingleString: string;
   rotatedImg: any;
   originalPicture: string;
-  filters = new Filters();
 
   constructor(private barcodeScanner: BarcodeScanner, private camera: Camera,
     private ocr: OCR, public alertController: AlertController,
@@ -95,7 +93,7 @@ export class CameraRelatedService {
 
         this.scanResultWords = res.words.wordtext;
         // VerifyingRelatedService.prepareBarcodeData(this.scannedData);
-        this.vrs.manipulateArr(this.scanResultWords.toString(), image);
+        this.vrs.manipulateArr(this.scanResultWords.toString());
       })
       .catch(async (error: any) => {
         this.presentAlertOcr();

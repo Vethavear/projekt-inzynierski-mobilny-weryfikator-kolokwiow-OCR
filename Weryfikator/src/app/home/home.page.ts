@@ -4,6 +4,7 @@ import { VerifyingRelatedService } from './services/verifying-related/verifying-
 import { StudentRelatedService } from './services/student-related/student-related.service';
 import { stringify } from 'querystring';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { Platform } from '@ionic/angular';
 
 
 @Component({
@@ -17,12 +18,15 @@ export class HomePage {
   constructor(protected cs: CameraRelatedService,
     protected vs: VerifyingRelatedService,
     protected ss: StudentRelatedService,
-    protected screenOrientation: ScreenOrientation) {
+    protected screenOrientation: ScreenOrientation,
+    public platform: Platform) {
     // this.manipulateArr();
     this.lockView();
   }
   lockView() {
-    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+    if (this.platform.is('mobile')) {
+      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+    }
   }
   // algorytm to obliczenia ile powinien mieć string z odpowiedziami z OCR'a
   calculateOcrResultLength(answersLength) {

@@ -1,13 +1,12 @@
 
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { CameraPreview, CameraPreviewOptions, CameraPreviewPictureOptions } from '@ionic-native/camera-preview/ngx';
 import { CameraRelatedService } from '../services/camera-related/camera-related.service';
 import { Router } from '@angular/router';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion/ngx';
-import { Filters } from '../services/camera-related/filters';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @Component({
@@ -21,7 +20,6 @@ export class CameraComponent implements OnInit {
   cameraOpts: CameraPreviewOptions;
   cameraPictureOpts: CameraPreviewPictureOptions;
   viewChanged = false;
-  filters = new Filters();
   deviceMotionSubscribe;
 
   constructor(
@@ -32,7 +30,8 @@ export class CameraComponent implements OnInit {
     protected router: Router,
     public deviceMotion: DeviceMotion,
     public diagnostic: Diagnostic,
-    private androidPermissions: AndroidPermissions) {
+    private androidPermissions: AndroidPermissions,
+    public platform: Platform) {
     this.cameraOpts = {
       x: 0,
       y: 0,
@@ -66,13 +65,11 @@ export class CameraComponent implements OnInit {
         const cameraIcon = document.getElementById('cameraIcon');
         if (Math.abs(acceleration.x) > Math.abs(acceleration.y)) {
           if (acceleration.x > 0) {
-            console.log('landscape');
             cameraIcon.classList.remove('rotate180');
             cameraIcon.classList.remove('rotate90');
             cameraIcon.classList.remove('rotate-90');
             cameraIcon.classList.add('rotate90');
           } else {
-            console.log('landscape-reversed');
             cameraIcon.classList.remove('rotate180');
             cameraIcon.classList.remove('rotate90');
             cameraIcon.classList.remove('rotate-90');
@@ -81,12 +78,10 @@ export class CameraComponent implements OnInit {
           }
         } else {
           if (acceleration.y > 0) {
-            console.log('portrait');
             cameraIcon.classList.remove('rotate180');
             cameraIcon.classList.remove('rotate90');
             cameraIcon.classList.remove('rotate-90');
           } else {
-            console.log('portrait-reversed');
             cameraIcon.classList.remove('rotate180');
             cameraIcon.classList.remove('rotate90');
             cameraIcon.classList.remove('rotate-90');
@@ -342,13 +337,18 @@ export class CameraComponent implements OnInit {
   }
 
   lockView() {
-    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+    if (this.platform.is('mobile')) {
+      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+    }
   }
 
   ngOnInit() {
-    this.startCamera();
-    this.changeCameraToMatchCurrOrientation(this.viewChanged);
-    this.lockView();
+    this.platform.ready().then(ready => {
+      this.startCamera();
+      this.changeCameraToMatchCurrOrientation(this.viewChanged);
+      this.lockView();
+    });
+
   }
 
 }

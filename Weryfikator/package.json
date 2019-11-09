@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~8.1.2",
     "@angular/platform-browser-dynamic": "~8.1.2",
     "@angular/router": "~8.1.2",
+    "@ionic-native-mocks/screen-orientation": "^2.0.12",
     "@ionic-native/android-permissions": "^5.16.0",
     "@ionic-native/barcode-scanner": "^5.13.0",
     "@ionic-native/base64-to-gallery": "^5.16.0",
@@ -46,7 +47,7 @@
     "cordova-plugin-internet-status": "^1.0.1",
     "cordova-plugin-mobile-ocr": "^3.1.1",
     "cordova-plugin-network-information": "^2.0.2",
-    "cordova-plugin-screen-orientation": "^3.0.2",
+    "cordova-plugin-screen-orientation": "git+https://github.com/apache/cordova-plugin-screen-orientation.git",
     "cordova-plugin-tesseract": "file:cordova-plugin-tesseract",
     "cordova-save-image-gallery": "0.0.26",
     "cordova.plugins.diagnostic": "^5.0.1",
@@ -115,13 +116,13 @@
       "cordova.plugins.diagnostic": {
         "ANDROID_SUPPORT_VERSION": "28.+"
       },
-      "cordova-plugin-screen-orientation": {},
       "cordova-plugin-device-motion": {},
       "cordova-save-image-gallery": {},
       "cordova-plugin-network-information": {},
       "cordova-plugin-tesseract": {},
       "cordova-plugin-android-permissions": {},
-      "cordova-plugin-file": {}
+      "cordova-plugin-file": {},
+      "cordova-plugin-screen-orientation": {}
     },
     "platforms": [
       "android"
