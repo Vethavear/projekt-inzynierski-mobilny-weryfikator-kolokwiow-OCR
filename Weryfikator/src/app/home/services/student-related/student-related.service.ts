@@ -25,6 +25,7 @@ export class StudentRelatedService {
   missedChars = {
     expectedchars: [],
     positions: [],
+    correctedAnswers: []
   };
   studentsCollection: AngularFirestoreCollection<any>;
   expandedButtons: boolean[] = [];

@@ -27,6 +27,9 @@ export class HomePage {
     if (this.platform.is('mobile')) {
       this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
     }
+    //delete this line for tests
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+
   }
   // algorytm to obliczenia ile powinien mieć string z odpowiedziami z OCR'a
   calculateOcrResultLength(answersLength) {

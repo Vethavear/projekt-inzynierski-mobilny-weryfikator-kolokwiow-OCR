@@ -24,15 +24,14 @@
     <ng-container>
       <div class="missedAnswers" *ngFor="let item of ss.missedChars.expectedchars; let i=index">
         <div class="questionAnswer" (click)="ss.expandButtons(i)" id="question${ss.missedChars.position[i]}">
-          Pytanie {{ss.missedChars.positions[i]+1}}: Poprawna odpowiedź: {{item}}
-          <p *ngIf="givenAnswer[i]">Podano: {{givenAnswer[i]}}</p>
+          Pytanie {{ss.missedChars.positions[i]+1}}: {{ss.missedChars.correctedAnswers[i]}}
           <ion-icon id="expandicon" *ngIf="!ss.expandedButtons[i]" name="list"></ion-icon>
         </div>
 
 
         <ion-row *ngIf="ss.expandedButtons[i]" radio-group class="item">
           <ion-col>
-            <ion-radio color="dark" value="A" (ionSelect)="givenAnswer[i]='A'"
+            <ion-radio color="dark" value="A" (ionSelect)="ss.missedChars.correctedAnswers[i]='A'"
               (click)="ss.recalculateStudentsGrade('A',ss.missedChars.positions[i], i)">
             </ion-radio>
             <ion-label>A</ion-label>

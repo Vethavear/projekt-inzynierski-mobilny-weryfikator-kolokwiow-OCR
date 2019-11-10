@@ -68,7 +68,7 @@ export class VerifyingRelatedService {
         }
 
         if (odpArrNoCommas[i] === (currentQuestion + 1).toString() && !numberEncountered) {
-          // jesli jestesmy na cyferce i wczesniej nie spotkalismy numeru to continue
+          // jesli jestesmy na cyferce i wczesniej nie spotkalismy numeru to continue zdrowa sytuacja
           numberEncountered = true;
           continue;
         } else if (odpArrNoCommas[i].match(/[^0-9]/g) && numberEncountered) {
@@ -214,13 +214,22 @@ export class VerifyingRelatedService {
             currentQuestion++;
 
           }
-
+          // CYFRA A WCZESNIEJ BYLA JUZ CYFRA, OBECNIE BADANY ZNAK NIE JEST OBECNIE BADANYM PYTANIEM
+        } else if (odpArrNoCommas[i].match(/[0-9]/g) && !numberEncountered) {
+          // prawdopodobnie nie ma nic miedzy 9 a 10
+          if (odpArrNoCommas[i] === '1' && (currentQuestion + 1) === 9) {
+            i--;
+            //cofnij sie na 1 ponownie, zebys wszedl na dwucyfrowe jako 1 a nie 0
+            arrWithAnswers.push('N');
+            numberEncountered = false;
+            currentQuestion++;
+          }
         }
 
       } else {
         // DLA DWUCYFRFOWYCH
 
-
+        // przypadek krancowy, nie odczytano wartosci dla ostatniego pola w arrayu
         if (i === odpArrNoCommas.length - 1 && odpArrNoCommas[i].match(/[0-9]/g)) {
           arrWithAnswers.push('N');
           break;
@@ -316,6 +325,7 @@ export class VerifyingRelatedService {
         }
       }
     });
+    console.log(odpArrNoCommas);
     console.log(arrWithAnswers.toString());
     if (arrWithAnswers.length === this.correctAnswersArr.length) {
       console.log('nie brakuje zadnej odpowiedzi');

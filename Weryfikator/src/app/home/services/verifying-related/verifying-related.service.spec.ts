@@ -92,9 +92,11 @@ describe('VerifyingRelatedService', () => {
     // spy on alert method, if alert method triggers then something went wrong
     const alertQr = spyOn(service, 'presentAlert').and.callThrough();
     // we're expecting string that could be formatted this way:  odp[0], indeks[1], grupa[2], imie[3], nazwisko[4], kolokwium[5]
-    service.prepareBarcodeData('ABC,100440,grupa2,Adrian,Bury,AplikacjeInternetowe');
+
+    service.prepareBarcodeData('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,100440,grupa2,Adrian,Bury,AplikacjeInternetowe');
     expect(alertQr).not.toHaveBeenCalled();
-    service.manipulateArr('123');
+    // 1A2B3DA5C6B7D8A1011B12A13C1415A16C17B18D19B20A21D22A23C24B2526A27B28C29D3031A32B33343536A37A38D39A40B
+    service.manipulateArr('1A2B3DA5C6B7D8A1011B12A13C1415A16C17B18D19B20A21D22A23C24B2526A27B28C29D3031A32B33343536A37A38D39A40B');
     expect(alertQr).not.toHaveBeenCalled();
   }));
 
