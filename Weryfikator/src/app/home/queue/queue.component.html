@@ -4,9 +4,9 @@
     <ion-item>
       <ion-label>
         <button class="btn-list" (click)="this.ss.sendStudentGradeToDb(true,student)">
-          <p>{{student.name}} {{student.surname}} {{student.indexNumber}} - {{student.grade}} ({{student.points}}
-            punktów)</p>
-          <ion-icon name="checkbox"></ion-icon>
+          <p>{{student.name[0]}}. {{student.surname}} {{student.indexNumber}} - {{student.grade}} ({{student.points}}
+            p.)</p>
+          <ion-icon id="checkbox" name="checkbox"></ion-icon>
         </button>
       </ion-label>
     </ion-item>

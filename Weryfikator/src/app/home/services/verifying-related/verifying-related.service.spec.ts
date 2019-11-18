@@ -83,7 +83,7 @@ describe('VerifyingRelatedService', () => {
     // we're expecting string that could be formatted this way:  odp[0], indeks[1], grupa[2], imie[3], nazwisko[4], kolokwium[5]
     service.prepareBarcodeData('ABC,100440,grupa2,Adrian,Bury,AplikacjeInternetowe');
     expect(alertQr).not.toHaveBeenCalled();
-    service.manipulateArr('1A2B3C');
+    service.correctDataFromOCR('1A2B3C');
     expect(alertQr).not.toHaveBeenCalled();
   }));
 
@@ -95,8 +95,11 @@ describe('VerifyingRelatedService', () => {
 
     service.prepareBarcodeData('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,100440,grupa2,Adrian,Bury,AplikacjeInternetowe');
     expect(alertQr).not.toHaveBeenCalled();
-    // 1A2B3DA5C6B7D8A1011B12A13C1415A16C17B18D19B20A21D22A23C24B2526A27B28C29D3031A32B33343536A37A38D39A40B
-    service.manipulateArr('1A2B3DA5C6B7D8A1011B12A13C1415A16C17B18D19B20A21D22A23C24B2526A27B28C29D3031A32B33343536A37A38D39A40B');
+    // 1A2B3DA5C6B7D8A1011B12A13C1415A16C17B18D19B20A21D22A23C24B2526A27B28C29D3031A32B33343536A37A38D39A40B - done
+    // 1A2B3D4A56B7D89A10C11B12A13C14C15A16C17B18D19B20AA21D22A2324B2526A27B28C29D3031A32B333435C36A37A38D3940B - done
+    // 1A2B3D4A5C6B7D811B12A131415A16C17B18D19B20A21D22A23C24B2526A2728C29309A1031A32333435C36A37A38D39A40B - unrepairable, cause: 7D811B 
+    // 1A2B3D4A56B7D89A10C11B12A13C14C15A16C17B18D19B20A21D22A2324B2526A2728C29D30C31A32B3334B3636A37438D3940B - tbd
+    service.correctDataFromOCR('1A2B3D4A56B7D89A10C11B12A13C14C15A16C17B18D19B20A21D22A2324B2526A2728C29D30C31A32B3334B3636A37438D3940B');
     expect(alertQr).not.toHaveBeenCalled();
   }));
 
@@ -107,7 +110,7 @@ describe('VerifyingRelatedService', () => {
     // we're expecting string that could be formatted this way:  odp[0], indeks[1], grupa[2], imie[3], nazwisko[4], kolokwium[5]
     service.prepareBarcodeData('ABC,100440,grupa2,Adrian,Bury,AplikacjeInternetowe');
     expect(alertQr).not.toHaveBeenCalled();
-    service.manipulateArr('1A2B3C4WROOOONG');
+    service.correctDataFromOCR('1A2B3C4WROOOONG');
     expect(alertQr).toHaveBeenCalled();
   }));
 

@@ -7,23 +7,22 @@ import { CameraRelatedService } from '../services/camera-related/camera-related.
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
-  settingsDisplayed = false;
-  brightness;
-  contrast;
-  flash;
-  constructor(public cs: CameraRelatedService) {
+  protected settingsDisplayed = false;
+  protected brightness;
+  protected contrast;
+  protected flash;
+  constructor(protected cs: CameraRelatedService) {
     this.fetchLocalStorageData();
   }
 
   ngOnInit() {
-
   }
 
   displaySettings() {
     this.settingsDisplayed = !this.settingsDisplayed;
   }
 
-  applySettings() {
+  applyAndSaveSettings() {
     let settings = [];
     settings.push(this.flash, this.brightness, this.contrast);
     localStorage.setItem('settings', JSON.stringify(settings));

@@ -11,15 +11,12 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class CameraRelatedService {
-  scannedData: string;
-  barcodeScannerOptions: BarcodeScannerOptions;
-  scanResult;
-  capturedSnapURL: string;
+  dataFromQr: string;
   flash;
   brightness = 0;
   contrast: 0;
   cameraOptions: CameraOptions = {
-    // galeria to 0, camera to 1
+    // gallery is  0, camera is 1
     sourceType: 0,
     quality: 100,
     destinationType: this.camera.DestinationType.FILE_URI,
@@ -28,22 +25,18 @@ export class CameraRelatedService {
     cameraDirection: 1,
     correctOrientation: true,
   };
-  scanResultBlock: string[];
-  scanResultLines: any;
+  barcodeScannerOptions: BarcodeScannerOptions = {
+    showTorchButton: true,
+    showFlipCameraButton: true
+  };
   scanResultWords: string[];
-  scanResultBlockSingleString: string;
-  rotatedImg: any;
-  originalPicture: string;
 
   constructor(private barcodeScanner: BarcodeScanner, private camera: Camera,
     private ocr: OCR, public alertController: AlertController,
     public router: Router,
     public vrs: VerifyingRelatedService) {
     // Options
-    this.barcodeScannerOptions = {
-      showTorchButton: true,
-      showFlipCameraButton: true
-    };
+
 
   }
 
@@ -54,9 +47,9 @@ export class CameraRelatedService {
         try {
           const bytes = CryptoJS.AES.decrypt(barcodeData.text, 'testmaker-inz');
           if (bytes.toString()) {
-            this.scannedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-            this.vrs.prepareBarcodeData(this.scannedData);
-            console.log(this.scannedData);
+            this.dataFromQr = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+            this.vrs.prepareBarcodeData(this.dataFromQr);
+            console.log(this.dataFromQr);
             console.log(this.vrs.qrScanned);
             this.vrs.qrScanned = true;
           }
@@ -72,28 +65,22 @@ export class CameraRelatedService {
   }
 
   async takeSnap() {
+    // backup function if somehow Camera Component would stop working. It is just calling device native camera.
     await this.camera.getPicture(this.cameraOptions).then((imageData) => {
       // sciezka do zapisanych zdjec
       console.log(imageData);
-      this.capturedSnapURL = (window as any).Ionic.WebView.convertFileSrc(imageData);
       this.doOcr(imageData);
     }, (err) => {
       console.log(err);
     });
   }
 
-
-
   async doOcr(image) {
     this.scanResultWords = [];
-
-
     this.ocr.recText(0, image)
       .then((res: OCRResult) => {
-
         this.scanResultWords = res.words.wordtext;
-        // VerifyingRelatedService.prepareBarcodeData(this.scannedData);
-        this.vrs.manipulateArr(this.scanResultWords.toString());
+        this.vrs.correctDataFromOCR(this.scanResultWords.toString());
       })
       .catch(async (error: any) => {
         this.presentAlertOcr();

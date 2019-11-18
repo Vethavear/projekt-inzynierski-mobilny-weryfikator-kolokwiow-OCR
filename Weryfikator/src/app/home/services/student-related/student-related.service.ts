@@ -6,21 +6,15 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { DatePipe } from '@angular/common';
 import { AlertController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StudentRelatedService {
-  task: AngularFireUploadTask;
-  percentage: Observable<number>;
-  snapshot: Observable<any>;
-  downloadURL: string;
   waitingStudents: Student[] = [];
   localStorageQueue: string;
   queueShown = false;
   studentShown = false;
-  correctedAnswer = [];
   currentStudent: Student;
   missedChars = {
     expectedchars: [],
@@ -33,7 +27,6 @@ export class StudentRelatedService {
   constructor(private storage: AngularFireStorage,
     public network: Network,
     private firestore: AngularFirestore,
-    public diagnostic: Diagnostic,
     private datePipe: DatePipe,
     public alertController: AlertController) {
     this.retrieveQueueFromLocalStorage();
@@ -74,7 +67,7 @@ export class StudentRelatedService {
 
   recalculateStudentsGrade(character, position, index) {
     this.currentStudent.answersArr[position] = character.toString();
-    this.calculateStudentPoints(); // DLACZEGO NIE AKTUALIZUJE? XD
+    this.calculateStudentPoints();
     this.expandButtons(index);
   }
 
@@ -120,19 +113,17 @@ export class StudentRelatedService {
 
   refreshLocalStorage() {
     localStorage.setItem('queuedStudents', JSON.stringify(this.waitingStudents));
-
   }
 
   retrieveQueueFromLocalStorage() {
     const storage = JSON.parse(localStorage.getItem('queuedStudents'));
-    // Restoring likes from the localStorage
     if (storage) {
       this.waitingStudents = storage;
     }
   }
+
   showQueue() {
     this.queueShown = !this.queueShown;
-
   }
 
   getCurrentDate() {
@@ -142,39 +133,35 @@ export class StudentRelatedService {
     return dateString;
   }
 
-
-
-
   sendStudentGradeToDb(isQueued: boolean, student: Student) {
-
     student.examDate = this.getCurrentDate();
-
     if (this.checkInternetConnection()) {
-
-      console.log('uploaded');
+      student.examDate, student.grade, student.indexNumber, student.examName, student.points, student.examName
       this.studentsCollection
         .doc(student.group)
         .collection('students')
         .doc(student.indexNumber)
         .collection('grades')
-        .add({ ...student })
+        .add({
+          date: student.examDate,
+          grade: student.grade,
+          id: student.indexNumber,
+          name: student.examName,
+          points: student.points,
+          correctAnswers: student.correctAnswersArr,
+          studentAnswers: student.answersArr
+        })
         .then(success => {
-          console.log('dodano studenta');
           if (!isQueued) { this.studentShown = false; }
           if (isQueued) {
             // remove student from queue,
-            console.log('queued bastard');
             this.waitingStudents.splice(this.waitingStudents.findIndex(value => value === student), 1);
             this.refreshLocalStorage();
           }
         }).catch(err => {
-          console.log('firestore failed');
-          this.presentAlertNoInternet('Blad bazy danych, student wyslany do kolejki');
+          this.presentAlertNoInternet('Bląd bazy danych, student wysłany do kolejki');
           this.addStudentToQueue(student);
         });
-
-
-
     } else if (isQueued) {
       // do nothing, bro remains in queue cause there is no internet
       this.presentAlertNoInternet('Brak internetu, student pozostanie w kolejce');
@@ -183,11 +170,12 @@ export class StudentRelatedService {
       this.presentAlertNoInternet('Brak internetu, student wyslany do kolejki.');
 
     }
+    this.expandedButtons = [];
   }
 
   async presentAlertNoInternet(string) {
     const alert = await this.alertController.create({
-      header: 'Error',
+      header: 'Błąd',
       message: string,
       buttons: [
         {

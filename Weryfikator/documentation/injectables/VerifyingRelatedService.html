@@ -1,0 +1,1091 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Weryfikator documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Weryfikator documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>VerifyingRelatedService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/home/services/verifying-related/verifying-related.service.ts</code>
+        </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#alertController">alertController</a>
+                            </li>
+                            <li>
+                                <a href="#correctAnswersArr">correctAnswersArr</a>
+                            </li>
+                            <li>
+                                <a href="#qrScanned">qrScanned</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#router">router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#ss">ss</a>
+                            </li>
+                            <li>
+                                <a href="#student">student</a>
+                            </li>
+                            <li>
+                                <a href="#studentAnswersArr">studentAnswersArr</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#manipulateArr">manipulateArr</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#prepareBarcodeData">prepareBarcodeData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#presentAlert">presentAlert</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(ss: <a href="../injectables/StudentRelatedService.html">StudentRelatedService</a>, alertController: AlertController, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/home/services/verifying-related/verifying-related.service.ts:13</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>ss</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/StudentRelatedService.html" target="_self" >StudentRelatedService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>alertController</td>
+                                                  
+                                                        <td>
+                                                                    <code>AlertController</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="manipulateArr"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            manipulateArr
+                        </b>
+                        <a href="#manipulateArr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>manipulateArr(odpstr)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">src/app/home/services/verifying-related/verifying-related.service.ts:42</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>odpstr</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="prepareBarcodeData"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            prepareBarcodeData
+                        </b>
+                        <a href="#prepareBarcodeData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>prepareBarcodeData(barcodeData: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">src/app/home/services/verifying-related/verifying-related.service.ts:18</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>barcodeData</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="presentAlert"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            presentAlert
+                        </b>
+                        <a href="#presentAlert"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>presentAlert(string, qr)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="344"
+                            class="link-to-prism">src/app/home/services/verifying-related/verifying-related.service.ts:344</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>string</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>qr</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="alertController"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            alertController</b>
+                            <a href="#alertController"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>AlertController</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/home/services/verifying-related/verifying-related.service.ts:14</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="correctAnswersArr"></a>
+                        <span class="name">
+                            <b>
+                            correctAnswersArr</b>
+                            <a href="#correctAnswersArr"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>string[]</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/home/services/verifying-related/verifying-related.service.ts:10</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="qrScanned"></a>
+                        <span class="name">
+                            <b>
+                            qrScanned</b>
+                            <a href="#qrScanned"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/home/services/verifying-related/verifying-related.service.ts:13</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="router"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            router</b>
+                            <a href="#router"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/home/services/verifying-related/verifying-related.service.ts:14</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ss"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            ss</b>
+                            <a href="#ss"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../injectables/StudentRelatedService.html" target="_self" >StudentRelatedService</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/home/services/verifying-related/verifying-related.service.ts:14</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="student"></a>
+                        <span class="name">
+                            <b>
+                            student</b>
+                            <a href="#student"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/Student.html" target="_self" >Student</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/home/services/verifying-related/verifying-related.service.ts:12</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="studentAnswersArr"></a>
+                        <span class="name">
+                            <b>
+                            studentAnswersArr</b>
+                            <a href="#studentAnswersArr"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>string[]</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/home/services/verifying-related/verifying-related.service.ts:11</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Student } from &#x27;../student-related/student&#x27;;
+import { StudentRelatedService } from &#x27;../student-related/student-related.service&#x27;;
+import { AlertController, NavController } from &#x27;@ionic/angular&#x27;;
+import { Router } from &#x27;@angular/router&#x27;;
+@Injectable({
+  providedIn: &#x27;root&#x27;
+})
+export class VerifyingRelatedService {
+  correctAnswersArr: string[];
+  studentAnswersArr: string[];
+  student: Student;
+  qrScanned: boolean &#x3D; false;
+  constructor(public ss: StudentRelatedService, public alertController: AlertController, public router: Router) {
+  }
+
+
+  public prepareBarcodeData(barcodeData: string) {
+    this.qrScanned &#x3D; true;
+    const data &#x3D; barcodeData.split(&#x27;,&#x27;);
+    if (data.length &lt; 6) {
+      // not enough data, QR broken
+      this.presentAlert(&#x27;Za mało danych z kodu QR. Kod QR uszkodzony. Spróbuj ponownie lub wydrukuj sprawdzian jeszcze raz&#x27;, true);
+      this.qrScanned &#x3D; false;
+    } else if (data[0].match(/[^a-h]/ig)) {
+      this.presentAlert(&#x27;Kod QR uszkodzony. Wydrukuj sprawdzian jeszcze raz&#x27;, true);
+      this.qrScanned &#x3D; false;
+    }
+    else {
+      // odp[0], indeks[1], grupa[2], imie[3], nazwisko[4], kolokwium[5]
+      const correctAnswers &#x3D; data[0];
+      const studentIndexNumber &#x3D; data[1];
+      const studentGroup &#x3D; data[2];
+      const studentName &#x3D; data[3];
+      const studentSurname &#x3D; data[4];
+      const examName &#x3D; data[5];
+      this.student &#x3D; new Student(studentIndexNumber, studentGroup, studentName, studentSurname, examName);
+      this.correctAnswersArr &#x3D; correctAnswers.split(&#x27;&#x27;);
+    }
+  }
+
+  public manipulateArr(odpstr) {
+    this.qrScanned &#x3D; false;
+    // const odpstr &#x3D; &#x27;1H,2H,3,A,B5,(6,(7,(BD,D,10E,11,F,12,F,13,G,14,6,15,6,16,A,17,A,18,A,19,B,20B,21,D,22,A,23,B,24,D,25,E,26,F,27,F,28,G,29,6,30,F,31,A,32,D,33,D,34,D,35,E,36,A,37,B,38,B,39,D,40,A&#x27;;
+    // const odpstr &#x3D; &#x27;1H2H3AB5(6(7(BDD&#x27;;
+    const odpArr &#x3D; odpstr.split(&#x27;,&#x27;);
+    let odpArrNoCommas &#x3D; odpArr.join(&#x27;&#x27;);
+    odpArrNoCommas &#x3D; odpArrNoCommas.toUpperCase();
+    // const odpArrNoCommas &#x3D; odpstr;
+    const arrWithAnswers &#x3D; [];
+    let currentQuestion &#x3D; 0;
+    let numberEncountered &#x3D; false;
+    // °
+    // dla pojedynczych cyfer:
+    console.log(odpArr.toString());
+    // tslint:disable-next-line: prefer-for-of
+    for (let i &#x3D; 0; i &lt; odpArrNoCommas.length; i++) {
+      let obecna &#x3D; odpArrNoCommas[i];
+      let obecnePytanie &#x3D; currentQuestion + 1;
+      let obecneI &#x3D; odpArrNoCommas[i];
+      let ip1 &#x3D; odpArrNoCommas[i + 1];
+      if (currentQuestion + 1 &lt;&#x3D; 9) {
+        //przypadek krancowy jak zaczynamy i nic nie ma
+        if (currentQuestion + 1 &#x3D;&#x3D;&#x3D; 1 &amp;&amp; odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;1&#x27; &amp;&amp; odpArrNoCommas[i + 1] &#x3D;&#x3D;&#x3D; &#x27;2&#x27;) {
+          arrWithAnswers.push(&#x27;N&#x27;);
+          numberEncountered &#x3D; true;
+          continue;
+        }
+
+        if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; (currentQuestion + 1).toString() &amp;&amp; !numberEncountered) {
+          // jesli jestesmy na cyferce i wczesniej nie spotkalismy numeru to continue zdrowa sytuacja
+          numberEncountered &#x3D; true;
+          continue;
+        } else if (odpArrNoCommas[i].match(/[^0-9]/g) &amp;&amp; numberEncountered) {
+          // jesli jestesmy na znaku - potencjalnej odpowiedzi i napotkalismy wczesniej numer (zdrowa sytuacja np 1A)
+          numberEncountered &#x3D; false;
+          arrWithAnswers.push(odpArrNoCommas[i]);
+          if (currentQuestion + 1 &#x3D;&#x3D;&#x3D; 9) {
+
+          }
+          currentQuestion++;
+        } else if (odpArrNoCommas[i].match(/[0-9]/g) &amp;&amp; numberEncountered) {
+          // jesteśmy na cyfrze a wczesniej juz byla cyfra.
+
+
+          if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; (currentQuestion + 2).toString()) {
+            // obecna cyfra jest tą następną którą mamy badać. Wniosek: Brakuje odpowiedzi między nimi lub rozpoznano cyfre zamiast słowa
+
+            // jesli cyfry ktore mogly zostac omylnie rozpoznane są w poblizu:
+            if (currentQuestion + 1 &#x3D;&#x3D;&#x3D; 3) {
+              // jesli jestesmy na 3, sprawdz czy obecna jest 4 i czy nastepna jest 4
+              if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;4&#x27; &amp;&amp; odpArrNoCommas[i + 1] &#x3D;&#x3D;&#x3D; &#x27;4&#x27;) {
+                // prawidlowa odpowiedz dla 3 jest A
+                arrWithAnswers.push(&#x27;A&#x27;);
+                numberEncountered &#x3D; false;
+                currentQuestion++;
+                continue;
+              } else {
+                // obecnie mamy 4 w [i] a 3 w curr question czyli wstaw n bo nie ma
+                arrWithAnswers.push(&#x27;N&#x27;);
+                numberEncountered &#x3D; true;
+                currentQuestion++;
+              }
+            } else if (currentQuestion + 1 &#x3D;&#x3D;&#x3D; 5) {
+              // jesli jestesmy na 5, sprawdz czy obecna jest 6 i czy nastepna jest 6
+              if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;6&#x27; &amp;&amp; odpArrNoCommas[i + 1] &#x3D;&#x3D;&#x3D; &#x27;6&#x27;) {
+                // prawidlowa odpowiedz dla 5 jest G
+                arrWithAnswers.push(&#x27;G&#x27;);
+                numberEncountered &#x3D; false;
+                currentQuestion++;
+                continue;
+              } else {
+                // obecnie mamy 6 w [i] a 5 w curr question czyli wstaw n bo nie ma
+                arrWithAnswers.push(&#x27;N&#x27;);
+                numberEncountered &#x3D; true;
+                currentQuestion++;
+              }
+            } else if (currentQuestion + 1 &#x3D;&#x3D;&#x3D; 7) {
+              // jesli jestesmy na 7, sprawdz czy obecna jest 8 i czy nastepna jest 8
+              if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;8&#x27; &amp;&amp; odpArrNoCommas[i + 1] &#x3D;&#x3D;&#x3D; &#x27;8&#x27;) {
+                // prawidlowa odpowiedz dla 7 jest B
+                arrWithAnswers.push(&#x27;B&#x27;);
+                numberEncountered &#x3D; false;
+                currentQuestion++;
+                continue;
+              } else {
+                // obecnie mamy 8 w [i] a 7 w curr question czyli wstaw n bo nie ma
+                arrWithAnswers.push(&#x27;N&#x27;);
+                numberEncountered &#x3D; true;
+                currentQuestion++;
+              }
+            } else {
+              // nie jest to zaden z powyzszych przypadkow wiec po prostu brakuje tu odpowiedzi, push N
+              arrWithAnswers.push(&#x27;N&#x27;);
+              numberEncountered &#x3D; true;
+              currentQuestion++;
+              continue;
+            }
+          } else {
+            if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;4&#x27;) {
+              arrWithAnswers.push(&#x27;A&#x27;);
+              numberEncountered &#x3D; false;
+              currentQuestion++;
+            } else if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;6&#x27;) {
+              arrWithAnswers.push(&#x27;G&#x27;);
+              numberEncountered &#x3D; false;
+              currentQuestion++;
+            } else if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;8&#x27;) {
+              arrWithAnswers.push(&#x27;B&#x27;);
+              numberEncountered &#x3D; false;
+              currentQuestion++;
+            }
+          }
+          // CYFRY ODCZYTANE JAKO LITERY
+        } else if (odpArrNoCommas[i].match(/[^0-9]/g) &amp;&amp; !numberEncountered) {
+          // jestesmy na literce a wczesniej byla juz literka
+          // ABCDEFGHA
+          // jesli cyfry ktore mogly zostac omylnie rozpoznane są w poblizu:
+          if (currentQuestion + 1 &#x3D;&#x3D;&#x3D; 4) {
+            // jesli jestesmy na 4, sprawdz czy nastepna jest literka, jesli tak to mamy czworke jako A
+            if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;A&#x27; &amp;&amp; odpArrNoCommas[i + 1].match(/[^0-9]/g)) {
+              // skipujemy tą A, to jest 4 więc nie pushujemy
+              // CO W SYTUACJI KIEDY ODCZYTALO SAME LITERKI?
+              numberEncountered &#x3D; true;
+              continue;
+            } else {
+              numberEncountered &#x3D; false;
+              arrWithAnswers.push(odpArrNoCommas[i]);
+              currentQuestion++;
+            }
+          } else if (currentQuestion + 1 &#x3D;&#x3D;&#x3D; 5) {
+            // jesli jestesmy na 5, sprawdz czy nastepna jest literka, jesli tak to mamy 5 jako S
+            if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;S&#x27; &amp;&amp; odpArrNoCommas[i + 1].match(/[^0-9]/g)) {
+              // skipujemy tą S, to jest 5 więc nie pushujemy
+              numberEncountered &#x3D; true;
+              continue;
+            } else {
+              numberEncountered &#x3D; false;
+              arrWithAnswers.push(odpArrNoCommas[i]);
+              currentQuestion++;
+            }
+          } else if (currentQuestion + 1 &#x3D;&#x3D;&#x3D; 8) {
+            // jesli jestesmy na 8, sprawdz czy nastepna jest literka, jesli tak to mamy 8 jako B
+            if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;B&#x27; &amp;&amp; odpArrNoCommas[i + 1].match(/[^0-9]/g)) {
+              // skipujemy tą B, to jest 8 więc nie pushujemy
+              numberEncountered &#x3D; true;
+              continue;
+            } else {
+              numberEncountered &#x3D; false;
+              arrWithAnswers.push(odpArrNoCommas[i]);
+              currentQuestion++;
+            }
+
+          } else if (currentQuestion + 1 &#x3D;&#x3D;&#x3D; 9) {
+            // jesli jestesmy na 9, sprawdz czy nastepna jest literka, jesli tak to mamy 9 jako °
+            if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;°&#x27; &amp;&amp; odpArrNoCommas[i + 1].match(/[^0-9]/g)) {
+              // skipujemy tą B, to jest 8 więc nie pushujemy
+              numberEncountered &#x3D; true;
+              continue;
+            } else if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;O&#x27; &amp;&amp; odpArrNoCommas[i + 1].match(/[^0-9]/g)) {
+              // skipujemy tą B, to jest 8 więc nie pushujemy
+              numberEncountered &#x3D; true;
+              continue;
+            } else {
+              numberEncountered &#x3D; false;
+              arrWithAnswers.push(odpArrNoCommas[i]);
+              currentQuestion++;
+            }
+
+          } else {
+            // Wczesniej byla literka, OCR nie odczytal blednie 4 albo 8 wiec po prostu nie odczytal cyfry, push
+            numberEncountered &#x3D; false;
+            arrWithAnswers.push(odpArrNoCommas[i]);
+            currentQuestion++;
+
+          }
+          // CYFRA A WCZESNIEJ BYLA JUZ CYFRA, OBECNIE BADANY ZNAK NIE JEST OBECNIE BADANYM PYTANIEM
+        } else if (odpArrNoCommas[i].match(/[0-9]/g) &amp;&amp; !numberEncountered) {
+          // prawdopodobnie nie ma nic miedzy 9 a 10
+          if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;1&#x27; &amp;&amp; (currentQuestion + 1) &#x3D;&#x3D;&#x3D; 9) {
+            i--;
+            //cofnij sie na 1 ponownie, zebys wszedl na dwucyfrowe jako 1 a nie 0
+            arrWithAnswers.push(&#x27;N&#x27;);
+            numberEncountered &#x3D; false;
+            currentQuestion++;
+          }
+        }
+
+      } else {
+        // DLA DWUCYFRFOWYCH
+
+        // przypadek krancowy, nie odczytano wartosci dla ostatniego pola w arrayu
+        if (i &#x3D;&#x3D;&#x3D; odpArrNoCommas.length - 1 &amp;&amp; odpArrNoCommas[i].match(/[0-9]/g)) {
+          arrWithAnswers.push(&#x27;N&#x27;);
+          break;
+        }
+
+        if ((odpArrNoCommas[i] + odpArrNoCommas[i + 1]) &#x3D;&#x3D;&#x3D; (currentQuestion + 1).toString() &amp;&amp; !numberEncountered) {
+          // jesli jestesmy na dwucyfrowej liczbie i wczesniej nie spotkalismy numeru to continue oraz i++ zeby trafic na potencjalna literke
+          numberEncountered &#x3D; true;
+          i++;
+          continue;
+        } else if (odpArrNoCommas[i].match(/[^0-9]/g) &amp;&amp; numberEncountered) {
+          // jesli jestesmy na znaku - potencjalnej odpowiedzi i napotkalismy wczesniej numer (zdrowa sytuacja np 10A)
+
+          if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;O&#x27;) {
+            numberEncountered &#x3D; true;
+          } else {
+            numberEncountered &#x3D; false;
+            arrWithAnswers.push(odpArrNoCommas[i]);
+            currentQuestion++;
+          }
+        } else if (odpArrNoCommas[i].match(/[^0-9]/g) &amp;&amp; !numberEncountered) {
+          // jesli jestesmy na znaku - potencjalnej odpowiedzi i napotkalismy wczesniej litere np 10C1B12D
+          if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;S&#x27;) {
+            numberEncountered &#x3D; true;
+          } else if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;O&#x27;) {
+            numberEncountered &#x3D; true;
+          } else {
+            numberEncountered &#x3D; false;
+            arrWithAnswers.push(odpArrNoCommas[i]);
+            currentQuestion++;
+          }
+        } else if (odpArrNoCommas[i].match(/[0-9]/g) &amp;&amp; numberEncountered) {
+          // jesteśmy na cyfrze a wczesniej juz byla dwucyfrowa liczba.
+          if ((odpArrNoCommas[i] + odpArrNoCommas[i + 1]) &#x3D;&#x3D;&#x3D; (currentQuestion + 2).toString()) {
+            // obecna cyfra jest tą następną którą mamy badać. Wniosek: Brakuje odpowiedzi między nimi lub rozpoznano cyfre zamiast słowa
+
+            // jesli cyfry ktore mogly zostac omylnie rozpoznane są w poblizu:
+            if (currentQuestion + 1 &#x3D;&#x3D;&#x3D; 39) {
+              // jesli jestesmy na 39, sprawdz czy obecna jest 4 i czy nastepna jest 4 (4 jako x[0] z 40)
+              if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;4&#x27; &amp;&amp; odpArrNoCommas[i + 1] &#x3D;&#x3D;&#x3D; &#x27;4&#x27;) {
+                // prawidlowa odpowiedz dla 39 jest A
+                arrWithAnswers.push(&#x27;A&#x27;);
+                numberEncountered &#x3D; false;
+                currentQuestion++;
+                continue;
+              } else {
+                arrWithAnswers.push(&#x27;N&#x27;);
+                // cofnij sie o 1 bo teraz tak jakby jestes [i] na nastepnym elemencie!
+                i--;
+                currentQuestion++;
+                continue;
+              }
+            } else {
+              // nie jest to 4 zamiast A na 39 pozycji więc po prostu brakuje tu odpowiedzi, push N
+              arrWithAnswers.push(&#x27;N&#x27;);
+              // cofnij sie o 1 bo teraz tak jakby jestes [i] na nastepnym elemencie!
+              i--;
+              numberEncountered &#x3D; false;
+              currentQuestion++;
+              continue;
+            }
+          } else {
+            if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;4&#x27;) {
+              arrWithAnswers.push(&#x27;A&#x27;);
+              numberEncountered &#x3D; false;
+              currentQuestion++;
+            } else if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;6&#x27;) {
+              arrWithAnswers.push(&#x27;G&#x27;);
+              numberEncountered &#x3D; false;
+              currentQuestion++;
+            } else if (odpArrNoCommas[i] &#x3D;&#x3D;&#x3D; &#x27;8&#x27;) {
+              arrWithAnswers.push(&#x27;B&#x27;);
+              numberEncountered &#x3D; false;
+              currentQuestion++;
+            }
+          }
+        }
+      }
+    }
+
+    arrWithAnswers.forEach((element, index) &#x3D;&gt; {
+      if (element.match(/[^a-h]/)) {
+        if (element &#x3D;&#x3D;&#x3D; &#x27;(&#x27;) {
+          arrWithAnswers[index] &#x3D; &#x27;C&#x27;;
+        } else if (element &#x3D;&#x3D;&#x3D; &#x27;&amp;&#x27;) {
+          arrWithAnswers[index] &#x3D; &#x27;G&#x27;;
+        } else if (element &#x3D;&#x3D;&#x3D; &#x27;P&#x27;) {
+          arrWithAnswers[index] &#x3D; &#x27;F&#x27;;
+        } else if (element &#x3D;&#x3D;&#x3D; &#x27;L&#x27;) {
+          arrWithAnswers[index] &#x3D; &#x27;B&#x27;;
+        } else if (element &#x3D;&#x3D;&#x3D; &#x27;)&#x27;) {
+          arrWithAnswers[index] &#x3D; &#x27;D&#x27;;
+        }
+      }
+    });
+    console.log(odpArrNoCommas);
+    console.log(arrWithAnswers.toString());
+    if (arrWithAnswers.length &#x3D;&#x3D;&#x3D; this.correctAnswersArr.length) {
+      console.log(&#x27;nie brakuje zadnej odpowiedzi&#x27;);
+      console.log(arrWithAnswers.toString());
+      this.studentAnswersArr &#x3D; arrWithAnswers;
+      this.student.answersArr &#x3D; this.studentAnswersArr;
+      this.student.correctAnswersArr &#x3D; this.correctAnswersArr;
+      this.ss.initializeCurrentStudent(this.student);
+      this.qrScanned &#x3D; false;
+    } else {
+      this.presentAlert(&#x27;&lt;strong&gt;Spróbuj jeszcze raz, OCR zwrócił zbyt rozbieżny od pożądanego wynik. Brakuje ${this.correctAnswersArr.length - arrWithAnswers.length} odpowiedzi&lt;/strong&gt;&#x27;, false);
+      console.log(&#x60;brakuje ${this.correctAnswersArr.length - arrWithAnswers.length} odpowiedzi&#x60;);
+    }
+
+  }
+  async presentAlert(string, qr) {
+    let alert;
+    if (qr) {
+      alert &#x3D; await this.alertController.create({
+        header: &#x27;Błąd QR&#x27;,
+        message: string,
+        buttons: [
+          {
+            text: &#x27;OK&#x27;,
+            role: &#x27;cancel&#x27;,
+            cssClass: &#x27;secondary&#x27;,
+            handler: () &#x3D;&gt; {
+            }
+          },
+        ]
+      });
+    } else {
+      alert &#x3D; await this.alertController.create({
+        header: &#x27;Błąd OCR&#x27;,
+        message: string,
+        buttons: [
+          {
+            text: &#x27;Anuluj&#x27;,
+            role: &#x27;cancel&#x27;,
+            cssClass: &#x27;secondary&#x27;,
+            handler: () &#x3D;&gt; {
+            }
+          }, {
+
+            text: &#x27;Zrób zdjęcie&#x27;,
+            handler: () &#x3D;&gt; {
+              this.router.navigateByUrl(&#x27;/home/camera&#x27;);
+            }
+          }
+        ]
+      });
+    }
+    await alert.present();
+  }
+
+}
+
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'VerifyingRelatedService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -6,13 +6,8 @@
       <p>QR</p>
     </button>
     <button class="btn" *ngIf="vrs.qrScanned" [routerLink]="['camera']">
-
       <ion-icon name="camera" size="large"></ion-icon>
       <p>OCR</p>
-    </button>
-    <button class="btn" (click)="cs.takeSnap()">
-      <ion-icon name="camera" size="large"></ion-icon>
-      <p>gallery</p>
     </button>
     <button class="btn" (click)="ss.showQueue()">
       <ng-container *ngIf="ss.queueShown">
@@ -24,9 +19,6 @@
         <p>Kolejka</p>
       </ng-container>
     </button>
-
-
-
 
   </section>
 </footer>

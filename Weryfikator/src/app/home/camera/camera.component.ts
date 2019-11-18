@@ -19,19 +19,18 @@ export class CameraComponent implements OnInit {
   picture: string;
   cameraOpts: CameraPreviewOptions;
   cameraPictureOpts: CameraPreviewPictureOptions;
-  viewChanged = false;
   deviceMotionSubscribe;
 
   constructor(
-    public navCtrl: NavController,
+    private navCtrl: NavController,
     protected cameraPreview: CameraPreview,
     protected screenOrientation: ScreenOrientation,
     protected cs: CameraRelatedService,
     protected router: Router,
-    public deviceMotion: DeviceMotion,
-    public diagnostic: Diagnostic,
+    private deviceMotion: DeviceMotion,
+    private diagnostic: Diagnostic,
     private androidPermissions: AndroidPermissions,
-    public platform: Platform) {
+    private platform: Platform) {
     this.cameraOpts = {
       x: 0,
       y: 0,
@@ -51,7 +50,6 @@ export class CameraComponent implements OnInit {
     this.picture = null;
     const result = await this.cameraPreview.startCamera(this.cameraOpts);
     this.cameraPreview.setFlashMode(this.cs.flash);
-    console.log(this.cs.flash);
     this.cameraPreview.onBackButton().then(clicked => {
       this.navCtrl.pop();
     });
@@ -59,7 +57,7 @@ export class CameraComponent implements OnInit {
 
 
 
-  private changeCameraToMatchCurrOrientation(viewChanged: boolean) {
+  private changeCameraToMatchCurrOrientation() {
     this.deviceMotionSubscribe = this.deviceMotion.watchAcceleration({ frequency: 200 })
       .subscribe((acceleration: DeviceMotionAccelerationData) => {
         const cameraIcon = document.getElementById('cameraIcon');
@@ -74,7 +72,6 @@ export class CameraComponent implements OnInit {
             cameraIcon.classList.remove('rotate90');
             cameraIcon.classList.remove('rotate-90');
             cameraIcon.classList.add('rotate-90');
-
           }
         } else {
           if (acceleration.y > 0) {
@@ -118,18 +115,16 @@ export class CameraComponent implements OnInit {
     return new Promise((resolve, reject) => {
       const canvas = document.createElement('canvas');
       const canvasContext = canvas.getContext('2d');
-      const image = new Image();
-      image.src = imageData;
-
-      image.onload = () => {
+      const rotatedImg = new Image();
+      rotatedImg.src = imageData;
+      rotatedImg.onload = () => {
         if ((degrees / 90) % 2 === 0) {
-          canvas.width = image.width;
-          canvas.height = image.height;
+          canvas.width = rotatedImg.width;
+          canvas.height = rotatedImg.height;
         } else {
-          canvas.width = image.height;
-          canvas.height = image.width;
+          canvas.width = rotatedImg.height;
+          canvas.height = rotatedImg.width;
         }
-
         switch (degrees) {
           case 90:
             canvasContext.translate(canvas.width, 0);
@@ -142,32 +137,27 @@ export class CameraComponent implements OnInit {
             break;
         }
         canvasContext.rotate(degrees * Math.PI / 180);
-        canvasContext.drawImage(image, 0, 0);
-        resolve(canvas.toDataURL('JPG', 100));
+        canvasContext.drawImage(rotatedImg, 0, 0);
+        resolve(canvas.toDataURL('image/png', 1.0));
       };
     });
   }
 
-
   private prepareToCrop(imageData) {
     this.getCurrentOrientation().then(orientation => {
       if (orientation == 'portrait') {
-        console.log('portret');
-        this.cropPicture(imageData, false);
+        this.cropAndImprovePicture(imageData, false);
       } else {
         let rotation;
         if (orientation == 'landscape') {
-          console.log('landskejp');
           rotation = 270;
         } else if (orientation == 'portrait-reversed') {
-          console.log('portrait reversed');
           rotation = 180;
         } else {
           rotation = 90;
         }
         this.rotateImage(imageData, rotation).then(rotatedImg => {
-          this.cs.rotatedImg = (window as any).Ionic.WebView.convertFileSrc(rotatedImg);
-          this.cropPicture(rotatedImg, true);
+          this.cropAndImprovePicture(rotatedImg, true);
         });
       }
     });
@@ -177,18 +167,15 @@ export class CameraComponent implements OnInit {
     const result = await this.cameraPreview.takePicture(this.cameraPictureOpts);
     await this.cameraPreview.stopCamera();
     this.picture = 'data:image/jpeg;base64,' + result;
-    this.cs.originalPicture = this.picture;
     this.prepareToCrop(this.picture);
   }
 
-  cropPicture(picture: string, rotated: boolean) {
+  cropAndImprovePicture(picture: string, rotated: boolean) {
     const rectangle = document.getElementById('aim-div');
     if (rotated) {
       const container = document.getElementById('container');
-
       container.classList.remove('container');
       rectangle.classList.remove('aim');
-
       container.classList.add('containerRotated');
       rectangle.classList.add('aimRotated');
     }
@@ -197,18 +184,18 @@ export class CameraComponent implements OnInit {
     const y = rectangleCoordinates.top;
     const rect_width = rectangle.offsetWidth;
     const rect_height = rectangle.offsetHeight;
-    const image = new Image();
+    const croppedImg = new Image();
 
     // image will contain CROPPED image
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
-    image.src = picture;
-    image.onload = async () => {
+    croppedImg.src = picture;
+    croppedImg.onload = async () => {
 
-      // Required to interpolate rectangle(from screen) into original image
-      const x_axis_scale = image.width / window.screen.width;
-      const y_axis_scale = image.height / window.screen.height;
+      // Required to map rectangle(from screen) into original image
+      const x_axis_scale = croppedImg.width / window.screen.width;
+      const y_axis_scale = croppedImg.height / window.screen.height;
 
       // INTERPOLATE
       const x_coord_int = x * x_axis_scale;
@@ -219,7 +206,7 @@ export class CameraComponent implements OnInit {
       canvas.width = rect_width_int;
       canvas.height = rect_height_int;
 
-      ctx.drawImage(image,
+      ctx.drawImage(croppedImg,
         x_coord_int, y_coord_int,           // Start CROPPING from x_coord(interpolated) and y_coord(interpolated)
         rect_width_int, rect_height_int,    // Crop interpolated rectangle
         0, 0,                               // Place the result at 0, 0 in the canvas,
@@ -228,7 +215,7 @@ export class CameraComponent implements OnInit {
       // CHANGING COLOURS AND CONTRAST!!!
       // pixels
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const data = imageData.data;
+      const pixels = imageData.data;
 
       // grayscale brightness=30 contrast=70 60% skutecznosc
       // grayscale brightness=40 contrast=70 30% skutecznosc
@@ -236,34 +223,31 @@ export class CameraComponent implements OnInit {
       // grayscale brightness=30 contrast=60 40% skutecznosc
 
       // grayscale
-      for (let i = 0; i < data.length; i += 4) {
-        let avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-        data[i] = avg; // red
-        data[i + 1] = avg; // green
-        data[i + 2] = avg; // blue
+      for (let i = 0; i < pixels.length; i += 4) {
+        let avg = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3;
+        pixels[i] = avg; // red
+        pixels[i + 1] = avg; // green
+        pixels[i + 2] = avg; // blue
       }
 
       // brightness
-
-      for (let i = 0; i < data.length; i += 4) {
-        data[i] += this.cs.brightness;
-        data[i + 1] += this.cs.brightness;
-        data[i + 2] += this.cs.brightness;
+      for (let i = 0; i < pixels.length; i += 4) {
+        pixels[i] += this.cs.brightness;
+        pixels[i + 1] += this.cs.brightness;
+        pixels[i + 2] += this.cs.brightness;
       }
 
       // contrast
-
       let factor = (259.0 * (this.cs.contrast + 255.0)) / (255.0 * (259.0 - this.cs.contrast));
-
-      for (let i = 0; i < data.length; i += 4) {
-        data[i] = (factor * (data[i] - 128.0) + 128.0);
-        data[i + 1] = (factor * (data[i + 1] - 128.0) + 128.0);
-        data[i + 2] = (factor * (data[i + 2] - 128.0) + 128.0);
+      for (let i = 0; i < pixels.length; i += 4) {
+        pixels[i] = (factor * (pixels[i] - 128.0) + 128.0);
+        pixels[i + 1] = (factor * (pixels[i + 1] - 128.0) + 128.0);
+        pixels[i + 2] = (factor * (pixels[i + 2] - 128.0) + 128.0);
       }
 
 
 
-      // treshold
+      // tresholding FOR FUTURE IMPROVEMENT
       // for (var i = 0; i < data.length; i += 4) {
       //   var r = data[i];
       //   var g = data[i + 1];
@@ -277,24 +261,17 @@ export class CameraComponent implements OnInit {
       // Get base64 representation of cropped image
       const cropped_img_base64 = canvas.toDataURL('image/png', 1.0);
       await this.diagnostic.requestRuntimePermissions([this.diagnostic.permission.READ_EXTERNAL_STORAGE, this.diagnostic.permission.WRITE_EXTERNAL_STORAGE]);
-      let filePathx;
       const params = { data: cropped_img_base64, prefix: 'kolokwium_', format: 'JPG', quality: 100, mediaScanner: true };
       (window as any).imageSaver.saveBase64Image(params,
         (filePath) => {
-          this.cs.capturedSnapURL = (window as any).Ionic.WebView.convertFileSrc(filePath);
           this.cs.doOcr(filePath).then(done => {
-
             //delete img
             this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(
               result => {
-                console.log('Has permission?', result.hasPermission);
-
                 (window as any).resolveLocalFileSystemURL(filePath, function (dirEntry) {
                   function successHandler() {
-                    console.log('File deleted successfully');
                   }
                   function errorHandler() {
-                    console.log('There is some error while deleting file')
                   }
                   dirEntry.remove(successHandler, errorHandler);
                 });
@@ -303,32 +280,26 @@ export class CameraComponent implements OnInit {
                   this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).catch(success => {
                     (window as any).resolveLocalFileSystemURL(filePath, function (dirEntry) {
                       function successHandler() {
-                        console.log('File deleted successfully');
                       }
                       function errorHandler() {
-                        console.log('There is some error while deleting file')
                       }
                       dirEntry.remove(successHandler, errorHandler);
                     });
-
                   });
                 }
               );
 
+          }).catch(err => {
+            console.log('brak uprawnien')
           });
           this.cameraPreview.stopCamera();
           this.deviceMotionSubscribe.unsubscribe();
-
           this.goBack();
-
         },
         (err) => {
           console.error(err);
         }
       );
-      // usuwanie z galerii, podaj path
-
-
     };
   }
 
@@ -340,14 +311,14 @@ export class CameraComponent implements OnInit {
     if (this.platform.is('mobile')) {
       this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
     }
-    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+    // this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
 
   }
 
   ngOnInit() {
     this.platform.ready().then(ready => {
       this.startCamera();
-      this.changeCameraToMatchCurrOrientation(this.viewChanged);
+      this.changeCameraToMatchCurrOrientation();
       this.lockView();
     });
 

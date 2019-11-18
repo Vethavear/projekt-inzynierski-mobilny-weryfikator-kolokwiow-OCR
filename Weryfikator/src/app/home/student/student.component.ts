@@ -7,8 +7,7 @@ import { StudentRelatedService } from '../services/student-related/student-relat
   styleUrls: ['./student.component.scss'],
 })
 export class StudentComponent implements OnInit {
-  constructor(public ss: StudentRelatedService) { }
-  givenAnswer: [] = [];
+  constructor(protected ss: StudentRelatedService) { }
   ngOnInit() { }
 
 }

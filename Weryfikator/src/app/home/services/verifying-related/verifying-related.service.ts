@@ -25,8 +25,7 @@ export class VerifyingRelatedService {
     } else if (data[0].match(/[^a-h]/ig)) {
       this.presentAlert('Kod QR uszkodzony. Wydrukuj sprawdzian jeszcze raz', true);
       this.qrScanned = false;
-    }
-    else {
+    } else {
       // odp[0], indeks[1], grupa[2], imie[3], nazwisko[4], kolokwium[5]
       const correctAnswers = data[0];
       const studentIndexNumber = data[1];
@@ -39,252 +38,248 @@ export class VerifyingRelatedService {
     }
   }
 
-  public manipulateArr(odpstr) {
+  public correctDataFromOCR(stringWithStudentAnswers) {
     this.qrScanned = false;
-    // const odpstr = '1H,2H,3,A,B5,(6,(7,(BD,D,10E,11,F,12,F,13,G,14,6,15,6,16,A,17,A,18,A,19,B,20B,21,D,22,A,23,B,24,D,25,E,26,F,27,F,28,G,29,6,30,F,31,A,32,D,33,D,34,D,35,E,36,A,37,B,38,B,39,D,40,A';
-    // const odpstr = '1H2H3AB5(6(7(BDD';
-    const odpArr = odpstr.split(',');
-    let odpArrNoCommas = odpArr.join('');
-    odpArrNoCommas = odpArrNoCommas.toUpperCase();
-    // const odpArrNoCommas = odpstr;
-    const arrWithAnswers = [];
+    const arrWithAnswers = stringWithStudentAnswers.split(',');
+    let preparedStringWithStudentsAnswers = arrWithAnswers.join('');
+    preparedStringWithStudentsAnswers = preparedStringWithStudentsAnswers.toUpperCase();
     let currentQuestion = 0;
     let numberEncountered = false;
-    // °
-    // dla pojedynczych cyfer:
-    console.log(odpArr.toString());
+    let arrWithStudentAnswers = [];
+    console.log(arrWithStudentAnswers.toString());
     // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < odpArrNoCommas.length; i++) {
-      let obecna = odpArrNoCommas[i];
+    for (let i = 0; i < preparedStringWithStudentsAnswers.length; i++) {
+      // zmienne na potrzeby debugu
+      let obecna = preparedStringWithStudentsAnswers[i];
       let obecnePytanie = currentQuestion + 1;
-      let obecneI = odpArrNoCommas[i];
-      let ip1 = odpArrNoCommas[i + 1];
+      let obecneI = preparedStringWithStudentsAnswers[i];
+      let ip1 = preparedStringWithStudentsAnswers[i + 1];
       if (currentQuestion + 1 <= 9) {
         //przypadek krancowy jak zaczynamy i nic nie ma
-        if (currentQuestion + 1 === 1 && odpArrNoCommas[i] === '1' && odpArrNoCommas[i + 1] === '2') {
-          arrWithAnswers.push('N');
+        if (currentQuestion + 1 === 1 && preparedStringWithStudentsAnswers[i] === '1' && preparedStringWithStudentsAnswers[i + 1] === '2') {
+          arrWithStudentAnswers.push('N');
           numberEncountered = true;
           continue;
         }
-
-        if (odpArrNoCommas[i] === (currentQuestion + 1).toString() && !numberEncountered) {
+        if (preparedStringWithStudentsAnswers[i] === (currentQuestion + 1).toString() && !numberEncountered) {
           // jesli jestesmy na cyferce i wczesniej nie spotkalismy numeru to continue zdrowa sytuacja
           numberEncountered = true;
           continue;
-        } else if (odpArrNoCommas[i].match(/[^0-9]/g) && numberEncountered) {
+        } else if (preparedStringWithStudentsAnswers[i].match(/[^0-9]/g) && numberEncountered) {
           // jesli jestesmy na znaku - potencjalnej odpowiedzi i napotkalismy wczesniej numer (zdrowa sytuacja np 1A)
           numberEncountered = false;
-          arrWithAnswers.push(odpArrNoCommas[i]);
-          if (currentQuestion + 1 === 9) {
-
-          }
+          arrWithStudentAnswers.push(preparedStringWithStudentsAnswers[i]);
           currentQuestion++;
-        } else if (odpArrNoCommas[i].match(/[0-9]/g) && numberEncountered) {
+        } else if (preparedStringWithStudentsAnswers[i].match(/[0-9]/g) && numberEncountered) {
           // jesteśmy na cyfrze a wczesniej juz byla cyfra.
-
-
-          if (odpArrNoCommas[i] === (currentQuestion + 2).toString()) {
+          if (preparedStringWithStudentsAnswers[i] === (currentQuestion + 2).toString()) {
             // obecna cyfra jest tą następną którą mamy badać. Wniosek: Brakuje odpowiedzi między nimi lub rozpoznano cyfre zamiast słowa
 
             // jesli cyfry ktore mogly zostac omylnie rozpoznane są w poblizu:
             if (currentQuestion + 1 === 3) {
               // jesli jestesmy na 3, sprawdz czy obecna jest 4 i czy nastepna jest 4
-              if (odpArrNoCommas[i] === '4' && odpArrNoCommas[i + 1] === '4') {
+              if (preparedStringWithStudentsAnswers[i] === '4' && preparedStringWithStudentsAnswers[i + 1] === '4') {
                 // prawidlowa odpowiedz dla 3 jest A
-                arrWithAnswers.push('A');
+                arrWithStudentAnswers.push('A');
                 numberEncountered = false;
                 currentQuestion++;
                 continue;
               } else {
                 // obecnie mamy 4 w [i] a 3 w curr question czyli wstaw n bo nie ma
-                arrWithAnswers.push('N');
+                arrWithStudentAnswers.push('N');
                 numberEncountered = true;
                 currentQuestion++;
               }
             } else if (currentQuestion + 1 === 5) {
               // jesli jestesmy na 5, sprawdz czy obecna jest 6 i czy nastepna jest 6
-              if (odpArrNoCommas[i] === '6' && odpArrNoCommas[i + 1] === '6') {
+              if (preparedStringWithStudentsAnswers[i] === '6' && preparedStringWithStudentsAnswers[i + 1] === '6') {
                 // prawidlowa odpowiedz dla 5 jest G
-                arrWithAnswers.push('G');
+                arrWithStudentAnswers.push('G');
                 numberEncountered = false;
                 currentQuestion++;
                 continue;
               } else {
                 // obecnie mamy 6 w [i] a 5 w curr question czyli wstaw n bo nie ma
-                arrWithAnswers.push('N');
+                arrWithStudentAnswers.push('N');
                 numberEncountered = true;
                 currentQuestion++;
               }
             } else if (currentQuestion + 1 === 7) {
               // jesli jestesmy na 7, sprawdz czy obecna jest 8 i czy nastepna jest 8
-              if (odpArrNoCommas[i] === '8' && odpArrNoCommas[i + 1] === '8') {
+              if (preparedStringWithStudentsAnswers[i] === '8' && preparedStringWithStudentsAnswers[i + 1] === '8') {
                 // prawidlowa odpowiedz dla 7 jest B
-                arrWithAnswers.push('B');
+                arrWithStudentAnswers.push('B');
                 numberEncountered = false;
                 currentQuestion++;
                 continue;
               } else {
                 // obecnie mamy 8 w [i] a 7 w curr question czyli wstaw n bo nie ma
-                arrWithAnswers.push('N');
+                arrWithStudentAnswers.push('N');
                 numberEncountered = true;
                 currentQuestion++;
               }
             } else {
               // nie jest to zaden z powyzszych przypadkow wiec po prostu brakuje tu odpowiedzi, push N
-              arrWithAnswers.push('N');
+              arrWithStudentAnswers.push('N');
               numberEncountered = true;
               currentQuestion++;
               continue;
             }
           } else {
-            if (odpArrNoCommas[i] === '4') {
-              arrWithAnswers.push('A');
+            if (preparedStringWithStudentsAnswers[i] === '4') {
+              arrWithStudentAnswers.push('A');
               numberEncountered = false;
               currentQuestion++;
-            } else if (odpArrNoCommas[i] === '6') {
-              arrWithAnswers.push('G');
+            } else if (preparedStringWithStudentsAnswers[i] === '6') {
+              arrWithStudentAnswers.push('G');
               numberEncountered = false;
               currentQuestion++;
-            } else if (odpArrNoCommas[i] === '8') {
-              arrWithAnswers.push('B');
+            } else if (preparedStringWithStudentsAnswers[i] === '8') {
+              arrWithStudentAnswers.push('B');
               numberEncountered = false;
               currentQuestion++;
             }
           }
           // CYFRY ODCZYTANE JAKO LITERY
-        } else if (odpArrNoCommas[i].match(/[^0-9]/g) && !numberEncountered) {
+        } else if (preparedStringWithStudentsAnswers[i].match(/[^0-9]/g) && !numberEncountered) {
           // jestesmy na literce a wczesniej byla juz literka
           // ABCDEFGHA
           // jesli cyfry ktore mogly zostac omylnie rozpoznane są w poblizu:
           if (currentQuestion + 1 === 4) {
             // jesli jestesmy na 4, sprawdz czy nastepna jest literka, jesli tak to mamy czworke jako A
-            if (odpArrNoCommas[i] === 'A' && odpArrNoCommas[i + 1].match(/[^0-9]/g)) {
+            if (preparedStringWithStudentsAnswers[i] === 'A' && preparedStringWithStudentsAnswers[i + 1].match(/[^0-9]/g)) {
               // skipujemy tą A, to jest 4 więc nie pushujemy
               // CO W SYTUACJI KIEDY ODCZYTALO SAME LITERKI?
               numberEncountered = true;
               continue;
             } else {
               numberEncountered = false;
-              arrWithAnswers.push(odpArrNoCommas[i]);
+              arrWithStudentAnswers.push(preparedStringWithStudentsAnswers[i]);
               currentQuestion++;
             }
           } else if (currentQuestion + 1 === 5) {
             // jesli jestesmy na 5, sprawdz czy nastepna jest literka, jesli tak to mamy 5 jako S
-            if (odpArrNoCommas[i] === 'S' && odpArrNoCommas[i + 1].match(/[^0-9]/g)) {
+            if (preparedStringWithStudentsAnswers[i] === 'S' && preparedStringWithStudentsAnswers[i + 1].match(/[^0-9]/g)) {
               // skipujemy tą S, to jest 5 więc nie pushujemy
               numberEncountered = true;
               continue;
             } else {
               numberEncountered = false;
-              arrWithAnswers.push(odpArrNoCommas[i]);
+              arrWithStudentAnswers.push(preparedStringWithStudentsAnswers[i]);
               currentQuestion++;
             }
           } else if (currentQuestion + 1 === 8) {
             // jesli jestesmy na 8, sprawdz czy nastepna jest literka, jesli tak to mamy 8 jako B
-            if (odpArrNoCommas[i] === 'B' && odpArrNoCommas[i + 1].match(/[^0-9]/g)) {
+            if (preparedStringWithStudentsAnswers[i] === 'B' && preparedStringWithStudentsAnswers[i + 1].match(/[^0-9]/g)) {
               // skipujemy tą B, to jest 8 więc nie pushujemy
               numberEncountered = true;
               continue;
             } else {
               numberEncountered = false;
-              arrWithAnswers.push(odpArrNoCommas[i]);
+              arrWithStudentAnswers.push(preparedStringWithStudentsAnswers[i]);
               currentQuestion++;
             }
 
           } else if (currentQuestion + 1 === 9) {
             // jesli jestesmy na 9, sprawdz czy nastepna jest literka, jesli tak to mamy 9 jako °
-            if (odpArrNoCommas[i] === '°' && odpArrNoCommas[i + 1].match(/[^0-9]/g)) {
+            if (preparedStringWithStudentsAnswers[i] === '°' && preparedStringWithStudentsAnswers[i + 1].match(/[^0-9]/g)) {
               // skipujemy tą B, to jest 8 więc nie pushujemy
               numberEncountered = true;
               continue;
-            } else if (odpArrNoCommas[i] === 'O' && odpArrNoCommas[i + 1].match(/[^0-9]/g)) {
+            } else if (preparedStringWithStudentsAnswers[i] === 'O' && preparedStringWithStudentsAnswers[i + 1].match(/[^0-9]/g)) {
               // skipujemy tą B, to jest 8 więc nie pushujemy
               numberEncountered = true;
               continue;
             } else {
               numberEncountered = false;
-              arrWithAnswers.push(odpArrNoCommas[i]);
+              arrWithStudentAnswers.push(preparedStringWithStudentsAnswers[i]);
               currentQuestion++;
             }
 
           } else {
             // Wczesniej byla literka, OCR nie odczytal blednie 4 albo 8 wiec po prostu nie odczytal cyfry, push
             numberEncountered = false;
-            arrWithAnswers.push(odpArrNoCommas[i]);
+            arrWithStudentAnswers.push(preparedStringWithStudentsAnswers[i]);
             currentQuestion++;
 
           }
           // CYFRA A WCZESNIEJ BYLA JUZ CYFRA, OBECNIE BADANY ZNAK NIE JEST OBECNIE BADANYM PYTANIEM
-        } else if (odpArrNoCommas[i].match(/[0-9]/g) && !numberEncountered) {
+        } else if (preparedStringWithStudentsAnswers[i].match(/[0-9]/g) && !numberEncountered) {
           // prawdopodobnie nie ma nic miedzy 9 a 10
-          if (odpArrNoCommas[i] === '1' && (currentQuestion + 1) === 9) {
+          if (preparedStringWithStudentsAnswers[i] === '1' && (currentQuestion + 1) === 9) {
             i--;
             //cofnij sie na 1 ponownie, zebys wszedl na dwucyfrowe jako 1 a nie 0
-            arrWithAnswers.push('N');
+            arrWithStudentAnswers.push('N');
             numberEncountered = false;
             currentQuestion++;
           }
         }
-
       } else {
         // DLA DWUCYFRFOWYCH
 
         // przypadek krancowy, nie odczytano wartosci dla ostatniego pola w arrayu
-        if (i === odpArrNoCommas.length - 1 && odpArrNoCommas[i].match(/[0-9]/g)) {
-          arrWithAnswers.push('N');
+        if (i === preparedStringWithStudentsAnswers.length - 1 && preparedStringWithStudentsAnswers[i].match(/[0-9]/g)) {
+          arrWithStudentAnswers.push('N');
           break;
         }
 
-        if ((odpArrNoCommas[i] + odpArrNoCommas[i + 1]) === (currentQuestion + 1).toString() && !numberEncountered) {
+        if ((preparedStringWithStudentsAnswers[i] + preparedStringWithStudentsAnswers[i + 1]) === (currentQuestion + 1).toString() && !numberEncountered) {
           // jesli jestesmy na dwucyfrowej liczbie i wczesniej nie spotkalismy numeru to continue oraz i++ zeby trafic na potencjalna literke
           numberEncountered = true;
           i++;
           continue;
-        } else if (odpArrNoCommas[i].match(/[^0-9]/g) && numberEncountered) {
+        } else if (preparedStringWithStudentsAnswers[i].match(/[^0-9]/g) && numberEncountered) {
           // jesli jestesmy na znaku - potencjalnej odpowiedzi i napotkalismy wczesniej numer (zdrowa sytuacja np 10A)
 
-          if (odpArrNoCommas[i] === 'O') {
+          if (preparedStringWithStudentsAnswers[i] === 'O') {
             numberEncountered = true;
           } else {
             numberEncountered = false;
-            arrWithAnswers.push(odpArrNoCommas[i]);
+            arrWithStudentAnswers.push(preparedStringWithStudentsAnswers[i]);
             currentQuestion++;
           }
-        } else if (odpArrNoCommas[i].match(/[^0-9]/g) && !numberEncountered) {
+        } else if (preparedStringWithStudentsAnswers[i].match(/[^0-9]/g) && !numberEncountered) {
           // jesli jestesmy na znaku - potencjalnej odpowiedzi i napotkalismy wczesniej litere np 10C1B12D
-          if (odpArrNoCommas[i] === 'S') {
+          if (preparedStringWithStudentsAnswers[i] === 'S') {
             numberEncountered = true;
-          } else if (odpArrNoCommas[i] === 'O') {
+          } else if (preparedStringWithStudentsAnswers[i] === 'O') {
             numberEncountered = true;
-          } else {
+
+          } else if (preparedStringWithStudentsAnswers[i + 1] + preparedStringWithStudentsAnswers[i + 2] == (currentQuestion + 1).toString()) {
+            // omijamy, jest dziwna sytuacja typu 20AA21B itp
             numberEncountered = false;
-            arrWithAnswers.push(odpArrNoCommas[i]);
+            continue;
+          }
+          else {
+            numberEncountered = false;
+            arrWithStudentAnswers.push(preparedStringWithStudentsAnswers[i]);
             currentQuestion++;
           }
-        } else if (odpArrNoCommas[i].match(/[0-9]/g) && numberEncountered) {
+        } else if (preparedStringWithStudentsAnswers[i].match(/[0-9]/g) && numberEncountered) {
           // jesteśmy na cyfrze a wczesniej juz byla dwucyfrowa liczba.
-          if ((odpArrNoCommas[i] + odpArrNoCommas[i + 1]) === (currentQuestion + 2).toString()) {
+          if ((preparedStringWithStudentsAnswers[i] + preparedStringWithStudentsAnswers[i + 1]) === (currentQuestion + 2).toString()) {
             // obecna cyfra jest tą następną którą mamy badać. Wniosek: Brakuje odpowiedzi między nimi lub rozpoznano cyfre zamiast słowa
 
             // jesli cyfry ktore mogly zostac omylnie rozpoznane są w poblizu:
             if (currentQuestion + 1 === 39) {
               // jesli jestesmy na 39, sprawdz czy obecna jest 4 i czy nastepna jest 4 (4 jako x[0] z 40)
-              if (odpArrNoCommas[i] === '4' && odpArrNoCommas[i + 1] === '4') {
+              if (preparedStringWithStudentsAnswers[i] === '4' && preparedStringWithStudentsAnswers[i + 1] === '4') {
                 // prawidlowa odpowiedz dla 39 jest A
-                arrWithAnswers.push('A');
+                arrWithStudentAnswers.push('A');
                 numberEncountered = false;
                 currentQuestion++;
                 continue;
               } else {
-                arrWithAnswers.push('N');
+                arrWithStudentAnswers.push('N');
                 // cofnij sie o 1 bo teraz tak jakby jestes [i] na nastepnym elemencie!
                 i--;
+                numberEncountered = false;
                 currentQuestion++;
                 continue;
               }
             } else {
               // nie jest to 4 zamiast A na 39 pozycji więc po prostu brakuje tu odpowiedzi, push N
-              arrWithAnswers.push('N');
+              arrWithStudentAnswers.push('N');
               // cofnij sie o 1 bo teraz tak jakby jestes [i] na nastepnym elemencie!
               i--;
               numberEncountered = false;
@@ -292,16 +287,16 @@ export class VerifyingRelatedService {
               continue;
             }
           } else {
-            if (odpArrNoCommas[i] === '4') {
-              arrWithAnswers.push('A');
+            if (preparedStringWithStudentsAnswers[i] === '4') {
+              arrWithStudentAnswers.push('A');
               numberEncountered = false;
               currentQuestion++;
-            } else if (odpArrNoCommas[i] === '6') {
-              arrWithAnswers.push('G');
+            } else if (preparedStringWithStudentsAnswers[i] === '6') {
+              arrWithStudentAnswers.push('G');
               numberEncountered = false;
               currentQuestion++;
-            } else if (odpArrNoCommas[i] === '8') {
-              arrWithAnswers.push('B');
+            } else if (preparedStringWithStudentsAnswers[i] === '8') {
+              arrWithStudentAnswers.push('B');
               numberEncountered = false;
               currentQuestion++;
             }
@@ -310,36 +305,37 @@ export class VerifyingRelatedService {
       }
     }
 
-    arrWithAnswers.forEach((element, index) => {
+    arrWithStudentAnswers.forEach((element, index) => {
       if (element.match(/[^a-h]/)) {
         if (element === '(') {
-          arrWithAnswers[index] = 'C';
+          arrWithStudentAnswers[index] = 'C';
         } else if (element === '&') {
-          arrWithAnswers[index] = 'G';
+          arrWithStudentAnswers[index] = 'G';
         } else if (element === 'P') {
-          arrWithAnswers[index] = 'F';
+          arrWithStudentAnswers[index] = 'F';
         } else if (element === 'L') {
-          arrWithAnswers[index] = 'B';
+          arrWithStudentAnswers[index] = 'B';
         } else if (element === ')') {
-          arrWithAnswers[index] = 'D';
+          arrWithStudentAnswers[index] = 'D';
         }
       }
     });
-    console.log(odpArrNoCommas);
-    console.log(arrWithAnswers.toString());
-    if (arrWithAnswers.length === this.correctAnswersArr.length) {
+    console.log(preparedStringWithStudentsAnswers);
+    console.log(arrWithStudentAnswers.toString());
+    if (arrWithStudentAnswers.length === this.correctAnswersArr.length) {
       console.log('nie brakuje zadnej odpowiedzi');
-      console.log(arrWithAnswers.toString());
-      this.studentAnswersArr = arrWithAnswers;
+      console.log(arrWithStudentAnswers.toString());
+      this.studentAnswersArr = arrWithStudentAnswers;
       this.student.answersArr = this.studentAnswersArr;
       this.student.correctAnswersArr = this.correctAnswersArr;
       this.ss.initializeCurrentStudent(this.student);
       this.qrScanned = false;
     } else {
-      this.presentAlert('<strong>Spróbuj jeszcze raz, OCR zwrócił zbyt rozbieżny od pożądanego wynik. Brakuje ${this.correctAnswersArr.length - arrWithAnswers.length} odpowiedzi</strong>', false);
-      console.log(`brakuje ${this.correctAnswersArr.length - arrWithAnswers.length} odpowiedzi`);
+      console.log(this.correctAnswersArr.length);
+      console.log(arrWithStudentAnswers.length);
+      this.presentAlert(`Spróbuj jeszcze raz, OCR zwrócił zbyt rozbieżny od pożądanego wynik. Brakuje ${this.correctAnswersArr.length - arrWithStudentAnswers.length} odpowiedzi`, false);
+      console.log(`brakuje ${this.correctAnswersArr.length - arrWithStudentAnswers.length} odpowiedzi`);
     }
-
   }
   async presentAlert(string, qr) {
     let alert;
@@ -369,7 +365,6 @@ export class VerifyingRelatedService {
             handler: () => {
             }
           }, {
-
             text: 'Zrób zdjęcie',
             handler: () => {
               this.router.navigateByUrl('/home/camera');
@@ -380,6 +375,5 @@ export class VerifyingRelatedService {
     }
     await alert.present();
   }
-
 }
 

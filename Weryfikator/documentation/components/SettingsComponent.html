@@ -1,0 +1,784 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Weryfikator documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Weryfikator documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>SettingsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/home/settings/settings.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-settings</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./settings.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./settings.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#brightness">brightness</a>
+                            </li>
+                            <li>
+                                <a href="#contrast">contrast</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cs">cs</a>
+                            </li>
+                            <li>
+                                <a href="#flash">flash</a>
+                            </li>
+                            <li>
+                                <a href="#settingsDisplayed">settingsDisplayed</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#applySettings">applySettings</a>
+                            </li>
+                            <li>
+                                <a href="#displaySettings">displaySettings</a>
+                            </li>
+                            <li>
+                                <a href="#fetchLocalStorageData">fetchLocalStorageData</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(cs: <a href="../injectables/CameraRelatedService.html">CameraRelatedService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/home/settings/settings.component.ts:13</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>cs</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CameraRelatedService.html" target="_self" >CameraRelatedService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applySettings"></a>
+                    <span class="name">
+                        <b>
+                            applySettings
+                        </b>
+                        <a href="#applySettings"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>applySettings()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/app/home/settings/settings.component.ts:26</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="displaySettings"></a>
+                    <span class="name">
+                        <b>
+                            displaySettings
+                        </b>
+                        <a href="#displaySettings"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>displaySettings()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="22"
+                            class="link-to-prism">src/app/home/settings/settings.component.ts:22</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fetchLocalStorageData"></a>
+                    <span class="name">
+                        <b>
+                            fetchLocalStorageData
+                        </b>
+                        <a href="#fetchLocalStorageData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fetchLocalStorageData()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">src/app/home/settings/settings.component.ts:33</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">src/app/home/settings/settings.component.ts:18</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="brightness"></a>
+                        <span class="name">
+                            <b>
+                            brightness</b>
+                            <a href="#brightness"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/home/settings/settings.component.ts:11</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="contrast"></a>
+                        <span class="name">
+                            <b>
+                            contrast</b>
+                            <a href="#contrast"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/home/settings/settings.component.ts:12</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cs"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            cs</b>
+                            <a href="#cs"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../injectables/CameraRelatedService.html" target="_self" >CameraRelatedService</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/home/settings/settings.component.ts:14</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="flash"></a>
+                        <span class="name">
+                            <b>
+                            flash</b>
+                            <a href="#flash"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/home/settings/settings.component.ts:13</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="settingsDisplayed"></a>
+                        <span class="name">
+                            <b>
+                            settingsDisplayed</b>
+                            <a href="#settingsDisplayed"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/home/settings/settings.component.ts:10</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
+import { CameraRelatedService } from &#x27;../services/camera-related/camera-related.service&#x27;;
+
+@Component({
+  selector: &#x27;app-settings&#x27;,
+  templateUrl: &#x27;./settings.component.html&#x27;,
+  styleUrls: [&#x27;./settings.component.scss&#x27;],
+})
+export class SettingsComponent implements OnInit {
+  settingsDisplayed &#x3D; false;
+  brightness;
+  contrast;
+  flash;
+  constructor(public cs: CameraRelatedService) {
+    this.fetchLocalStorageData();
+  }
+
+  ngOnInit() {
+
+  }
+
+  displaySettings() {
+    this.settingsDisplayed &#x3D; !this.settingsDisplayed;
+  }
+
+  applySettings() {
+    let settings &#x3D; [];
+    settings.push(this.flash, this.brightness, this.contrast);
+    localStorage.setItem(&#x27;settings&#x27;, JSON.stringify(settings));
+    this.displaySettings();
+  }
+
+  fetchLocalStorageData() {
+    const storage &#x3D; JSON.parse(localStorage.getItem(&#x27;settings&#x27;));
+    // Restoring likes from the localStorage
+    if (storage) {
+      this.brightness &#x3D; storage[1];
+      this.contrast &#x3D; storage[2];
+      this.flash &#x3D; storage[0];
+      if (this.flash &#x3D;&#x3D;&#x3D; true) {
+        this.cs.flash &#x3D; &#x27;on&#x27;;
+      } else {
+        this.cs.flash &#x3D; &#x27;off&#x27;;
+      }
+      this.cs.contrast &#x3D; this.contrast;
+      this.cs.brightness &#x3D; this.brightness;
+    }
+  }
+
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;p id&#x3D;&quot;wheel&quot;&gt;
+  &lt;button id&#x3D;&quot;ds&quot; (click)&#x3D;&quot;displaySettings()&quot;&gt;
+    &lt;ion-icon name&#x3D;&quot;settings&quot;&gt;&lt;/ion-icon&gt;
+  &lt;/button&gt;
+&lt;/p&gt;
+
+&lt;section *ngIf&#x3D;&quot;settingsDisplayed&quot; id&#x3D;&quot;settings&quot;&gt;
+
+  &lt;ion-list&gt;
+    &lt;ion-item&gt;
+      Flash
+      &lt;ion-toggle [(ngModel)]&#x3D;&quot;flash&quot; color&#x3D;&quot;dark&quot;&gt;&lt;/ion-toggle&gt;
+      &lt;ion-icon class&#x3D;&quot;flash&quot; *ngIf&#x3D;&quot;flash&quot; name&#x3D;&quot;flash&quot;&gt;&lt;/ion-icon&gt;
+      &lt;ion-icon class&#x3D;&quot;flash&quot; *ngIf&#x3D;&quot;!flash&quot; name&#x3D;&quot;flash-off&quot;&gt;&lt;/ion-icon&gt;
+    &lt;/ion-item&gt;
+
+    &lt;ion-item&gt;
+      &lt;ion-range [(ngModel)]&#x3D;&quot;brightness&quot; min&#x3D;&quot;0&quot; max&#x3D;&quot;100&quot; step&#x3D;&quot;10&quot; snaps&#x3D;&quot;true&quot; color&#x3D;&quot;dark&quot;&gt;
+        &lt;ion-icon size&#x3D;&quot;small&quot; slot&#x3D;&quot;start&quot; name&#x3D;&quot;sunny&quot;&gt;&lt;/ion-icon&gt;
+        &lt;ion-label slot&#x3D;&quot;start&quot;&gt;0&lt;/ion-label&gt;
+        &lt;ion-label slot&#x3D;&quot;end&quot;&gt;100&lt;/ion-label&gt;
+        &lt;ion-icon slot&#x3D;&quot;end&quot; name&#x3D;&quot;sunny&quot;&gt;&lt;/ion-icon&gt;
+      &lt;/ion-range&gt;
+    &lt;/ion-item&gt;
+
+    &lt;ion-item&gt;
+      &lt;ion-range [(ngModel)]&#x3D;&quot;contrast&quot; min&#x3D;&quot;0&quot; max&#x3D;&quot;100&quot; step&#x3D;&quot;10&quot; snaps&#x3D;&quot;true&quot; color&#x3D;&quot;dark&quot;&gt;
+        &lt;ion-icon size&#x3D;&quot;small&quot; slot&#x3D;&quot;start&quot; name&#x3D;&quot;contrast&quot;&gt;&lt;/ion-icon&gt;
+        &lt;ion-label slot&#x3D;&quot;start&quot;&gt;0&lt;/ion-label&gt;
+        &lt;ion-label slot&#x3D;&quot;end&quot;&gt;100&lt;/ion-label&gt;
+        &lt;ion-icon slot&#x3D;&quot;end&quot; name&#x3D;&quot;contrast&quot;&gt;&lt;/ion-icon&gt;
+      &lt;/ion-range&gt;
+    &lt;/ion-item&gt;
+
+  &lt;/ion-list&gt;
+  &lt;div class&#x3D;&quot;buttons&quot;&gt;
+    &lt;button class&#x3D;&quot;btnConfirm&quot; (click)&#x3D;&quot;applySettings()&quot;&gt;
+      &lt;p&gt;Zapisz&lt;/p&gt;
+      &lt;ion-icon name&#x3D;&quot;checkmark-circle-outline&quot;&gt;&lt;/ion-icon&gt;
+    &lt;/button&gt;
+    &lt;button class&#x3D;&quot;btnConfirm&quot; (click)&#x3D;&quot;displaySettings()&quot;&gt;
+      &lt;p&gt;Odrzuć&lt;/p&gt;
+      &lt;ion-icon name&#x3D;&quot;close-circle-outline&quot;&gt;&lt;/ion-icon&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./settings.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;../../../theme/variables.scss&#x27;;
+
+
+*:focus {
+  outline: none !important;
+  opacity: 0.9;
+}
+
+
+#wheel {
+  display: flex;
+  width: 100vw;
+  justify-content: flex-end;
+
+  #ds {
+    background: none;
+    font-size: 1.5rem;
+  }
+}
+
+
+
+
+
+.flash {
+  color: black !important;
+}
+
+.buttons {
+
+  display: flex;
+  justify-content: center;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: var(--ion-item-border-color, var(--ion-border-color, var(--ion-color-step-150, rgba(0, 0, 0, 0.13))));
+
+  .btnConfirm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $primary-color;
+    width: 7rem;
+    padding: 0.25rem;
+    margin: 0.5rem;
+    color: $text-color;
+    box-shadow: 0.125rem 0.125rem 0.5rem #ccc;
+  }
+
+  ion-icon {
+    margin-left: 0.25rem;
+    font-size: 1.5rem;
+  }
+
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><p id="wheel">  <button id="ds" (click)="displaySettings()">    <ion-icon name="settings"></ion-icon>  </button></p><section *ngIf="settingsDisplayed" id="settings">  <ion-list>    <ion-item>      Flash      <ion-toggle [(ngModel)]="flash" color="dark"></ion-toggle>      <ion-icon class="flash" *ngIf="flash" name="flash"></ion-icon>      <ion-icon class="flash" *ngIf="!flash" name="flash-off"></ion-icon>    </ion-item>    <ion-item>      <ion-range [(ngModel)]="brightness" min="0" max="100" step="10" snaps="true" color="dark">        <ion-icon size="small" slot="start" name="sunny"></ion-icon>        <ion-label slot="start">0</ion-label>        <ion-label slot="end">100</ion-label>        <ion-icon slot="end" name="sunny"></ion-icon>      </ion-range>    </ion-item>    <ion-item>      <ion-range [(ngModel)]="contrast" min="0" max="100" step="10" snaps="true" color="dark">        <ion-icon size="small" slot="start" name="contrast"></ion-icon>        <ion-label slot="start">0</ion-label>        <ion-label slot="end">100</ion-label>        <ion-icon slot="end" name="contrast"></ion-icon>      </ion-range>    </ion-item>  </ion-list>  <div class="buttons">    <button class="btnConfirm" (click)="applySettings()">      <p>Zapisz</p>      <ion-icon name="checkmark-circle-outline"></ion-icon>    </button>    <button class="btnConfirm" (click)="displaySettings()">      <p>Odrzuć</p>      <ion-icon name="close-circle-outline"></ion-icon>    </button>  </div></section></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CameraComponent', 'selector': 'app-camera'},{'name': 'HomePage', 'selector': 'app-home'},{'name': 'InstructionComponent', 'selector': 'app-instruction'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'QueueComponent', 'selector': 'app-queue'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StudentComponent', 'selector': 'app-student'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'SettingsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'SettingsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
