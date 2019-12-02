@@ -52,16 +52,14 @@ describe('VerifyingRelatedService', () => {
     // we're expecting string that could be formatted this way:  odp[0], indeks[1], grupa[2], imie[3], nazwisko[4], kolokwium[5]
     service.prepareBarcodeData('wrongQRdata');
     expect(alert).toHaveBeenCalled();
-
   }));
 
   it('shouldn\'t assing data after correct format QR data passed but wrong first value', (() => {
     const service = TestBed.get(VerifyingRelatedService);
     const alert = spyOn(service, 'presentAlert').and.callThrough();
-    // we're expecting string that could be formatted this way:  odp[0], indeks[1], grupa[2], imie[3], nazwisko[4], kolokwium[5]
+    // we're expecting string that should be formatted this way:  odp-[0], indeks-[1], grupa-[2], imie-[3], nazwisko-[4], kolokwium-[5]
     service.prepareBarcodeData('1234,100440,grupa2,Adrian,Bury,AplikacjeInternetowe');
     expect(alert).toHaveBeenCalled();
-
   }));
 
   it('should assing data after correct QR data passed', (() => {

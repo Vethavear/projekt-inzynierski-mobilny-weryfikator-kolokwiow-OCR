@@ -43,6 +43,12 @@ export class StudentRelatedService {
 
   removeStudent() {
     this.studentShown = false;
+    this.expandedButtons = [];
+    this.missedChars = {
+      expectedchars: [],
+      positions: [],
+      correctedAnswers: []
+    };
   }
 
   checkInternetConnection() {
@@ -62,7 +68,6 @@ export class StudentRelatedService {
         this.expandedButtons.push(true);
       }
     });
-    console.log(this.expandedButtons.toString());
   }
 
   recalculateStudentsGrade(character, position, index) {
@@ -72,8 +77,6 @@ export class StudentRelatedService {
   }
 
   expandButtons(index) {
-    console.log('expandbuuttons' + index);
-    console.log(this.expandedButtons[index]);
     this.expandedButtons[index] = !this.expandedButtons[index];
   }
 
@@ -136,7 +139,6 @@ export class StudentRelatedService {
   sendStudentGradeToDb(isQueued: boolean, student: Student) {
     student.examDate = this.getCurrentDate();
     if (this.checkInternetConnection()) {
-      student.examDate, student.grade, student.indexNumber, student.examName, student.points, student.examName
       this.studentsCollection
         .doc(student.group)
         .collection('students')
@@ -145,7 +147,6 @@ export class StudentRelatedService {
         .add({
           date: student.examDate,
           grade: student.grade,
-          id: student.indexNumber,
           name: student.examName,
           points: student.points,
           correctAnswers: student.correctAnswersArr,
@@ -171,6 +172,11 @@ export class StudentRelatedService {
 
     }
     this.expandedButtons = [];
+    this.missedChars = {
+      expectedchars: [],
+      positions: [],
+      correctedAnswers: []
+    };
   }
 
   async presentAlertNoInternet(string) {

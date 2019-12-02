@@ -15,6 +15,10 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
   styleUrls: ['./camera.component.scss'],
 })
 
+
+
+
+
 export class CameraComponent implements OnInit {
   picture: string;
   cameraOpts: CameraPreviewOptions;
